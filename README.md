@@ -1,58 +1,192 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Oeil 360° Finance
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Application web personnelle de gestion des finances en **Franc CFA (XOF)** — suivre chaque entrée et chaque sortie d'argent pour répondre en permanence à : *combien j'ai, d'où ça vient, où ça part.*
 
-## About Laravel
+Projet d'entraînement aux standards **ASIN** (Architecture, Sécurité, Intégration, Normes) — traité avec le même sérieux qu'un projet professionnel.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fonctionnalités
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Vue 360° (Dashboard)
 
-## Learning Laravel
+- Solde total et solde par compte (Espèces, Mobile Money, Banque)
+- Résumé de la période : total entrées / total sorties / solde net
+- Graphique camembert des dépenses par catégorie
+- Courbe d'évolution du solde dans le temps
+- Sélecteur de période : aujourd'hui / semaine / mois / année / dates personnalisées
+- 10 dernières transactions
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Transactions
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Saisie complète : montant, sens (entrée/dépense), date, catégorie, compte, note libre
+- Historique paginé avec filtres combinables (période, catégorie, compte, sens, recherche par mot-clé)
+- Modification et suppression
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Catégories
 
-## Agentic Development
+- Catégories personnalisables par type : Revenu / Dépense / Les deux
+- Archivage (jamais de suppression destructrice si la catégorie est utilisée)
+- Restauration des catégories archivées
+- Données par défaut : Alimentation, Transport, Logement, Santé, Loisirs, Imprévus, Salaire, Freelance, Autre
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Comptes
+
+- Gestion multi-comptes : Espèces, Mobile Money, Compte bancaire
+- Solde calculé en temps réel (solde initial + transactions + transferts)
+- Archivage / restauration
+
+### Transferts entre comptes
+
+- Déplacement d'argent entre deux comptes différents
+- Non comptabilisé comme revenu ou dépense dans les totaux globaux
+
+### Transactions récurrentes
+
+- Définition d'une transaction qui se répète automatiquement
+- Fréquences : quotidienne, hebdomadaire, mensuelle, annuelle
+- Activation / désactivation
+- Génération via commande Artisan : `php artisan transactions:generate-recurring`
+- Chaque occurrence générée reste modifiable individuellement
+
+---
+
+## Stack technique
+
+| Couche | Technologie |
+| --- | --- |
+| Backend | Laravel 13 (PHP 8.5) |
+| Base de données | MySQL (InnoDB) |
+| Frontend | Bootstrap 5.3.8 + Vanilla JS ES6 |
+| Graphiques | Chart.js 4.4.7 |
+| Icônes | Bootstrap Icons 1.11.3 |
+| Tests | PHPUnit (61 tests, 195 assertions) |
+
+---
+
+## Installation locale (WAMP / XAMPP)
+
+### Prérequis
+
+- PHP 8.2+
+- MySQL
+- Composer
+- Serveur web local (WAMP64, XAMPP, Laragon…)
+
+### Étapes
 
 ```bash
-composer require laravel/boost --dev
+# 1. Cloner le dépôt
+git clone https://github.com/Magloire04/oeil-360-finance.git
+cd oeil-360-finance
 
-php artisan boost:install
+# 2. Installer les dépendances PHP
+composer install
+
+# 3. Configurer l'environnement
+cp .env.example .env
+php artisan key:generate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Éditer `.env` avec vos paramètres MySQL :
 
-## Contributing
+```env
+DB_DATABASE=oeil360finance
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+# 4. Créer la base de données (via phpMyAdmin ou MySQL CLI)
+# CREATE DATABASE oeil360finance CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-## Code of Conduct
+# 5. Lancer les migrations et les seeders
+php artisan migrate --seed
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# 6. Démarrer le serveur
+php artisan serve
+```
 
-## Security Vulnerabilities
+Ouvrir [http://localhost:8000](http://localhost:8000)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Données par défaut (après `db:seed`)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**9 catégories :**
+
+- Dépenses : Alimentation, Transport, Logement, Santé, Loisirs, Imprévus
+- Revenus : Salaire, Freelance
+- Les deux : Autre
+
+**3 comptes :**
+
+- Espèces (solde initial : 0 XOF)
+- MTN Mobile Money (solde initial : 0 XOF)
+- Compte bancaire (solde initial : 0 XOF)
+
+---
+
+## Commandes utiles
+
+```bash
+# Lancer les tests
+php artisan test
+
+# Générer les transactions récurrentes dues (à planifier via cron en prod)
+php artisan transactions:generate-recurring
+
+# Réinitialiser la base avec les données par défaut
+php artisan migrate:fresh --seed
+```
+
+---
+
+## Architecture API
+
+Toutes les réponses suivent l'enveloppe :
+
+```json
+{
+  "data": { ... },
+  "meta": { ... },
+  "error": null
+}
+```
+
+| Ressource | Endpoint |
+| --- | --- |
+| Dashboard | `GET /api/dashboard` |
+| Catégories | `GET/POST /api/categories` · `GET/PUT/DELETE /api/categories/{id}` · `POST /api/categories/{id}/restore` |
+| Comptes | `GET/POST /api/accounts` · `GET/PUT/DELETE /api/accounts/{id}` · `POST /api/accounts/{id}/restore` |
+| Transactions | `GET/POST /api/transactions` · `GET/PUT/DELETE /api/transactions/{id}` |
+| Transferts | `GET/POST /api/transfers` · `GET/PUT/DELETE /api/transfers/{id}` |
+| Récurrentes | `GET/POST /api/recurring-transactions` · `GET/PUT/DELETE /api/recurring-transactions/{id}` |
+
+---
+
+## Règles métier clés
+
+- Devise unique : **Franc CFA (XOF)** — pas de multi-devise en V1
+- Montant à zéro refusé à la saisie
+- Le sens (entrée/sortie) est toujours un choix explicite — jamais déduit automatiquement
+- Solde d'un compte = `solde_initial + Σ(entrées) − Σ(sorties) + Σ(transferts_entrants) − Σ(transferts_sortants)`
+- Un transfert entre comptes ne compte **jamais** comme revenu ou dépense globale
+- Suppression d'une catégorie / d'un compte utilisé → **archivage** (jamais de suppression destructrice)
+
+---
+
+## Périmètre V1 (hors scope volontaire)
+
+- Multi-utilisateur
+- Application mobile native
+- Connexion bancaire automatique
+- Budgets prévisionnels et alertes
+- Multi-devise
+- Export comptable avancé
+
+---
+
+## Contexte du projet
+
+Ce projet est développé par **Élisée Atondé** dans le cadre de sa formation **ASIN (Bénin)** — l'objectif est d'appliquer rigoureusement les standards professionnels (nommage, sécurité applicative, Git/Gitflow, TDD, revue de code) sur un cas réel et personnel.

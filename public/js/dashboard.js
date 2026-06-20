@@ -2,6 +2,15 @@
     let chartPie = null;
     let chartLine = null;
 
+    function esc(str) {
+        return String(str ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#x27;');
+    }
+
     // Calcul des bornes de période
     function getPeriodDates(period) {
         const now = new Date();
@@ -34,7 +43,7 @@
             <div class="col-12 col-sm-6">
                 <div class="card h-100">
                     <div class="card-body py-2">
-                        <div class="text-muted small">${a.name}</div>
+                        <div class="text-muted small">${esc(a.name)}</div>
                         <div class="fw-semibold">${formatXOF(a.balance)}</div>
                     </div>
                 </div>
@@ -133,10 +142,10 @@
             const amountClass = isIncome ? 'amount-income' : 'amount-expense';
             const prefix = isIncome ? '+' : '-';
             return `<tr>
-                <td>${formatDate(tx.transaction_date)}</td>
-                <td>${tx.note || '<span class="text-muted">—</span>'}</td>
-                <td><span class="badge ${badgeClass}">${tx.category?.name || '—'}</span></td>
-                <td>${tx.account?.name || '—'}</td>
+                <td>${esc(formatDate(tx.transaction_date))}</td>
+                <td>${tx.note ? esc(tx.note) : '<span class="text-muted">—</span>'}</td>
+                <td><span class="badge ${badgeClass}">${esc(tx.category?.name ?? '—')}</span></td>
+                <td>${esc(tx.account?.name ?? '—')}</td>
                 <td class="text-end ${amountClass}">${prefix} ${formatXOF(tx.amount)}</td>
             </tr>`;
         }).join('');

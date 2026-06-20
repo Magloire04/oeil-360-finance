@@ -41,7 +41,7 @@
         table.classList.remove('d-none');
 
         tbody.innerHTML = items.map(c => {
-            const badge = `<span class="badge ${TYPE_BADGES[c.type]}">${TYPE_LABELS[c.type] || c.type}</span>`;
+            const badge = `<span class="badge ${TYPE_BADGES[c.type]}">${TYPE_LABELS[c.type] || esc(c.type)}</span>`;
             const actions = isArchived
                 ? `<button class="btn btn-outline-success btn-sm btn-restore" data-id="${c.id}" title="Restaurer">
                        <i class="bi bi-arrow-counterclockwise"></i>

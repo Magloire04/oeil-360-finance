@@ -53,10 +53,10 @@ return Configuration::VERSION_2 + [
             Configuration::CONFIG_SESSION_STORAGE_ID => Configuration::get(Configuration::CONFIG_SESSION_STORAGE_ID),
             Configuration::CONFIG_TRANSIENT_STORAGE => Configuration::get(Configuration::CONFIG_TRANSIENT_STORAGE),
             Configuration::CONFIG_TRANSIENT_STORAGE_ID => Configuration::get(Configuration::CONFIG_TRANSIENT_STORAGE_ID),
-            // SSL workaround for local Windows/WAMP dev (curl.cainfo is PHP_INI_SYSTEM)
-            // verify: false is safe here — Auth0 is a trusted external service; never set this in production
+            // Use Composer's bundled CA bundle to fix SSL verification on Windows/WAMP
+            // (curl.cainfo is PHP_INI_SYSTEM and cannot be set via ini_set at runtime)
             'httpClient' => new \GuzzleHttp\Client([
-                'verify' => env('APP_ENV') !== 'local' ? true : false,
+                'verify' => \Composer\CaBundle\CaBundle::getBundledCaBundlePath(),
             ]),
         ],
     ],

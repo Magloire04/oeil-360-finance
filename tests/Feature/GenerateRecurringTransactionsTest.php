@@ -42,6 +42,7 @@ class GenerateRecurringTransactionsTest extends TestCase
             'amount'                   => 25000,
             'sense'                    => 'expense',
             'recurring_transaction_id' => $recurring->id,
+            'transaction_date'         => Carbon::today()->toDateString(),
         ]);
         $this->assertSame(1, Transaction::count());
     }
@@ -57,7 +58,7 @@ class GenerateRecurringTransactionsTest extends TestCase
         $this->artisan('transactions:generate-recurring')->assertExitCode(0);
 
         $recurring->refresh();
-        $this->assertSame($today->copy()->addDay()->toDateString(), $recurring->next_occurrence_date);
+        $this->assertSame($today->copy()->addDay()->toDateString(), $recurring->next_occurrence_date->toDateString());
     }
 
     public function test_avance_next_occurrence_date_weekly(): void
@@ -71,7 +72,7 @@ class GenerateRecurringTransactionsTest extends TestCase
         $this->artisan('transactions:generate-recurring')->assertExitCode(0);
 
         $recurring->refresh();
-        $this->assertSame($today->copy()->addWeek()->toDateString(), $recurring->next_occurrence_date);
+        $this->assertSame($today->copy()->addWeek()->toDateString(), $recurring->next_occurrence_date->toDateString());
     }
 
     public function test_avance_next_occurrence_date_monthly(): void
@@ -85,7 +86,7 @@ class GenerateRecurringTransactionsTest extends TestCase
         $this->artisan('transactions:generate-recurring')->assertExitCode(0);
 
         $recurring->refresh();
-        $this->assertSame($today->copy()->addMonth()->toDateString(), $recurring->next_occurrence_date);
+        $this->assertSame($today->copy()->addMonth()->toDateString(), $recurring->next_occurrence_date->toDateString());
     }
 
     public function test_avance_next_occurrence_date_yearly(): void
@@ -99,7 +100,7 @@ class GenerateRecurringTransactionsTest extends TestCase
         $this->artisan('transactions:generate-recurring')->assertExitCode(0);
 
         $recurring->refresh();
-        $this->assertSame($today->copy()->addYear()->toDateString(), $recurring->next_occurrence_date);
+        $this->assertSame($today->copy()->addYear()->toDateString(), $recurring->next_occurrence_date->toDateString());
     }
 
     public function test_ignore_les_recurrentes_inactives(): void

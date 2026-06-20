@@ -22,10 +22,12 @@ class GenerateRecurringTransactions extends Command
 
         $count = 0;
         foreach ($dueRecurring as $recurring) {
+            $nextOccurrenceDateString = $recurring->next_occurrence_date->toDateString();
+
             Transaction::create([
                 'amount'                   => $recurring->amount,
                 'sense'                    => $recurring->sense,
-                'transaction_date'         => $recurring->next_occurrence_date,
+                'transaction_date'         => $nextOccurrenceDateString,
                 'category_id'              => $recurring->category_id,
                 'account_id'              => $recurring->account_id,
                 'note'                     => $recurring->note,
@@ -33,7 +35,7 @@ class GenerateRecurringTransactions extends Command
             ]);
 
             $recurring->update([
-                'next_occurrence_date' => $this->nextDate($recurring->next_occurrence_date, $recurring->frequency),
+                'next_occurrence_date' => $this->nextDate($nextOccurrenceDateString, $recurring->frequency),
             ]);
 
             $count++;
@@ -48,10 +50,10 @@ class GenerateRecurringTransactions extends Command
         $date = Carbon::parse($currentDate);
 
         return match ($frequency) {
-            'daily'   => $date->addDay(),
-            'weekly'  => $date->addWeek(),
-            'monthly' => $date->addMonth(),
-            'yearly'  => $date->addYear(),
+            'daily'   => $date->addDay()->toDateString(),
+            'weekly'  => $date->addWeek()->toDateString(),
+            'monthly' => $date->addMonth()->toDateString(),
+            'yearly'  => $date->addYear()->toDateString(),
         };
     }
 }

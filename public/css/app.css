@@ -13,6 +13,11 @@ body {
     font-size: 1.1rem;
 }
 
+.navbar-logo {
+    max-height: 38px;
+    width: auto;
+}
+
 .badge-income {
     background-color: var(--color-income);
     color: white;

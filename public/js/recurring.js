@@ -72,7 +72,7 @@
 
         tbody.innerHTML = items.map(r => {
             const senseClass = r.sense === 'income' ? 'badge-income' : 'badge-expense';
-            const senseBadge = `<span class="badge ${senseClass}">${SENSE_LABELS[r.sense] || r.sense}</span>`;
+            const senseBadge = `<span class="badge ${senseClass}">${SENSE_LABELS[r.sense] || esc(r.sense)}</span>`;
             const freqLabel  = FREQ_LABELS[r.frequency] || esc(r.frequency);
 
             const toggleBtn = isActive

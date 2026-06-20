@@ -25,8 +25,8 @@ class RecurringTransaction extends Model
 
     protected $casts = [
         'amount' => 'decimal:2',
-        'start_date' => 'date',
-        'next_occurrence_date' => 'date',
+        'start_date' => 'date:Y-m-d',
+        'next_occurrence_date' => 'date:Y-m-d',
         'is_active' => 'boolean',
     ];
 

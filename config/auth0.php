@@ -58,10 +58,10 @@ return Configuration::VERSION_2 + [
 
     'routes' => [
         Configuration::CONFIG_ROUTE_INDEX       => '/',
-        Configuration::CONFIG_ROUTE_CALLBACK    => '/auth/callback',
-        Configuration::CONFIG_ROUTE_LOGIN       => '/auth/login',
-        Configuration::CONFIG_ROUTE_AFTER_LOGIN => '/',
-        Configuration::CONFIG_ROUTE_LOGOUT      => '/auth/logout',
-        Configuration::CONFIG_ROUTE_AFTER_LOGOUT => '/auth/login',
+        Configuration::CONFIG_ROUTE_CALLBACK    => 'callback',
+        Configuration::CONFIG_ROUTE_LOGIN       => 'login',
+        Configuration::CONFIG_ROUTE_AFTER_LOGIN => 'home',
+        Configuration::CONFIG_ROUTE_LOGOUT      => 'logout',
+        Configuration::CONFIG_ROUTE_AFTER_LOGOUT => 'login',
     ],
 ];

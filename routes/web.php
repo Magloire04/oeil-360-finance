@@ -6,9 +6,9 @@ use Auth0\Laravel\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 
 // Routes Auth0 (publiques)
-Route::get('/auth/login',    LoginController::class)->name('auth.login');
-Route::get('/auth/logout',   LogoutController::class)->name('auth.logout');
-Route::get('/auth/callback', CallbackController::class)->name('auth.callback');
+Route::get('/auth/login',    LoginController::class)->name('login');
+Route::get('/auth/logout',   LogoutController::class)->name('logout');
+Route::get('/auth/callback', CallbackController::class)->name('callback');
 
 // Pages protégées
 Route::middleware('auth')->group(function () {

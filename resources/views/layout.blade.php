@@ -52,6 +52,14 @@
                     </a>
                 </li>
             </ul>
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-white-50 small d-none d-lg-inline">
+                    {{ auth()->user()?->name ?? auth()->user()?->email ?? '' }}
+                </span>
+                <a href="{{ route('auth.logout') }}" class="btn btn-outline-light btn-sm">
+                    <i class="bi bi-box-arrow-right"></i> Déconnexion
+                </a>
+            </div>
         </div>
     </div>
 </nav>

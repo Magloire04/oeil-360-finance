@@ -19,4 +19,21 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
+
+        $exceptions->render(function (\Illuminate\Validation\ValidationException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return \App\Http\Responses\ApiResponse::error(
+                    'Données invalides',
+                    'VALIDATION_ERROR',
+                    $e->errors(),
+                    422
+                );
+            }
+        });
+
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return \App\Http\Responses\ApiResponse::error('Ressource introuvable', 'NOT_FOUND', null, 404);
+            }
+        });
     })->create();

@@ -16,20 +16,24 @@
 
     // ─── Chargement des données de référence ───────────────────────
     async function loadSelectOptions() {
-        const [catRes, accRes] = await Promise.all([
-            api.get('/categories'),
-            api.get('/accounts'),
-        ]);
-        categories = catRes.data;
-        accounts   = accRes.data;
+        try {
+            const [catRes, accRes] = await Promise.all([
+                api.get('/categories'),
+                api.get('/accounts'),
+            ]);
+            categories = catRes.data;
+            accounts   = accRes.data;
 
-        // Peupler les filtres
-        populateSelect('filter-category', categories, c => ({ value: c.id, label: c.name }), 'Toutes catégories');
-        populateSelect('filter-account',  accounts,   a => ({ value: a.id, label: a.name }), 'Tous comptes');
+            // Peupler les filtres
+            populateSelect('filter-category', categories, c => ({ value: c.id, label: c.name }), 'Toutes catégories');
+            populateSelect('filter-account',  accounts,   a => ({ value: a.id, label: a.name }), 'Tous comptes');
 
-        // Peupler les selects de la modale
-        populateSelect('tx-category', categories, c => ({ value: c.id, label: c.name }), '-- Choisir --');
-        populateSelect('tx-account',  accounts,   a => ({ value: a.id, label: a.name }), '-- Choisir --');
+            // Peupler les selects de la modale
+            populateSelect('tx-category', categories, c => ({ value: c.id, label: c.name }), '-- Choisir --');
+            populateSelect('tx-account',  accounts,   a => ({ value: a.id, label: a.name }), '-- Choisir --');
+        } catch (err) {
+            showError('Erreur lors du chargement des options : ' + err.message);
+        }
     }
 
     function populateSelect(id, items, mapper, defaultLabel) {

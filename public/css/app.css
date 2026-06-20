@@ -1,0 +1,42 @@
+/* Couleurs et styles globaux — Oeil 360° Finance */
+:root {
+    --color-income: #198754;
+    --color-expense: #dc3545;
+    --color-neutral: #6c757d;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-size: 1.1rem;
+}
+
+.badge-income {
+    background-color: var(--color-income);
+    color: white;
+}
+
+.badge-expense {
+    background-color: var(--color-expense);
+    color: white;
+}
+
+.card-balance {
+    border-left: 4px solid var(--color-income);
+}
+
+.card-expense {
+    border-left: 4px solid var(--color-expense);
+}
+
+.amount-income {
+    color: var(--color-income);
+    font-weight: 600;
+}
+
+.amount-expense {
+    color: var(--color-expense);
+    font-weight: 600;
+}

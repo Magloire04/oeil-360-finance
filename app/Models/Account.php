@@ -12,6 +12,11 @@ class Account extends Model
 
     protected $fillable = ['name', 'type', 'initial_balance', 'is_archived'];
 
+    protected $attributes = [
+        'is_archived'     => false,
+        'initial_balance' => 0.00,
+    ];
+
     protected $casts = [
         'initial_balance' => 'decimal:2',
         'is_archived' => 'boolean',

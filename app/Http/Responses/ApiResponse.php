@@ -12,7 +12,7 @@ class ApiResponse
             'data'  => $data,
             'meta'  => $meta,
             'error' => null,
-        ], $status);
+        ], $status, [], JSON_PRESERVE_ZERO_FRACTION);
     }
 
     public static function error(
@@ -29,6 +29,6 @@ class ApiResponse
                 'code'    => $code,
                 'details' => $details,
             ],
-        ], $status);
+        ], $status, [], JSON_PRESERVE_ZERO_FRACTION);
     }
 }

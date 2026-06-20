@@ -32,7 +32,7 @@ class AccountTest extends TestCase
         $response->assertStatus(201)
             ->assertJsonPath('data.name', 'MTN Mobile Money')
             ->assertJsonPath('data.type', 'mobile_money')
-            ->assertJsonPath('data.balance', 50000);
+            ->assertJsonPath('data.balance', 50000.0);
         $this->assertDatabaseHas('accounts', ['name' => 'MTN Mobile Money']);
     }
 
@@ -59,7 +59,7 @@ class AccountTest extends TestCase
         // Balance attendue = 100000 + 50000 - 20000 + 10000 - 5000 = 135000
         $response = $this->getJson("/api/accounts/{$account->id}");
         $response->assertStatus(200)
-            ->assertJsonPath('data.balance', 135000);
+            ->assertJsonPath('data.balance', 135000.0);
     }
 
     public function test_archive_un_compte_utilise(): void

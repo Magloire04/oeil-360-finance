@@ -7,6 +7,7 @@ use App\Http\Responses\ApiResponse;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -46,7 +47,7 @@ class CategoryController extends Controller
         return ApiResponse::success($category);
     }
 
-    public function destroy(Category $category): JsonResponse
+    public function destroy(Category $category): JsonResponse|Response
     {
         if ($category->isUsed()) {
             $category->update(['is_archived' => true]);
@@ -56,7 +57,7 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return ApiResponse::success(null, null, 204);
+        return response()->noContent();
     }
 
     public function restore(Category $category): JsonResponse

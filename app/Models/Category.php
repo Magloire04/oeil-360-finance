@@ -12,6 +12,10 @@ class Category extends Model
 
     protected $fillable = ['name', 'type', 'is_archived'];
 
+    protected $attributes = [
+        'is_archived' => false,
+    ];
+
     protected $casts = [
         'is_archived' => 'boolean',
     ];

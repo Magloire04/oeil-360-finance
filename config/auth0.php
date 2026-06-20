@@ -53,6 +53,13 @@ return Configuration::VERSION_2 + [
             Configuration::CONFIG_SESSION_STORAGE_ID => Configuration::get(Configuration::CONFIG_SESSION_STORAGE_ID),
             Configuration::CONFIG_TRANSIENT_STORAGE => Configuration::get(Configuration::CONFIG_TRANSIENT_STORAGE),
             Configuration::CONFIG_TRANSIENT_STORAGE_ID => Configuration::get(Configuration::CONFIG_TRANSIENT_STORAGE_ID),
+            // Fix SSL certificate verification on Windows/WAMP (curl.cainfo is PHP_INI_SYSTEM, ini_set won't work)
+            'httpClient' => (static function () {
+                $caBundle = 'C:\\wamp64\\bin\\php\\php8.4.15\\extras\\ssl\\cacert.pem';
+                return new \GuzzleHttp\Client([
+                    'verify' => file_exists($caBundle) ? $caBundle : true,
+                ]);
+            })(),
         ],
     ],
 

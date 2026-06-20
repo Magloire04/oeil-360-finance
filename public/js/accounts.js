@@ -39,7 +39,7 @@
         noData.classList.add('d-none');
         container.innerHTML = accounts.map(a => {
             const icon  = TYPE_ICONS[a.type] || 'bi-wallet2';
-            const label = TYPE_LABELS[a.type] || a.type;
+            const label = TYPE_LABELS[a.type] || esc(a.type);
             const balanceClass = a.balance >= 0 ? 'amount-income' : 'amount-expense';
 
             return `<div class="col-12 col-md-6 col-lg-4">
@@ -83,7 +83,7 @@
         table.classList.remove('d-none');
 
         tbody.innerHTML = accounts.map(a => {
-            const label = TYPE_LABELS[a.type] || a.type;
+            const label = TYPE_LABELS[a.type] || esc(a.type);
             return `<tr>
                 <td>${esc(a.name)}</td>
                 <td>${label}</td>

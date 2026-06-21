@@ -26,17 +26,45 @@
     </div>
 </div>
 
-{{-- Solde total + par compte --}}
-<div class="row mb-4">
-    <div class="col-12 col-md-4 mb-3">
+{{-- 4 KPI tiles --}}
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
         <div class="card card-balance h-100">
             <div class="card-body">
-                <div class="text-muted small">Solde total</div>
-                <div class="h4 mb-0 amount-income" id="total-balance">—</div>
+                <div class="text-muted small"><i class="bi bi-wallet2 me-1"></i>Solde total</div>
+                <div class="h5 mb-0 amount-income" id="total-balance">—</div>
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-8">
+    <div class="col-6 col-md-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small"><i class="bi bi-arrow-left-right me-1"></i>Transactions</div>
+                <div class="h5 mb-0" id="kpi-tx-count">—</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small"><i class="bi bi-calendar-day me-1"></i>Dépense/jour moy.</div>
+                <div class="h5 mb-0 amount-expense" id="kpi-daily-expense">—</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="text-muted small"><i class="bi bi-trophy me-1"></i>Top dépense</div>
+                <div class="h5 mb-0 text-truncate" id="kpi-top-category" title="">—</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Cartes comptes avec mini barre % --}}
+<div class="row mb-4">
+    <div class="col-12">
         <div class="row g-2" id="account-cards"></div>
     </div>
 </div>
@@ -71,7 +99,7 @@
 
 {{-- Graphiques --}}
 <div class="row mb-4">
-    <div class="col-12 col-md-6 mb-3">
+    <div class="col-12 col-md-5 mb-3">
         <div class="card h-100">
             <div class="card-header">Dépenses par catégorie</div>
             <div class="card-body">
@@ -82,11 +110,11 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-6 mb-3">
+    <div class="col-12 col-md-7 mb-3">
         <div class="card h-100">
-            <div class="card-header">Évolution du solde</div>
+            <div class="card-header">Revenus vs Dépenses — 12 mois</div>
             <div class="card-body">
-                <canvas id="chart-balance-evolution"></canvas>
+                <canvas id="chart-monthly-bar"></canvas>
             </div>
         </div>
     </div>
@@ -94,7 +122,12 @@
 
 {{-- 10 dernières transactions --}}
 <div class="card">
-    <div class="card-header">10 dernières transactions</div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>10 dernières transactions</span>
+        <a href="/transactions" class="btn btn-sm btn-outline-primary">
+            Voir toutes <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
     <div class="card-body p-0">
         <div id="no-recent-tx" class="text-center text-muted py-4 d-none">
             Aucune transaction enregistrée

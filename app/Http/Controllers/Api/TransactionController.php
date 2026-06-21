@@ -8,12 +8,14 @@ use App\Models\Transaction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class TransactionController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
         $query = Transaction::with(['category', 'account'])
+            ->where('user_id', auth()->id())
             ->orderBy('transaction_date', 'desc')
             ->orderBy('created_at', 'desc');
 
@@ -36,7 +38,7 @@ class TransactionController extends Controller
             $query->where('note', 'like', '%' . $request->q . '%');
         }
 
-        $perPage = (int) $request->get('per_page', 25);
+        $perPage = (int) $request->input('per_page', 25);
         $transactions = $query->paginate($perPage);
 
         return ApiResponse::success($transactions->items(), [
@@ -49,36 +51,42 @@ class TransactionController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $userId = (int) auth()->id();
         $validated = $request->validate([
             'amount'           => 'required|numeric|min:0.01',
             'sense'            => 'required|in:income,expense',
             'transaction_date' => 'required|date',
-            'category_id'      => 'required|exists:categories,id',
-            'account_id'       => 'required|exists:accounts,id',
+            'category_id'      => ['required', Rule::exists('categories', 'id')->where('user_id', $userId)],
+            'account_id'       => ['required', Rule::exists('accounts', 'id')->where('user_id', $userId)],
             'note'             => 'nullable|string',
         ]);
 
-        $transaction = Transaction::create($validated);
+        $transaction = Transaction::create(['user_id' => $userId] + $validated);
         $transaction->load(['category', 'account']);
 
         return ApiResponse::success($transaction, null, 201);
     }
 
-    public function show(Transaction $transaction): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        $transaction->load(['category', 'account']);
+        $transaction = Transaction::with(['category', 'account'])
+            ->where('user_id', auth()->id())
+            ->findOrFail($id);
 
         return ApiResponse::success($transaction);
     }
 
-    public function update(Request $request, Transaction $transaction): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
+        $userId      = (int) auth()->id();
+        $transaction = Transaction::where('user_id', $userId)->findOrFail($id);
+
         $validated = $request->validate([
             'amount'           => 'sometimes|numeric|min:0.01',
             'sense'            => 'sometimes|in:income,expense',
             'transaction_date' => 'sometimes|date',
-            'category_id'      => 'sometimes|exists:categories,id',
-            'account_id'       => 'sometimes|exists:accounts,id',
+            'category_id'      => ['sometimes', Rule::exists('categories', 'id')->where('user_id', $userId)],
+            'account_id'       => ['sometimes', Rule::exists('accounts', 'id')->where('user_id', $userId)],
             'note'             => 'nullable|string',
         ]);
 
@@ -88,8 +96,9 @@ class TransactionController extends Controller
         return ApiResponse::success($transaction);
     }
 
-    public function destroy(Transaction $transaction): Response
+    public function destroy(int $id): Response
     {
+        $transaction = Transaction::where('user_id', (int) auth()->id())->findOrFail($id);
         $transaction->delete();
 
         return response()->noContent();

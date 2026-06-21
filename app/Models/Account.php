@@ -10,7 +10,7 @@ class Account extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'type', 'initial_balance', 'is_archived'];
+    protected $fillable = ['user_id', 'name', 'type', 'initial_balance', 'is_archived'];
 
     protected $attributes = [
         'is_archived'     => false,

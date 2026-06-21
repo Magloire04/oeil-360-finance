@@ -14,11 +14,18 @@ class DashboardController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $startDate = $request->get('start_date', now()->startOfMonth()->toDateString());
-        $endDate   = $request->get('end_date',   now()->endOfMonth()->toDateString());
+        $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
+        $endDate   = $request->input('end_date',   now()->endOfMonth()->toDateString());
 
-        $summary = $this->dashboardService->getSummary($startDate, $endDate);
+        $summary = $this->dashboardService->getSummary($startDate, $endDate, (int) auth()->id());
 
         return ApiResponse::success($summary);
+    }
+
+    public function monthly(): JsonResponse
+    {
+        $data = $this->dashboardService->getMonthlyComparison((int) auth()->id());
+
+        return ApiResponse::success($data);
     }
 }

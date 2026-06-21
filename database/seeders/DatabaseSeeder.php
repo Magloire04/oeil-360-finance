@@ -8,9 +8,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call([
-            CategorySeeder::class,
-            AccountSeeder::class,
-        ]);
+        // Les catégories et comptes par défaut sont créés via UserBootstrapService
+        // à la première connexion de chaque utilisateur — pas de seed global.
     }
 }

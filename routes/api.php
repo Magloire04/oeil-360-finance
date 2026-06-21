@@ -8,22 +8,19 @@ use App\Http\Controllers\Api\RecurringTransactionController;
 use App\Http\Controllers\Api\DashboardController;
 use Illuminate\Support\Facades\Route;
 
-// Categories
-Route::apiResource('categories', CategoryController::class);
-Route::post('categories/{category}/restore', [CategoryController::class, 'restore']);
+Route::middleware('auth')->group(function () {
+    Route::apiResource('categories', CategoryController::class);
+    Route::post('categories/{category}/restore', [CategoryController::class, 'restore']);
 
-// Accounts
-Route::apiResource('accounts', AccountController::class);
-Route::post('accounts/{account}/restore', [AccountController::class, 'restore']);
+    Route::apiResource('accounts', AccountController::class);
+    Route::post('accounts/{account}/restore', [AccountController::class, 'restore']);
 
-// Transactions
-Route::apiResource('transactions', TransactionController::class);
+    Route::apiResource('transactions', TransactionController::class);
 
-// Transfers
-Route::apiResource('transfers', TransferController::class);
+    Route::apiResource('transfers', TransferController::class);
 
-// Recurring transactions
-Route::apiResource('recurring-transactions', RecurringTransactionController::class);
+    Route::apiResource('recurring-transactions', RecurringTransactionController::class);
 
-// Dashboard
-Route::get('dashboard', [DashboardController::class, 'index']);
+    Route::get('dashboard', [DashboardController::class, 'index']);
+    Route::get('dashboard/monthly', [DashboardController::class, 'monthly']);
+});

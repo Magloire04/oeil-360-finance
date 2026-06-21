@@ -8,14 +8,15 @@ Projet d'entraînement aux standards **ASIN** (Architecture, Sécurité, Intégr
 
 ## Fonctionnalités
 
-### Vue 360° (Dashboard)
+### Vue 360° (Dashboard V2)
 
-- Solde total et solde par compte (Espèces, Mobile Money, Banque)
+- **4 KPI tiles** : solde total, nombre de transactions sur la période, dépense moyenne journalière, catégorie la plus dépensière
+- Solde par compte avec mini barre de progression (% du total)
 - Résumé de la période : total entrées / total sorties / solde net
 - Graphique camembert des dépenses par catégorie
-- Courbe d'évolution du solde dans le temps
+- **Graphique barres groupées** : Revenus vs Dépenses sur 12 mois glissants
 - Sélecteur de période : aujourd'hui / semaine / mois / année / dates personnalisées
-- 10 dernières transactions
+- 10 dernières transactions avec lien "Voir toutes →"
 
 ### Transactions
 
@@ -28,7 +29,6 @@ Projet d'entraînement aux standards **ASIN** (Architecture, Sécurité, Intégr
 - Catégories personnalisables par type : Revenu / Dépense / Les deux
 - Archivage (jamais de suppression destructrice si la catégorie est utilisée)
 - Restauration des catégories archivées
-- Données par défaut : Alimentation, Transport, Logement, Santé, Loisirs, Imprévus, Salaire, Freelance, Autre
 
 ### Comptes
 
@@ -51,44 +51,70 @@ Projet d'entraînement aux standards **ASIN** (Architecture, Sécurité, Intégr
 
 ---
 
-## Stack technique
+## Stack technique V2
 
 | Couche | Technologie |
 | --- | --- |
-| Backend | Laravel 13 (PHP 8.5) |
+| Backend | Laravel 13 (PHP 8.4.15 via WAMP64) |
+| Authentification | Auth0 (`auth0/login` SDK v7) |
 | Base de données | MySQL (InnoDB) |
 | Frontend | Bootstrap 5.3.8 + Vanilla JS ES6 |
 | Graphiques | Chart.js 4.4.7 |
 | Icônes | Bootstrap Icons 1.11.3 |
-| Tests | PHPUnit (61 tests, 195 assertions) |
+| Tests | PHPUnit (66 tests, 214 assertions) |
 
 ---
 
-## Installation locale (WAMP / XAMPP)
+## Installation locale (WAMP64)
 
 ### Prérequis
 
-- PHP 8.2+
-- MySQL
+- WAMP64 avec **PHP 8.4.15** activé (Apache + MySQL)
 - Composer
-- Serveur web local (WAMP64, XAMPP, Laragon…)
+- Un compte Auth0 (gratuit)
 
-### Étapes
+### 1. Virtual Host WAMP
 
-```bash
-# 1. Cloner le dépôt
-git clone https://github.com/Magloire04/oeil-360-finance.git
-cd oeil-360-finance
+Dans WAMP → Apache → `httpd-vhosts.conf`, ajouter :
 
-# 2. Installer les dépendances PHP
-composer install
-
-# 3. Configurer l'environnement
-cp .env.example .env
-php artisan key:generate
+```apache
+<VirtualHost *:80>
+    ServerName oeil360.test
+    DocumentRoot "C:/wamp64/www/oeil_360_finance/public"
+    <Directory "C:/wamp64/www/oeil_360_finance/public">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
 ```
 
-Éditer `.env` avec vos paramètres MySQL :
+Dans `C:\Windows\System32\drivers\etc\hosts`, ajouter :
+
+```text
+127.0.0.1 oeil360.test
+```
+
+Redémarrer WAMP.
+
+### 2. Installation PHP
+
+```bash
+# Toujours utiliser le PHP WAMP (pas le PHP système)
+C:\wamp64\bin\php\php8.4.15\php.exe composer install
+
+cp .env.example .env
+C:\wamp64\bin\php\php8.4.15\php.exe artisan key:generate
+```
+
+### 3. Base de données
+
+Créer la base dans phpMyAdmin ou MySQL CLI :
+
+```sql
+CREATE DATABASE oeil360finance CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Configurer `.env` :
 
 ```env
 DB_DATABASE=oeil360finance
@@ -97,33 +123,44 @@ DB_PASSWORD=
 ```
 
 ```bash
-# 4. Créer la base de données (via phpMyAdmin ou MySQL CLI)
-# CREATE DATABASE oeil360finance CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-# 5. Lancer les migrations et les seeders
-php artisan migrate --seed
-
-# 6. Démarrer le serveur
-php artisan serve
+C:\wamp64\bin\php\php8.4.15\php.exe artisan migrate
 ```
 
-Ouvrir [http://localhost:8000](http://localhost:8000)
+### 4. Auth0 — Configuration
+
+1. Créer une application **Regular Web Application** sur [auth0.com](https://auth0.com)
+2. Dans les settings de l'app Auth0 :
+   - **Allowed Callback URLs** : `http://oeil360.test/auth/callback`
+   - **Allowed Logout URLs** : `http://oeil360.test`
+3. Renseigner `.env` :
+
+```env
+AUTH0_DOMAIN=your-tenant.auth0.com
+AUTH0_CLIENT_ID=your_client_id
+AUTH0_CLIENT_SECRET=your_client_secret
+AUTH0_COOKIE_SECRET=une-chaine-aleatoire-de-32-caracteres-minimum
+```
+
+### 5. Lancement
+
+Ouvrir [http://oeil360.test](http://oeil360.test) → redirige vers Auth0 si non connecté.
+
+À la **première connexion**, les 9 catégories et 3 comptes par défaut sont créés automatiquement pour le nouvel utilisateur.
 
 ---
 
-## Données par défaut (après `db:seed`)
+## Données par défaut (créées automatiquement à la première connexion Auth0)
 
 **9 catégories :**
 
-- Dépenses : Alimentation, Transport, Logement, Santé, Loisirs, Imprévus
-- Revenus : Salaire, Freelance
-- Les deux : Autre
+- Revenus : Salaire, Freelance, Autres revenus
+- Dépenses : Alimentation, Transport, Logement, Santé, Loisirs, Autres dépenses
 
 **3 comptes :**
 
-- Espèces (solde initial : 0 XOF)
-- MTN Mobile Money (solde initial : 0 XOF)
-- Compte bancaire (solde initial : 0 XOF)
+- Caisse (espèces)
+- Mobile Money
+- Banque
 
 ---
 
@@ -131,13 +168,13 @@ Ouvrir [http://localhost:8000](http://localhost:8000)
 
 ```bash
 # Lancer les tests
-php artisan test
+C:\wamp64\bin\php\php8.4.15\php.exe artisan test
 
 # Générer les transactions récurrentes dues (à planifier via cron en prod)
-php artisan transactions:generate-recurring
+C:\wamp64\bin\php\php8.4.15\php.exe artisan transactions:generate-recurring
 
-# Réinitialiser la base avec les données par défaut
-php artisan migrate:fresh --seed
+# Réinitialiser la base
+C:\wamp64\bin\php\php8.4.15\php.exe artisan migrate:fresh
 ```
 
 ---
@@ -154,9 +191,12 @@ Toutes les réponses suivent l'enveloppe :
 }
 ```
 
+Toutes les routes API requièrent une session Auth0 active (`middleware('auth')`).
+
 | Ressource | Endpoint |
 | --- | --- |
 | Dashboard | `GET /api/dashboard` |
+| Dashboard mensuel | `GET /api/dashboard/monthly` |
 | Catégories | `GET/POST /api/categories` · `GET/PUT/DELETE /api/categories/{id}` · `POST /api/categories/{id}/restore` |
 | Comptes | `GET/POST /api/accounts` · `GET/PUT/DELETE /api/accounts/{id}` · `POST /api/accounts/{id}/restore` |
 | Transactions | `GET/POST /api/transactions` · `GET/PUT/DELETE /api/transactions/{id}` |
@@ -165,9 +205,15 @@ Toutes les réponses suivent l'enveloppe :
 
 ---
 
+## Multi-utilisateurs
+
+Chaque utilisateur Auth0 a ses propres données (catégories, comptes, transactions, transferts). L'isolation est garantie au niveau de chaque requête API : toutes les queries sont filtrées par `user_id = auth()->id()`. Un utilisateur ne peut jamais accéder aux données d'un autre (réponse 404 si tentative).
+
+---
+
 ## Règles métier clés
 
-- Devise unique : **Franc CFA (XOF)** — pas de multi-devise en V1
+- Devise unique : **Franc CFA (XOF)** — pas de multi-devise
 - Montant à zéro refusé à la saisie
 - Le sens (entrée/sortie) est toujours un choix explicite — jamais déduit automatiquement
 - Solde d'un compte = `solde_initial + Σ(entrées) − Σ(sorties) + Σ(transferts_entrants) − Σ(transferts_sortants)`
@@ -176,17 +222,6 @@ Toutes les réponses suivent l'enveloppe :
 
 ---
 
-## Périmètre V1 (hors scope volontaire)
-
-- Multi-utilisateur
-- Application mobile native
-- Connexion bancaire automatique
-- Budgets prévisionnels et alertes
-- Multi-devise
-- Export comptable avancé
-
----
-
 ## Contexte du projet
 
-Ce projet est développé par **Élisée Atondé** dans le cadre de sa formation **ASIN (Bénin)** — l'objectif est d'appliquer rigoureusement les standards professionnels (nommage, sécurité applicative, Git/Gitflow, TDD, revue de code) sur un cas réel et personnel.
+Ce projet est développé par **Élisée Atondé** dans le cadre de sa formation **ASIN (Bénin)** — l'objectif est d'appliquer rigoureusement les standards professionnels (nommage, sécurité applicative, Auth0, Git/Gitflow, TDD, revue de code) sur un cas réel et personnel.

@@ -7,7 +7,7 @@ use Auth0\SDK\Configuration\SdkConfiguration;
 
 return Configuration::VERSION_2 + [
     'registerGuards' => true,
-    'registerMiddleware' => true,
+    'registerMiddleware' => (bool) env('AUTH0_REGISTER_MIDDLEWARE', true),
     'registerAuthenticationRoutes' => false,
     'configurationPath' => null,
 
@@ -65,7 +65,7 @@ return Configuration::VERSION_2 + [
         Configuration::CONFIG_ROUTE_INDEX       => '/',
         Configuration::CONFIG_ROUTE_CALLBACK    => 'callback',
         Configuration::CONFIG_ROUTE_LOGIN       => 'login',
-        Configuration::CONFIG_ROUTE_AFTER_LOGIN => 'home',
+        Configuration::CONFIG_ROUTE_AFTER_LOGIN => '/',
         Configuration::CONFIG_ROUTE_LOGOUT      => 'logout',
         Configuration::CONFIG_ROUTE_AFTER_LOGOUT => 'login',
     ],

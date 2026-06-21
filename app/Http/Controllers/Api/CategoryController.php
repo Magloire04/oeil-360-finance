@@ -13,7 +13,9 @@ class CategoryController extends Controller
 {
     public function index(): JsonResponse
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::where('user_id', auth()->id())
+            ->orderBy('name')
+            ->get();
 
         return ApiResponse::success($categories);
     }
@@ -25,18 +27,22 @@ class CategoryController extends Controller
             'type' => 'required|in:income,expense,both',
         ]);
 
-        $category = Category::create($validated);
+        $category = Category::create(['user_id' => auth()->id()] + $validated);
 
         return ApiResponse::success($category, null, 201);
     }
 
-    public function show(Category $category): JsonResponse
+    public function show(int $id): JsonResponse
     {
+        $category = Category::where('user_id', auth()->id())->findOrFail($id);
+
         return ApiResponse::success($category);
     }
 
-    public function update(Request $request, Category $category): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
+        $category = Category::where('user_id', auth()->id())->findOrFail($id);
+
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
             'type' => 'sometimes|in:income,expense,both',
@@ -47,8 +53,10 @@ class CategoryController extends Controller
         return ApiResponse::success($category);
     }
 
-    public function destroy(Category $category): JsonResponse|Response
+    public function destroy(int $id): JsonResponse|Response
     {
+        $category = Category::where('user_id', auth()->id())->findOrFail($id);
+
         if ($category->isUsed()) {
             $category->update(['is_archived' => true]);
 
@@ -60,8 +68,9 @@ class CategoryController extends Controller
         return response()->noContent();
     }
 
-    public function restore(Category $category): JsonResponse
+    public function restore(int $id): JsonResponse
     {
+        $category = Category::where('user_id', auth()->id())->findOrFail($id);
         $category->update(['is_archived' => false]);
 
         return ApiResponse::success($category);

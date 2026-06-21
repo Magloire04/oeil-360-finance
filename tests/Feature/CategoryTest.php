@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,10 +12,19 @@ class CategoryTest extends TestCase
 {
     use RefreshDatabase;
 
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
     public function test_liste_toutes_les_categories_triees_par_nom(): void
     {
-        Category::factory()->create(['name' => 'Zèbre']);
-        Category::factory()->create(['name' => 'Alimentation']);
+        Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Zèbre']);
+        Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Alimentation']);
 
         $response = $this->getJson('/api/categories');
 
@@ -38,7 +48,7 @@ class CategoryTest extends TestCase
             ->assertJsonPath('data.type', 'expense')
             ->assertJsonPath('data.is_archived', false);
 
-        $this->assertDatabaseHas('categories', ['name' => 'Transport']);
+        $this->assertDatabaseHas('categories', ['name' => 'Transport', 'user_id' => $this->user->id]);
     }
 
     public function test_refuse_une_categorie_sans_nom(): void
@@ -62,7 +72,7 @@ class CategoryTest extends TestCase
 
     public function test_affiche_une_categorie_par_id(): void
     {
-        $category = Category::factory()->create(['name' => 'Santé', 'type' => 'expense']);
+        $category = Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Santé', 'type' => 'expense']);
 
         $this->getJson("/api/categories/{$category->id}")
             ->assertStatus(200)
@@ -76,9 +86,18 @@ class CategoryTest extends TestCase
             ->assertJsonPath('error.code', 'NOT_FOUND');
     }
 
+    public function test_retourne_404_pour_une_categorie_dun_autre_utilisateur(): void
+    {
+        $other = User::factory()->create();
+        $category = Category::factory()->create(['user_id' => $other->id]);
+
+        $this->getJson("/api/categories/{$category->id}")
+            ->assertStatus(404);
+    }
+
     public function test_met_a_jour_une_categorie(): void
     {
-        $category = Category::factory()->create(['name' => 'Loisirs']);
+        $category = Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Loisirs']);
 
         $this->putJson("/api/categories/{$category->id}", ['name' => 'Loisirs & Sport'])
             ->assertStatus(200)
@@ -89,7 +108,7 @@ class CategoryTest extends TestCase
 
     public function test_supprime_une_categorie_non_utilisee_204(): void
     {
-        $category = Category::factory()->create();
+        $category = Category::factory()->create(['user_id' => $this->user->id]);
 
         $this->deleteJson("/api/categories/{$category->id}")
             ->assertStatus(204);
@@ -99,9 +118,8 @@ class CategoryTest extends TestCase
 
     public function test_archive_une_categorie_utilisee_au_lieu_de_la_supprimer(): void
     {
-        $category = Category::factory()->create();
-        // Créer une transaction liée à cette catégorie
-        Transaction::factory()->create(['category_id' => $category->id]);
+        $category = Category::factory()->create(['user_id' => $this->user->id]);
+        Transaction::factory()->create(['user_id' => $this->user->id, 'category_id' => $category->id]);
 
         $this->deleteJson("/api/categories/{$category->id}")
             ->assertStatus(200)
@@ -112,7 +130,7 @@ class CategoryTest extends TestCase
 
     public function test_restaure_une_categorie_archivee(): void
     {
-        $category = Category::factory()->create(['is_archived' => true]);
+        $category = Category::factory()->create(['user_id' => $this->user->id, 'is_archived' => true]);
 
         $this->postJson("/api/categories/{$category->id}/restore")
             ->assertStatus(200)

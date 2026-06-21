@@ -2,22 +2,20 @@
 
 namespace App\Providers;
 
+use App\Repositories\Auth0UserRepository;
+use Auth0\Laravel\UserRepository;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        // Use our custom repository so auth()->user() returns the local User model
+        // and auth()->id() returns the integer DB ID (not the Auth0 sub string).
+        $this->app->bind(UserRepository::class, Auth0UserRepository::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         Builder::defaultStringLength(191);

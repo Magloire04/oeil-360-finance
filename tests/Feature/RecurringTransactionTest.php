@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Category;
 use App\Models\RecurringTransaction;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,10 +14,20 @@ class RecurringTransactionTest extends TestCase
 {
     use RefreshDatabase;
 
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
     private function makeRecurring(array $overrides = []): array
     {
-        $category = Category::factory()->create();
-        $account  = Account::factory()->create();
+        $category = Category::factory()->create(['user_id' => $this->user->id]);
+        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+
         return array_merge([
             'amount'      => 50000,
             'sense'       => 'expense',
@@ -31,6 +42,7 @@ class RecurringTransactionTest extends TestCase
     public function test_cree_une_recurrente_mensuelle(): void
     {
         $data = $this->makeRecurring();
+
         $response = $this->postJson('/api/recurring-transactions', $data);
 
         $response->assertStatus(201)
@@ -40,12 +52,14 @@ class RecurringTransactionTest extends TestCase
         $this->assertDatabaseHas('recurring_transactions', [
             'frequency' => 'monthly',
             'amount'    => 50000,
+            'user_id'   => $this->user->id,
         ]);
     }
 
     public function test_next_occurrence_date_initialise_a_start_date(): void
     {
         $data = $this->makeRecurring(['start_date' => '2026-07-01']);
+
         $response = $this->postJson('/api/recurring-transactions', $data);
 
         $response->assertStatus(201)
@@ -75,7 +89,14 @@ class RecurringTransactionTest extends TestCase
 
     public function test_liste_les_recurrentes(): void
     {
-        RecurringTransaction::factory()->count(3)->create();
+        $category = Category::factory()->create(['user_id' => $this->user->id]);
+        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        RecurringTransaction::factory()->count(3)->create([
+            'user_id'     => $this->user->id,
+            'category_id' => $category->id,
+            'account_id'  => $account->id,
+        ]);
+
         $response = $this->getJson('/api/recurring-transactions');
 
         $response->assertStatus(200)
@@ -87,7 +108,14 @@ class RecurringTransactionTest extends TestCase
 
     public function test_met_a_jour_une_recurrente(): void
     {
-        $recurring = RecurringTransaction::factory()->create(['frequency' => 'monthly']);
+        $category = Category::factory()->create(['user_id' => $this->user->id]);
+        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $recurring = RecurringTransaction::factory()->create([
+            'user_id'     => $this->user->id,
+            'category_id' => $category->id,
+            'account_id'  => $account->id,
+            'frequency'   => 'monthly',
+        ]);
 
         $this->putJson("/api/recurring-transactions/{$recurring->id}", [
             'frequency' => 'yearly',
@@ -99,10 +127,16 @@ class RecurringTransactionTest extends TestCase
 
     public function test_supprime_une_recurrente_et_detache_les_transactions(): void
     {
-        $recurring = RecurringTransaction::factory()->create();
+        $category = Category::factory()->create(['user_id' => $this->user->id]);
+        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $recurring = RecurringTransaction::factory()->create([
+            'user_id'     => $this->user->id,
+            'category_id' => $category->id,
+            'account_id'  => $account->id,
+        ]);
 
-        // Créer une transaction liée à cette récurrente
         $transaction = Transaction::factory()->create([
+            'user_id'                  => $this->user->id,
             'account_id'               => $recurring->account_id,
             'category_id'              => $recurring->category_id,
             'recurring_transaction_id' => $recurring->id,
@@ -111,10 +145,7 @@ class RecurringTransactionTest extends TestCase
         $this->deleteJson("/api/recurring-transactions/{$recurring->id}")
             ->assertStatus(204);
 
-        // La récurrente est supprimée
         $this->assertDatabaseMissing('recurring_transactions', ['id' => $recurring->id]);
-
-        // La transaction existe toujours, mais recurring_transaction_id est NULL (nullOnDelete)
         $this->assertDatabaseHas('transactions', [
             'id'                       => $transaction->id,
             'recurring_transaction_id' => null,

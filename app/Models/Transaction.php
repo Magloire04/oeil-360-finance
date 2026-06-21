@@ -11,6 +11,7 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'amount',
         'sense',
         'transaction_date',

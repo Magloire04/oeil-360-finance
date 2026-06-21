@@ -9,6 +9,7 @@
         "php": "^8.3",
         "auth0/login": "^7.22",
         "composer/ca-bundle": "^1.5",
+        "cweagans/composer-patches": "^2.0",
         "laravel/framework": "^13.8",
         "laravel/tinker": "^3.0"
     },
@@ -72,6 +73,12 @@
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "auth0/login": {
+                "Fix JWE access token parsing in pullState() — Auth0 sometimes returns encrypted JWE instead of RS256 JWT": "patches/auth0-login-jwe-access-token.patch"
+            }
         }
     },
     "config": {
@@ -80,7 +87,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "cweagans/composer-patches": true
         }
     },
     "minimum-stability": "stable",

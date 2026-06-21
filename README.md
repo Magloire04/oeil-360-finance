@@ -2,8 +2,6 @@
 
 Application web personnelle de gestion des finances en **Franc CFA (XOF)** — suivre chaque entrée et chaque sortie d'argent pour répondre en permanence à : *combien j'ai, d'où ça vient, où ça part.*
 
-Projet d'entraînement aux standards **ASIN** (Architecture, Sécurité, Intégration, Normes) — traité avec le même sérieux qu'un projet professionnel.
-
 ---
 
 ## Fonctionnalités

@@ -10,7 +10,7 @@ class ApiResponseTest extends TestCase
     public function test_success_response_has_correct_envelope_structure(): void
     {
         $response = ApiResponse::success(['id' => 1], ['total' => 1], 200);
-        $payload  = $response->getData(true);
+        $payload = $response->getData(true);
 
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame(['id' => 1], $payload['data']);
@@ -21,7 +21,7 @@ class ApiResponseTest extends TestCase
     public function test_error_response_has_correct_envelope_structure(): void
     {
         $response = ApiResponse::error('Ressource introuvable', 'NOT_FOUND', null, 404);
-        $payload  = $response->getData(true);
+        $payload = $response->getData(true);
 
         $this->assertSame(404, $response->getStatusCode());
         $this->assertNull($payload['data']);

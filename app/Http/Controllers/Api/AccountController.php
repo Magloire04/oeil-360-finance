@@ -17,7 +17,7 @@ class AccountController extends Controller
     public function index(): JsonResponse
     {
         $accounts = Account::where('user_id', auth()->id())->orderBy('name')->get();
-        $data = $accounts->map(fn(Account $account) => [
+        $data = $accounts->map(fn (Account $account) => [
             ...$account->toArray(),
             'balance' => $this->balanceService->getBalance($account),
         ]);
@@ -28,8 +28,8 @@ class AccountController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'name'            => 'required|string|max:255',
-            'type'            => 'required|in:cash,mobile_money,bank',
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:cash,mobile_money,bank',
             'initial_balance' => 'sometimes|numeric|min:0',
         ]);
 
@@ -52,8 +52,8 @@ class AccountController extends Controller
         $account = Account::where('user_id', auth()->id())->findOrFail($id);
 
         $validated = $request->validate([
-            'name'            => 'sometimes|string|max:255',
-            'type'            => 'sometimes|in:cash,mobile_money,bank',
+            'name' => 'sometimes|string|max:255',
+            'type' => 'sometimes|in:cash,mobile_money,bank',
             'initial_balance' => 'sometimes|numeric|min:0',
         ]);
 

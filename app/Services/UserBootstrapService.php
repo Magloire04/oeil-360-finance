@@ -17,7 +17,7 @@ class UserBootstrapService
         ['name' => 'Logement',       'type' => 'expense'],
         ['name' => 'Santé',          'type' => 'expense'],
         ['name' => 'Loisirs',        'type' => 'expense'],
-        ['name' => 'Autres dépenses','type' => 'expense'],
+        ['name' => 'Autres dépenses', 'type' => 'expense'],
     ];
 
     private const DEFAULT_ACCOUNTS = [

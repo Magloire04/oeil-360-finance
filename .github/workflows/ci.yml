@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    name: Tests & Qualité
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_sqlite, mbstring, json, openssl, tokenizer, xml, ctype, bcmath, fileinfo
+          coverage: none
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate --no-interaction
+        env:
+          # Valeurs factices — les tests bypassent Auth0 via TestCase.php (AUTH0_REGISTER_MIDDLEWARE=false)
+          AUTH0_DOMAIN: test.auth0.com
+          AUTH0_CLIENT_ID: ci_test_client
+          AUTH0_CLIENT_SECRET: ci_test_secret_not_a_real_key
+          AUTH0_COOKIE_SECRET: ci_cookie_secret_must_be_at_least_32_characters
+          AUTH0_REDIRECT_URI: http://localhost/auth/callback
+
+      - name: Run tests (SQLite in-memory)
+        run: php artisan test --stop-on-failure
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+          AUTH0_DOMAIN: test.auth0.com
+          AUTH0_CLIENT_ID: ci_test_client
+          AUTH0_CLIENT_SECRET: ci_test_secret_not_a_real_key
+          AUTH0_COOKIE_SECRET: ci_cookie_secret_must_be_at_least_32_characters
+
+      - name: Check code style (Pint)
+        run: ./vendor/bin/pint --test
+
+      - name: Static analysis (PHPStan / Larastan)
+        run: ./vendor/bin/phpstan analyse --no-progress --memory-limit=256M

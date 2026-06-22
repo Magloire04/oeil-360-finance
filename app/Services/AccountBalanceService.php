@@ -16,7 +16,7 @@ class AccountBalanceService
             ->where('sense', 'expense')
             ->sum('amount');
 
-        $transfersIn  = (float) $account->transfersIn()->sum('amount');
+        $transfersIn = (float) $account->transfersIn()->sum('amount');
         $transfersOut = (float) $account->transfersOut()->sum('amount');
 
         return (float) $account->initial_balance + $income - $expense + $transfersIn - $transfersOut;

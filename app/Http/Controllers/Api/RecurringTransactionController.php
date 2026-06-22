@@ -24,15 +24,15 @@ class RecurringTransactionController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $userId    = (int) auth()->id();
+        $userId = (int) auth()->id();
         $validated = $request->validate([
-            'amount'      => 'required|numeric|min:0.01',
-            'sense'       => 'required|in:income,expense',
-            'frequency'   => 'required|in:daily,weekly,monthly,yearly',
-            'start_date'  => 'required|date',
+            'amount' => 'required|numeric|min:0.01',
+            'sense' => 'required|in:income,expense',
+            'frequency' => 'required|in:daily,weekly,monthly,yearly',
+            'start_date' => 'required|date',
             'category_id' => ['required', Rule::exists('categories', 'id')->where('user_id', $userId)],
-            'account_id'  => ['required', Rule::exists('accounts', 'id')->where('user_id', $userId)],
-            'note'        => 'nullable|string',
+            'account_id' => ['required', Rule::exists('accounts', 'id')->where('user_id', $userId)],
+            'note' => 'nullable|string',
         ]);
 
         $validated['next_occurrence_date'] = $validated['start_date'];
@@ -54,18 +54,18 @@ class RecurringTransactionController extends Controller
 
     public function update(Request $request, int $id): JsonResponse
     {
-        $userId               = (int) auth()->id();
+        $userId = (int) auth()->id();
         $recurringTransaction = RecurringTransaction::where('user_id', $userId)->findOrFail($id);
 
         $validated = $request->validate([
-            'amount'      => 'sometimes|numeric|min:0.01',
-            'sense'       => 'sometimes|in:income,expense',
-            'frequency'   => 'sometimes|in:daily,weekly,monthly,yearly',
-            'start_date'  => 'sometimes|date',
+            'amount' => 'sometimes|numeric|min:0.01',
+            'sense' => 'sometimes|in:income,expense',
+            'frequency' => 'sometimes|in:daily,weekly,monthly,yearly',
+            'start_date' => 'sometimes|date',
             'category_id' => ['sometimes', Rule::exists('categories', 'id')->where('user_id', $userId)],
-            'account_id'  => ['sometimes', Rule::exists('accounts', 'id')->where('user_id', $userId)],
-            'note'        => 'nullable|string',
-            'is_active'   => 'sometimes|boolean',
+            'account_id' => ['sometimes', Rule::exists('accounts', 'id')->where('user_id', $userId)],
+            'note' => 'nullable|string',
+            'is_active' => 'sometimes|boolean',
         ]);
 
         $recurringTransaction->update($validated);

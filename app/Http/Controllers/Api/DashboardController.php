@@ -15,7 +15,7 @@ class DashboardController extends Controller
     public function index(Request $request): JsonResponse
     {
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
-        $endDate   = $request->input('end_date',   now()->endOfMonth()->toDateString());
+        $endDate = $request->input('end_date', now()->endOfMonth()->toDateString());
 
         $summary = $this->dashboardService->getSummary($startDate, $endDate, (int) auth()->id());
 

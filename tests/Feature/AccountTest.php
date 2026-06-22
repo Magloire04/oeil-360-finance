@@ -37,8 +37,8 @@ class AccountTest extends TestCase
     public function test_cree_un_compte_valide(): void
     {
         $response = $this->postJson('/api/accounts', [
-            'name'            => 'MTN Mobile Money',
-            'type'            => 'mobile_money',
+            'name' => 'MTN Mobile Money',
+            'type' => 'mobile_money',
             'initial_balance' => 50000,
         ]);
 
@@ -64,7 +64,7 @@ class AccountTest extends TestCase
 
         $otherAccount = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
         Transfer::factory()->create(['user_id' => $this->user->id, 'to_account_id' => $account->id,   'from_account_id' => $otherAccount->id, 'amount' => 10000]);
-        Transfer::factory()->create(['user_id' => $this->user->id, 'from_account_id' => $account->id, 'to_account_id'   => $otherAccount->id, 'amount' => 5000]);
+        Transfer::factory()->create(['user_id' => $this->user->id, 'from_account_id' => $account->id, 'to_account_id' => $otherAccount->id, 'amount' => 5000]);
 
         // Balance = 100000 + 50000 - 20000 + 10000 - 5000 = 135000
         $this->getJson("/api/accounts/{$account->id}")
@@ -110,4 +110,3 @@ class AccountTest extends TestCase
             ->assertStatus(404);
     }
 }
-

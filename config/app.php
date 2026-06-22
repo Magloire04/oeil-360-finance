@@ -54,6 +54,9 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    // APDP — durée de conservation des données inactives (années)
+    'data_retention_years' => (int) env('DATA_RETENTION_YEARS', 5),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

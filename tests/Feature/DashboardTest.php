@@ -30,10 +30,10 @@ class DashboardTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => [
-                    'balances'            => ['total', 'accounts'],
-                    'period'              => ['income', 'expense', 'net'],
+                    'balances' => ['total', 'accounts'],
+                    'period' => ['income', 'expense', 'net'],
                     'expense_by_category' => [],
-                    'balance_evolution'   => [],
+                    'balance_evolution' => [],
                     'recent_transactions' => [],
                 ],
                 'meta',
@@ -48,23 +48,23 @@ class DashboardTest extends TestCase
 
     public function test_calcule_les_totaux_income_expense_sur_la_periode(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $account = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
 
         Transaction::factory()->create([
-            'user_id'          => $this->user->id,
-            'account_id'       => $account->id,
-            'category_id'      => $category->id,
-            'sense'            => 'income',
-            'amount'           => 100000,
+            'user_id' => $this->user->id,
+            'account_id' => $account->id,
+            'category_id' => $category->id,
+            'sense' => 'income',
+            'amount' => 100000,
             'transaction_date' => '2026-06-10',
         ]);
         Transaction::factory()->create([
-            'user_id'          => $this->user->id,
-            'account_id'       => $account->id,
-            'category_id'      => $category->id,
-            'sense'            => 'expense',
-            'amount'           => 40000,
+            'user_id' => $this->user->id,
+            'account_id' => $account->id,
+            'category_id' => $category->id,
+            'sense' => 'expense',
+            'amount' => 40000,
             'transaction_date' => '2026-06-15',
         ]);
 
@@ -79,14 +79,14 @@ class DashboardTest extends TestCase
     public function test_les_transferts_ne_gonflent_pas_income_expense(): void
     {
         $from = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 100000]);
-        $to   = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $to = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
 
         Transfer::create([
-            'user_id'         => $this->user->id,
-            'amount'          => 50000,
-            'transfer_date'   => '2026-06-10',
+            'user_id' => $this->user->id,
+            'amount' => 50000,
+            'transfer_date' => '2026-06-10',
             'from_account_id' => $from->id,
-            'to_account_id'   => $to->id,
+            'to_account_id' => $to->id,
         ]);
 
         $response = $this->getJson('/api/dashboard?start_date=2026-06-01&end_date=2026-06-30');
@@ -99,23 +99,23 @@ class DashboardTest extends TestCase
 
     public function test_filtre_par_periode(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $account = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
 
         Transaction::factory()->create([
-            'user_id'          => $this->user->id,
-            'account_id'       => $account->id,
-            'category_id'      => $category->id,
-            'sense'            => 'income',
-            'amount'           => 30000,
+            'user_id' => $this->user->id,
+            'account_id' => $account->id,
+            'category_id' => $category->id,
+            'sense' => 'income',
+            'amount' => 30000,
             'transaction_date' => '2026-06-15',
         ]);
         Transaction::factory()->create([
-            'user_id'          => $this->user->id,
-            'account_id'       => $account->id,
-            'category_id'      => $category->id,
-            'sense'            => 'income',
-            'amount'           => 50000,
+            'user_id' => $this->user->id,
+            'account_id' => $account->id,
+            'category_id' => $category->id,
+            'sense' => 'income',
+            'amount' => 50000,
             'transaction_date' => '2026-05-01',
         ]);
 
@@ -128,23 +128,23 @@ class DashboardTest extends TestCase
     public function test_expense_by_category_trie_par_montant_desc(): void
     {
         $account = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
-        $cat1    = Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Transport',    'type' => 'expense']);
-        $cat2    = Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Alimentation', 'type' => 'expense']);
+        $cat1 = Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Transport',    'type' => 'expense']);
+        $cat2 = Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Alimentation', 'type' => 'expense']);
 
         Transaction::factory()->create([
-            'user_id'          => $this->user->id,
-            'account_id'       => $account->id,
-            'category_id'      => $cat1->id,
-            'sense'            => 'expense',
-            'amount'           => 10000,
+            'user_id' => $this->user->id,
+            'account_id' => $account->id,
+            'category_id' => $cat1->id,
+            'sense' => 'expense',
+            'amount' => 10000,
             'transaction_date' => '2026-06-10',
         ]);
         Transaction::factory()->create([
-            'user_id'          => $this->user->id,
-            'account_id'       => $account->id,
-            'category_id'      => $cat2->id,
-            'sense'            => 'expense',
-            'amount'           => 50000,
+            'user_id' => $this->user->id,
+            'account_id' => $account->id,
+            'category_id' => $cat2->id,
+            'sense' => 'expense',
+            'amount' => 50000,
             'transaction_date' => '2026-06-12',
         ]);
 
@@ -159,12 +159,12 @@ class DashboardTest extends TestCase
 
     public function test_recent_transactions_retourne_au_plus_10(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $account = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
 
         Transaction::factory()->count(15)->create([
-            'user_id'     => $this->user->id,
-            'account_id'  => $account->id,
+            'user_id' => $this->user->id,
+            'account_id' => $account->id,
             'category_id' => $category->id,
         ]);
 
@@ -189,7 +189,7 @@ class DashboardTest extends TestCase
 
     public function test_kpis_retourne_les_bons_comptes(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id, 'type' => 'expense']);
 
         Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'sense' => 'expense', 'amount' => 30000, 'transaction_date' => '2026-06-10']);
@@ -213,14 +213,14 @@ class DashboardTest extends TestCase
             ->assertJsonPath('error', null);
 
         $this->assertCount(12, $response->json('data'));
-        $this->assertArrayHasKey('month',   $response->json('data.0'));
-        $this->assertArrayHasKey('income',  $response->json('data.0'));
+        $this->assertArrayHasKey('month', $response->json('data.0'));
+        $this->assertArrayHasKey('income', $response->json('data.0'));
         $this->assertArrayHasKey('expense', $response->json('data.0'));
     }
 
-    public function test_dashboard_monthly_aggrÃ¨ge_par_mois(): void
+    public function test_dashboard_monthly_aggr_ã¨ge_par_mois(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
 
         $currentMonth = now()->format('Y-m');
@@ -239,4 +239,3 @@ class DashboardTest extends TestCase
         $this->assertSame(25000.0, $thisMonth['expense']);
     }
 }
-

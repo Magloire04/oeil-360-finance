@@ -139,4 +139,3 @@ class CategoryTest extends TestCase
         $this->assertDatabaseHas('categories', ['id' => $category->id, 'is_archived' => false]);
     }
 }
-

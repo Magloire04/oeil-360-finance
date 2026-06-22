@@ -24,13 +24,13 @@ class TransferTest extends TestCase
     public function test_cree_un_transfert_valide(): void
     {
         $from = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 100000]);
-        $to   = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $to = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
 
         $response = $this->postJson('/api/transfers', [
-            'amount'          => 30000,
-            'transfer_date'   => '2026-06-15',
+            'amount' => 30000,
+            'transfer_date' => '2026-06-15',
             'from_account_id' => $from->id,
-            'to_account_id'   => $to->id,
+            'to_account_id' => $to->id,
         ]);
 
         $response->assertStatus(201)
@@ -43,38 +43,38 @@ class TransferTest extends TestCase
         $account = Account::factory()->create(['user_id' => $this->user->id]);
 
         $this->postJson('/api/transfers', [
-            'amount'          => 10000,
-            'transfer_date'   => '2026-06-15',
+            'amount' => 10000,
+            'transfer_date' => '2026-06-15',
             'from_account_id' => $account->id,
-            'to_account_id'   => $account->id,
+            'to_account_id' => $account->id,
         ])->assertStatus(422)
-          ->assertJsonPath('error.code', 'VALIDATION_ERROR');
+            ->assertJsonPath('error.code', 'VALIDATION_ERROR');
     }
 
     public function test_refuse_montant_zero(): void
     {
         $from = Account::factory()->create(['user_id' => $this->user->id]);
-        $to   = Account::factory()->create(['user_id' => $this->user->id]);
+        $to = Account::factory()->create(['user_id' => $this->user->id]);
 
         $this->postJson('/api/transfers', [
-            'amount'          => 0,
-            'transfer_date'   => '2026-06-15',
+            'amount' => 0,
+            'transfer_date' => '2026-06-15',
             'from_account_id' => $from->id,
-            'to_account_id'   => $to->id,
+            'to_account_id' => $to->id,
         ])->assertStatus(422)
-          ->assertJsonPath('error.code', 'VALIDATION_ERROR');
+            ->assertJsonPath('error.code', 'VALIDATION_ERROR');
     }
 
     public function test_le_transfert_modifie_les_soldes(): void
     {
         $from = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 100000]);
-        $to   = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $to = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
 
         $this->postJson('/api/transfers', [
-            'amount'          => 40000,
-            'transfer_date'   => '2026-06-15',
+            'amount' => 40000,
+            'transfer_date' => '2026-06-15',
             'from_account_id' => $from->id,
-            'to_account_id'   => $to->id,
+            'to_account_id' => $to->id,
         ])->assertStatus(201);
 
         $this->assertSame(60000.0, $this->getJson("/api/accounts/{$from->id}")->json('data.balance'));
@@ -84,14 +84,14 @@ class TransferTest extends TestCase
     public function test_le_transfert_naffecte_pas_income_expense_global(): void
     {
         $from = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 100000]);
-        $to   = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $to = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
 
         Transfer::create([
-            'user_id'         => $this->user->id,
-            'amount'          => 50000,
-            'transfer_date'   => '2026-06-15',
+            'user_id' => $this->user->id,
+            'amount' => 50000,
+            'transfer_date' => '2026-06-15',
             'from_account_id' => $from->id,
-            'to_account_id'   => $to->id,
+            'to_account_id' => $to->id,
         ]);
 
         $response = $this->getJson('/api/accounts');
@@ -114,13 +114,13 @@ class TransferTest extends TestCase
 
     public function test_modifie_un_transfert(): void
     {
-        $from     = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 100000]);
-        $to       = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $from = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 100000]);
+        $to = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
         $transfer = Transfer::factory()->create([
-            'user_id'         => $this->user->id,
+            'user_id' => $this->user->id,
             'from_account_id' => $from->id,
-            'to_account_id'   => $to->id,
-            'amount'          => 20000,
+            'to_account_id' => $to->id,
+            'amount' => 20000,
         ]);
 
         $this->putJson("/api/transfers/{$transfer->id}", ['amount' => 35000])
@@ -130,12 +130,12 @@ class TransferTest extends TestCase
 
     public function test_supprime_un_transfert(): void
     {
-        $from     = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 100000]);
-        $to       = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $from = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 100000]);
+        $to = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
         $transfer = Transfer::factory()->create([
-            'user_id'         => $this->user->id,
+            'user_id' => $this->user->id,
             'from_account_id' => $from->id,
-            'to_account_id'   => $to->id,
+            'to_account_id' => $to->id,
         ]);
 
         $this->deleteJson("/api/transfers/{$transfer->id}")
@@ -143,4 +143,3 @@ class TransferTest extends TestCase
         $this->assertDatabaseMissing('transfers', ['id' => $transfer->id]);
     }
 }
-

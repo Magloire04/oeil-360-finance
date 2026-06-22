@@ -61,6 +61,12 @@
                 <span class="text-white-50 small d-none d-lg-inline">
                     {{ auth()->user()?->name ?? auth()->user()?->email ?? '' }}
                 </span>
+                <a href="{{ url('/mon-compte') }}"
+                   class="btn btn-outline-light btn-sm {{ request()->is('mon-compte*') ? 'active' : '' }}"
+                   title="Mon compte">
+                    <i class="bi bi-person-circle"></i>
+                    <span class="d-none d-lg-inline ms-1">Mon compte</span>
+                </a>
                 <a href="{{ route('logout') }}" class="btn btn-outline-light btn-sm">
                     <i class="bi bi-box-arrow-right"></i> Déconnexion
                 </a>
@@ -72,6 +78,18 @@
 <main class="container-fluid py-4">
     @yield('content')
 </main>
+
+<footer class="py-3 mt-2" style="border-top:1px solid var(--clr-border)">
+    <div class="container-fluid text-center">
+        <small class="text-muted">
+            © {{ date('Y') }} Oeil360 Finance &nbsp;·&nbsp;
+            <a href="{{ url('/politique-confidentialite') }}"
+               style="color:var(--clr-muted)" target="_blank" rel="noopener">
+                Politique de confidentialité
+            </a>
+        </small>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script src="/js/utils.js"></script>

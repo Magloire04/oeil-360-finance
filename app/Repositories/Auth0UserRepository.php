@@ -26,7 +26,7 @@ class Auth0UserRepository implements UserRepositoryContract
             ['auth0_id' => $sub],
             [
                 'email' => $user['email'] ?? null,
-                'name'  => $user['name'] ?? $user['nickname'] ?? $user['email'] ?? $sub,
+                'name' => $user['name'] ?? $user['nickname'] ?? $user['email'] ?? $sub,
             ]
         );
 

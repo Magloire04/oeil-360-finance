@@ -25,21 +25,21 @@ class TransactionTest extends TestCase
     private function makeTransaction(array $overrides = []): array
     {
         $category = Category::factory()->create(['user_id' => $this->user->id]);
-        $account  = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
+        $account = Account::factory()->create(['user_id' => $this->user->id, 'initial_balance' => 0]);
 
         return array_merge([
-            'amount'           => 50000,
-            'sense'            => 'expense',
+            'amount' => 50000,
+            'sense' => 'expense',
             'transaction_date' => '2026-06-15',
-            'category_id'      => $category->id,
-            'account_id'       => $account->id,
-            'note'             => null,
+            'category_id' => $category->id,
+            'account_id' => $account->id,
+            'note' => null,
         ], $overrides);
     }
 
-    public function test_liste_les_transactions_paginÃ©es(): void
+    public function test_liste_les_transactions_pagin_ã©es(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
         Transaction::factory()->count(3)->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id]);
 
@@ -52,7 +52,7 @@ class TransactionTest extends TestCase
 
     public function test_filtre_par_sens(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
         Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'sense' => 'income']);
         Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'sense' => 'expense']);
@@ -66,7 +66,7 @@ class TransactionTest extends TestCase
 
     public function test_filtre_par_periode(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
         Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'transaction_date' => '2026-01-10']);
         Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'transaction_date' => '2026-06-15']);
@@ -79,7 +79,7 @@ class TransactionTest extends TestCase
 
     public function test_filtre_par_note(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
         Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'note' => 'Courses supermarchÃ©']);
         Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'note' => 'Taxi']);
@@ -128,7 +128,7 @@ class TransactionTest extends TestCase
 
     public function test_met_a_jour_une_transaction(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
         $transaction = Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'amount' => 10000]);
 
@@ -140,7 +140,7 @@ class TransactionTest extends TestCase
 
     public function test_supprime_une_transaction(): void
     {
-        $account  = Account::factory()->create(['user_id' => $this->user->id]);
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
         $transaction = Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id]);
 
@@ -149,4 +149,3 @@ class TransactionTest extends TestCase
         $this->assertDatabaseMissing('transactions', ['id' => $transaction->id]);
     }
 }
-

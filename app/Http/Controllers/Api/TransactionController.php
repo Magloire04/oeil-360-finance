@@ -35,17 +35,17 @@ class TransactionController extends Controller
             $query->where('sense', $request->sense);
         }
         if ($request->filled('q')) {
-            $query->where('note', 'like', '%' . $request->q . '%');
+            $query->where('note', 'like', '%'.$request->q.'%');
         }
 
         $perPage = (int) $request->input('per_page', 25);
         $transactions = $query->paginate($perPage);
 
         return ApiResponse::success($transactions->items(), [
-            'total'        => $transactions->total(),
-            'per_page'     => $transactions->perPage(),
+            'total' => $transactions->total(),
+            'per_page' => $transactions->perPage(),
             'current_page' => $transactions->currentPage(),
-            'last_page'    => $transactions->lastPage(),
+            'last_page' => $transactions->lastPage(),
         ]);
     }
 
@@ -53,12 +53,12 @@ class TransactionController extends Controller
     {
         $userId = (int) auth()->id();
         $validated = $request->validate([
-            'amount'           => 'required|numeric|min:0.01',
-            'sense'            => 'required|in:income,expense',
+            'amount' => 'required|numeric|min:0.01',
+            'sense' => 'required|in:income,expense',
             'transaction_date' => 'required|date',
-            'category_id'      => ['required', Rule::exists('categories', 'id')->where('user_id', $userId)],
-            'account_id'       => ['required', Rule::exists('accounts', 'id')->where('user_id', $userId)],
-            'note'             => 'nullable|string',
+            'category_id' => ['required', Rule::exists('categories', 'id')->where('user_id', $userId)],
+            'account_id' => ['required', Rule::exists('accounts', 'id')->where('user_id', $userId)],
+            'note' => 'nullable|string',
         ]);
 
         $transaction = Transaction::create(['user_id' => $userId] + $validated);
@@ -78,16 +78,16 @@ class TransactionController extends Controller
 
     public function update(Request $request, int $id): JsonResponse
     {
-        $userId      = (int) auth()->id();
+        $userId = (int) auth()->id();
         $transaction = Transaction::where('user_id', $userId)->findOrFail($id);
 
         $validated = $request->validate([
-            'amount'           => 'sometimes|numeric|min:0.01',
-            'sense'            => 'sometimes|in:income,expense',
+            'amount' => 'sometimes|numeric|min:0.01',
+            'sense' => 'sometimes|in:income,expense',
             'transaction_date' => 'sometimes|date',
-            'category_id'      => ['sometimes', Rule::exists('categories', 'id')->where('user_id', $userId)],
-            'account_id'       => ['sometimes', Rule::exists('accounts', 'id')->where('user_id', $userId)],
-            'note'             => 'nullable|string',
+            'category_id' => ['sometimes', Rule::exists('categories', 'id')->where('user_id', $userId)],
+            'account_id' => ['sometimes', Rule::exists('accounts', 'id')->where('user_id', $userId)],
+            'note' => 'nullable|string',
         ]);
 
         $transaction->update($validated);

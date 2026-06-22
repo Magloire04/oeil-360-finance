@@ -22,7 +22,7 @@ class TransferController extends Controller
         if ($request->filled('account_id')) {
             $query->where(function ($q) use ($request) {
                 $q->where('from_account_id', $request->account_id)
-                  ->orWhere('to_account_id', $request->account_id);
+                    ->orWhere('to_account_id', $request->account_id);
             });
         }
         if ($request->filled('start_date')) {
@@ -37,13 +37,13 @@ class TransferController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $userId    = (int) auth()->id();
+        $userId = (int) auth()->id();
         $validated = $request->validate([
-            'amount'          => 'required|numeric|min:0.01',
-            'transfer_date'   => 'required|date',
+            'amount' => 'required|numeric|min:0.01',
+            'transfer_date' => 'required|date',
             'from_account_id' => ['required', Rule::exists('accounts', 'id')->where('user_id', $userId)],
-            'to_account_id'   => ['required', 'different:from_account_id', Rule::exists('accounts', 'id')->where('user_id', $userId)],
-            'note'            => 'nullable|string',
+            'to_account_id' => ['required', 'different:from_account_id', Rule::exists('accounts', 'id')->where('user_id', $userId)],
+            'note' => 'nullable|string',
         ]);
 
         $transfer = Transfer::create(['user_id' => $userId] + $validated);
@@ -63,15 +63,15 @@ class TransferController extends Controller
 
     public function update(Request $request, int $id): JsonResponse
     {
-        $userId   = (int) auth()->id();
+        $userId = (int) auth()->id();
         $transfer = Transfer::where('user_id', $userId)->findOrFail($id);
 
         $validated = $request->validate([
-            'amount'          => 'sometimes|numeric|min:0.01',
-            'transfer_date'   => 'sometimes|date',
+            'amount' => 'sometimes|numeric|min:0.01',
+            'transfer_date' => 'sometimes|date',
             'from_account_id' => ['sometimes', Rule::exists('accounts', 'id')->where('user_id', $userId)],
-            'to_account_id'   => ['sometimes', 'different:from_account_id', Rule::exists('accounts', 'id')->where('user_id', $userId)],
-            'note'            => 'nullable|string',
+            'to_account_id' => ['sometimes', 'different:from_account_id', Rule::exists('accounts', 'id')->where('user_id', $userId)],
+            'note' => 'nullable|string',
         ]);
 
         $transfer->update($validated);

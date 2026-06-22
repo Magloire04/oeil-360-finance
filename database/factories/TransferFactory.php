@@ -19,12 +19,12 @@ class TransferFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id'         => null,
-            'amount'          => fake()->randomFloat(2, 100, 100000),
-            'transfer_date'   => fake()->dateTimeBetween('2026-01-01', '2026-12-31')->format('Y-m-d'),
+            'user_id' => null,
+            'amount' => fake()->randomFloat(2, 100, 100000),
+            'transfer_date' => fake()->dateTimeBetween('2026-01-01', '2026-12-31')->format('Y-m-d'),
             'from_account_id' => Account::factory(),
-            'to_account_id'   => Account::factory(),
-            'note'            => null,
+            'to_account_id' => Account::factory(),
+            'note' => null,
         ];
     }
 }

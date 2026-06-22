@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Account;
 use App\Models\Transaction;
+use Carbon\Carbon;
 
 class DashboardService
 {
@@ -12,11 +13,11 @@ class DashboardService
     public function getSummary(string $startDate, string $endDate, int $userId): array
     {
         return [
-            'balances'            => $this->getBalances($userId),
-            'period'              => $this->getPeriodSummary($startDate, $endDate, $userId),
-            'kpis'                => $this->getKpis($startDate, $endDate, $userId),
+            'balances' => $this->getBalances($userId),
+            'period' => $this->getPeriodSummary($startDate, $endDate, $userId),
+            'kpis' => $this->getKpis($startDate, $endDate, $userId),
             'expense_by_category' => $this->getExpenseByCategory($startDate, $endDate, $userId),
-            'balance_evolution'   => $this->getBalanceEvolution($startDate, $endDate, $userId),
+            'balance_evolution' => $this->getBalanceEvolution($startDate, $endDate, $userId),
             'recent_transactions' => $this->getRecentTransactions($userId),
         ];
     }
@@ -40,8 +41,8 @@ class DashboardService
         for ($i = 11; $i >= 0; $i--) {
             $month = now()->subMonths($i)->format('Y-m');
             $result[] = [
-                'month'   => $month,
-                'income'  => $byMonth[$month]['income'] ?? 0.0,
+                'month' => $month,
+                'income' => $byMonth[$month]['income'] ?? 0.0,
                 'expense' => $byMonth[$month]['expense'] ?? 0.0,
             ];
         }
@@ -56,15 +57,15 @@ class DashboardService
             ->orderBy('name')
             ->get();
 
-        $accountBalances = $accounts->map(fn(Account $a) => [
-            'id'      => $a->id,
-            'name'    => $a->name,
-            'type'    => $a->type,
+        $accountBalances = $accounts->map(fn (Account $a) => [
+            'id' => $a->id,
+            'name' => $a->name,
+            'type' => $a->type,
             'balance' => $this->balanceService->getBalance($a),
         ])->values()->toArray();
 
         return [
-            'total'    => $this->balanceService->getTotalBalance($userId),
+            'total' => $this->balanceService->getTotalBalance($userId),
             'accounts' => $accountBalances,
         ];
     }
@@ -80,7 +81,7 @@ class DashboardService
             ->whereBetween('transaction_date', [$startDate, $endDate])
             ->sum('amount');
 
-        $days = max(1, \Carbon\Carbon::parse($startDate)->diffInDays(\Carbon\Carbon::parse($endDate)) + 1);
+        $days = max(1, Carbon::parse($startDate)->diffInDays(Carbon::parse($endDate)) + 1);
         $dailyAvgExpense = round($totalExpense / $days, 2);
 
         $topRow = Transaction::with('category')
@@ -93,8 +94,8 @@ class DashboardService
             ->first();
 
         return [
-            'transactions_count'   => $transactionsCount,
-            'daily_avg_expense'    => $dailyAvgExpense,
+            'transactions_count' => $transactionsCount,
+            'daily_avg_expense' => $dailyAvgExpense,
             'top_expense_category' => $topRow?->category?->name,
         ];
     }
@@ -112,9 +113,9 @@ class DashboardService
             ->sum('amount');
 
         return [
-            'income'  => $income,
+            'income' => $income,
             'expense' => $expense,
-            'net'     => $income - $expense,
+            'net' => $income - $expense,
         ];
     }
 
@@ -128,9 +129,9 @@ class DashboardService
             ->groupBy('category_id')
             ->orderByDesc('amount')
             ->get()
-            ->map(fn(Transaction $t) => [
+            ->map(fn (Transaction $t) => [
                 'category_name' => $t->category->name,
-                'amount'        => (float) $t->amount,
+                'amount' => (float) $t->amount,
             ])
             ->values()
             ->toArray();
@@ -156,7 +157,7 @@ class DashboardService
 
         $byDate = Transaction::where('user_id', $userId)
             ->whereBetween('transaction_date', [$startDate, $endDate])
-            ->selectRaw("transaction_date, sense, SUM(amount) as total")
+            ->selectRaw('transaction_date, sense, SUM(amount) as total')
             ->groupBy('transaction_date', 'sense')
             ->orderBy('transaction_date')
             ->get()
@@ -168,9 +169,9 @@ class DashboardService
         foreach ($byDate as $date => $rows) {
             foreach ($rows as $row) {
                 if ($row->sense === 'income') {
-                    $running += (float) $row->total;
+                    $running += (float) $row->getAttribute('total');
                 } else {
-                    $running -= (float) $row->total;
+                    $running -= (float) $row->getAttribute('total');
                 }
             }
             if ($date !== $startDate) {

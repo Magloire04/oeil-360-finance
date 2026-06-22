@@ -10,6 +10,7 @@ use Illuminate\Console\Command;
 class GenerateRecurringTransactions extends Command
 {
     protected $signature = 'transactions:generate-recurring';
+
     protected $description = 'Generate transactions for due recurring transactions';
 
     public function handle(): int
@@ -25,12 +26,12 @@ class GenerateRecurringTransactions extends Command
             $nextOccurrenceDateString = $recurring->next_occurrence_date->toDateString();
 
             Transaction::create([
-                'amount'                   => $recurring->amount,
-                'sense'                    => $recurring->sense,
-                'transaction_date'         => $nextOccurrenceDateString,
-                'category_id'              => $recurring->category_id,
-                'account_id'              => $recurring->account_id,
-                'note'                     => $recurring->note,
+                'amount' => $recurring->amount,
+                'sense' => $recurring->sense,
+                'transaction_date' => $nextOccurrenceDateString,
+                'category_id' => $recurring->category_id,
+                'account_id' => $recurring->account_id,
+                'note' => $recurring->note,
                 'recurring_transaction_id' => $recurring->id,
             ]);
 
@@ -42,6 +43,7 @@ class GenerateRecurringTransactions extends Command
         }
 
         $this->info("Generated {$count} transaction(s).");
+
         return Command::SUCCESS;
     }
 
@@ -50,10 +52,10 @@ class GenerateRecurringTransactions extends Command
         $date = Carbon::parse($currentDate);
 
         return match ($frequency) {
-            'daily'   => $date->addDay()->toDateString(),
-            'weekly'  => $date->addWeek()->toDateString(),
-            'monthly' => $date->addMonth()->toDateString(),
-            'yearly'  => $date->addYear()->toDateString(),
+            'daily' => $date->addDay()->toDateString(),
+            'weekly' => $date->addWeek()->toDateString(),
+            'yearly' => $date->addYear()->toDateString(),
+            default => $date->addMonth()->toDateString(), // monthly + fallback
         };
     }
 }

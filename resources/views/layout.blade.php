@@ -51,6 +51,11 @@
                         <i class="bi bi-arrow-repeat"></i> Récurrentes
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('help*') ? 'active' : '' }}" href="/help">
+                        <i class="bi bi-question-circle"></i> Aide
+                    </a>
+                </li>
             </ul>
             <div class="d-flex align-items-center gap-2">
                 <span class="text-white-50 small d-none d-lg-inline">

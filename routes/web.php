@@ -18,4 +18,5 @@ Route::middleware('auth')->group(function () {
     Route::view('/accounts', 'accounts');
     Route::view('/transfers', 'transfers');
     Route::view('/recurring', 'recurring');
+    Route::view('/help', 'help');
 });

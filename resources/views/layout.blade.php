@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg app-navbar">
     <div class="container-fluid">
         <a class="navbar-brand p-0" href="/">
             <img src="/images/oeil360-logo-horizontal.png" alt="Oeil 360° Finance" height="38" class="navbar-logo">

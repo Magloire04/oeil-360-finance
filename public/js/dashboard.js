@@ -53,7 +53,7 @@
                             <div class="text-muted small">${esc(a.name)}</div>
                             <div class="fw-semibold">${formatXOF(a.balance)}</div>
                             <div class="progress mt-1" style="height:4px" title="${pct}% du solde total">
-                                <div class="progress-bar bg-primary" style="width:${pct}%"></div>
+                                <div class="progress-bar" style="width:${pct}%"></div>
                             </div>
                             <div class="text-muted" style="font-size:0.7rem">${pct}% du total</div>
                         </div>
@@ -77,7 +77,7 @@
         canvas.classList.remove('d-none');
         noData.classList.add('d-none');
 
-        const colors = ['#dc3545','#fd7e14','#ffc107','#198754','#0d6efd','#6610f2','#d63384','#20c997','#0dcaf0','#6c757d'];
+        const colors = ['#28c98a','#1a2e4a','#7b8fa6','#06b6d4','#3b82f6','#8b5cf6','#f59e0b','#10b981','#ef4444','#64748b'];
 
         if (chartPie) chartPie.destroy();
         chartPie = new Chart(canvas, {
@@ -107,12 +107,12 @@
                     {
                         label: 'Revenus',
                         data: data.map(d => d.income),
-                        backgroundColor: 'rgba(25, 135, 84, 0.75)',
+                        backgroundColor: 'rgba(40, 201, 138, 0.75)',
                     },
                     {
                         label: 'Dépenses',
                         data: data.map(d => d.expense),
-                        backgroundColor: 'rgba(220, 53, 69, 0.75)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.75)',
                     },
                 ],
             },

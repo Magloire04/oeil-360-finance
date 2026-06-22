@@ -54,7 +54,7 @@
             Aucune transaction trouvée
         </div>
         <div class="table-responsive">
-            <table class="table table-hover mb-0" id="transactions-table">
+            <table class="table table-hover align-middle mb-0" id="transactions-table">
                 <thead class="table-light">
                     <tr>
                         <th>Date</th>

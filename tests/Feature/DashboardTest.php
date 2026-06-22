@@ -218,7 +218,7 @@ class DashboardTest extends TestCase
         $this->assertArrayHasKey('expense', $response->json('data.0'));
     }
 
-    public function test_dashboard_monthly_aggrège_par_mois(): void
+    public function test_dashboard_monthly_aggrÃ¨ge_par_mois(): void
     {
         $account  = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
@@ -239,3 +239,4 @@ class DashboardTest extends TestCase
         $this->assertSame(25000.0, $thisMonth['expense']);
     }
 }
+

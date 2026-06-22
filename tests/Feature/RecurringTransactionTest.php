@@ -152,3 +152,4 @@ class RecurringTransactionTest extends TestCase
         ]);
     }
 }
+

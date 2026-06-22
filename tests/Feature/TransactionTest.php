@@ -37,7 +37,7 @@ class TransactionTest extends TestCase
         ], $overrides);
     }
 
-    public function test_liste_les_transactions_paginées(): void
+    public function test_liste_les_transactions_paginÃ©es(): void
     {
         $account  = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
@@ -81,10 +81,10 @@ class TransactionTest extends TestCase
     {
         $account  = Account::factory()->create(['user_id' => $this->user->id]);
         $category = Category::factory()->create(['user_id' => $this->user->id]);
-        Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'note' => 'Courses supermarché']);
+        Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'note' => 'Courses supermarchÃ©']);
         Transaction::factory()->create(['user_id' => $this->user->id, 'account_id' => $account->id, 'category_id' => $category->id, 'note' => 'Taxi']);
 
-        $response = $this->getJson('/api/transactions?q=supermarché');
+        $response = $this->getJson('/api/transactions?q=supermarchÃ©');
 
         $response->assertStatus(200);
         $this->assertCount(1, $response->json('data'));
@@ -149,3 +149,4 @@ class TransactionTest extends TestCase
         $this->assertDatabaseMissing('transactions', ['id' => $transaction->id]);
     }
 }
+

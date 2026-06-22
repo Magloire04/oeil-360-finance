@@ -23,7 +23,7 @@ class CategoryTest extends TestCase
 
     public function test_liste_toutes_les_categories_triees_par_nom(): void
     {
-        Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Zèbre']);
+        Category::factory()->create(['user_id' => $this->user->id, 'name' => 'ZÃ¨bre']);
         Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Alimentation']);
 
         $response = $this->getJson('/api/categories');
@@ -33,7 +33,7 @@ class CategoryTest extends TestCase
             ->assertJsonPath('error', null);
 
         $names = collect($response->json('data'))->pluck('name')->values()->toArray();
-        $this->assertSame(['Alimentation', 'Zèbre'], $names);
+        $this->assertSame(['Alimentation', 'ZÃ¨bre'], $names);
     }
 
     public function test_cree_une_categorie_valide(): void
@@ -72,11 +72,11 @@ class CategoryTest extends TestCase
 
     public function test_affiche_une_categorie_par_id(): void
     {
-        $category = Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Santé', 'type' => 'expense']);
+        $category = Category::factory()->create(['user_id' => $this->user->id, 'name' => 'SantÃ©', 'type' => 'expense']);
 
         $this->getJson("/api/categories/{$category->id}")
             ->assertStatus(200)
-            ->assertJsonPath('data.name', 'Santé');
+            ->assertJsonPath('data.name', 'SantÃ©');
     }
 
     public function test_retourne_404_pour_une_categorie_inexistante(): void
@@ -139,3 +139,4 @@ class CategoryTest extends TestCase
         $this->assertDatabaseHas('categories', ['id' => $category->id, 'is_archived' => false]);
     }
 }
+

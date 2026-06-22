@@ -13,7 +13,9 @@ class Auth0UserRepository implements UserRepositoryContract
 
     public function fromSession(array $user): ?Authenticatable
     {
-        $sub = $user['sub'] ?? null;
+        // On subsequent requests, the SDK re-serializes our User model (which has 'auth0_id'
+        // but not 'sub'). Accept either key so findSession() doesn't break the auth loop.
+        $sub = $user['sub'] ?? $user['auth0_id'] ?? null;
         if (! $sub) {
             return null;
         }

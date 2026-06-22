@@ -143,3 +143,4 @@ class TransferTest extends TestCase
         $this->assertDatabaseMissing('transfers', ['id' => $transfer->id]);
     }
 }
+

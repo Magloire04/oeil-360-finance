@@ -24,7 +24,7 @@ class AccountTest extends TestCase
 
     public function test_liste_les_comptes_avec_balance(): void
     {
-        Account::factory()->create(['user_id' => $this->user->id, 'name' => 'Espèces', 'initial_balance' => 10000]);
+        Account::factory()->create(['user_id' => $this->user->id, 'name' => 'EspÃ¨ces', 'initial_balance' => 10000]);
 
         $response = $this->getJson('/api/accounts');
 
@@ -110,3 +110,4 @@ class AccountTest extends TestCase
             ->assertStatus(404);
     }
 }
+

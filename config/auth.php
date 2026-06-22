@@ -40,7 +40,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'auth0.authenticator',
-            'provider' => 'auth0.provider',
+            'provider' => 'auth0-provider',
             'configuration' => 'web',
         ],
     ],

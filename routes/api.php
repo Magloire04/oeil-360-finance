@@ -8,7 +8,10 @@ use App\Http\Controllers\Api\RecurringTransactionController;
 use App\Http\Controllers\Api\DashboardController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->group(function () {
+// AuthorizerMiddleware (auto-added to the api group by Auth0 SDK) switches the default guard
+// to 'auth0-api' (JWT) before route middleware runs. Explicitly specifying 'web' here forces
+// the session-based Auth0 guard, bypassing the JWT override for our browser-cookie SPA.
+Route::middleware('auth:web')->group(function () {
     Route::apiResource('categories', CategoryController::class);
     Route::post('categories/{category}/restore', [CategoryController::class, 'restore']);
 

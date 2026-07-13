@@ -1,0 +1,348 @@
+<template data-composition-id="02-problem">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Instrument Sans', sans-serif;
+    }
+
+    /* Pill base */
+    .p2-pill {
+      position: absolute;
+      border-radius: 100px;
+      padding: 14px 32px;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    /* Teal pill: primary brand accent */
+    .p2-pill-teal {
+      background: rgba(40, 201, 138, 0.10);
+      color: #28c98a;
+      border: 1.5px solid rgba(40, 201, 138, 0.32);
+    }
+
+    /* Navy pill: text-color border variant (ECOBANK spec) */
+    .p2-pill-navy {
+      background: rgba(26, 46, 74, 0.06);
+      color: #1a2e4a;
+      border: 1.5px solid rgba(26, 46, 74, 0.35);
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="02-problem"
+    data-start="0"
+    data-duration="7"
+    data-width="1920"
+    data-height="1080"
+  >
+
+    <!-- ── Track 0: White background (full-bleed clip, never on #root) ─── -->
+    <div
+      id="p2-bg"
+      class="clip"
+      data-start="0"
+      data-duration="7"
+      data-track-index="0"
+      style="position: absolute; inset: 0; background: #ffffff; z-index: 0;"
+    ></div>
+
+    <!-- ── Track 1: Ambient glow layer (behind avatar) ─────────────────── -->
+    <!--
+      Glow centered at avatar center (960, 420):
+        left = 960 − 320 = 640 px
+        top  = 420 − 320 = 100 px
+        width = height = 640 px
+      Starts opacity:0; blooms in Scene 4 via GSAP.
+    -->
+    <div
+      id="p2-glow"
+      class="clip"
+      data-start="0"
+      data-duration="7"
+      data-track-index="1"
+      style="
+        position: absolute;
+        left: 640px;
+        top: 100px;
+        width: 640px;
+        height: 640px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(220,38,38,0.55) 0%, rgba(220,38,38,0.18) 40%, transparent 68%);
+        opacity: 0;
+        z-index: 1;
+        pointer-events: none;
+        will-change: transform, opacity;
+        transform-origin: 50% 50%;
+      "
+    ></div>
+
+    <!-- ── Track 2: Avatar silhouette SVG ──────────────────────────────── -->
+    <!--
+      15% of 1080 = 162 px tall, 120 px wide.
+      Centered at (960, 420):
+        left = 960 − 60 = 900 px
+        top  = 420 − 81 = 339 px
+      --dof custom property drives depth-of-field blur in Scene 3.
+    -->
+    <div
+      id="p2-avatar"
+      class="clip"
+      data-start="0"
+      data-duration="7"
+      data-track-index="2"
+      style="
+        position: absolute;
+        left: 900px;
+        top: 339px;
+        width: 120px;
+        height: 162px;
+        z-index: 2;
+        transform-origin: 50% 50%;
+        will-change: transform, filter;
+        --dof: 0px;
+        filter: blur(var(--dof));
+      "
+    >
+      <svg width="120" height="162" viewBox="0 0 120 162" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Head: circle -->
+        <circle cx="60" cy="36" r="30" fill="#1a2e4a"/>
+        <!-- Body: rounded rectangle -->
+        <rect x="24" y="78" width="72" height="84" rx="12" fill="#1a2e4a"/>
+      </svg>
+    </div>
+
+    <!-- ── Track 3: Pill labels ─────────────────────────────────────────── -->
+    <!--
+      All pills start at scale:0 / opacity:0 and enter via spring-pop-entrance.
+      Layout (all comfortably above y=900):
+        WAVE        — top-left  (220, 140)
+        ECOBANK     — top-right (1460, 160)
+        ESPÈCES     — bot-left  (180, 660)
+        ABONNEMENTS — bot-right (1270, 680)
+        IMPÔTS      — mid-left  (460, 388)  ← closer to avatar, Scene 3
+        NOTES       — mid-right (1310, 388)  ← closer to avatar, Scene 3
+    -->
+
+    <!-- Scene 1 -->
+    <div
+      id="p2-wave"
+      class="clip p2-pill p2-pill-teal"
+      data-start="0"
+      data-duration="7"
+      data-track-index="3"
+      style="left: 220px; top: 140px; z-index: 10;"
+    >WAVE</div>
+
+    <!-- Scene 2 -->
+    <div
+      id="p2-ecobank"
+      class="clip p2-pill p2-pill-navy"
+      data-start="0"
+      data-duration="7"
+      data-track-index="4"
+      style="left: 1460px; top: 160px; z-index: 10;"
+    >ECOBANK</div>
+
+    <div
+      id="p2-especes"
+      class="clip p2-pill p2-pill-teal"
+      data-start="0"
+      data-duration="7"
+      data-track-index="5"
+      style="left: 180px; top: 660px; z-index: 10;"
+    >ESPÈCES</div>
+
+    <div
+      id="p2-abonnements"
+      class="clip p2-pill p2-pill-navy"
+      data-start="0"
+      data-duration="7"
+      data-track-index="6"
+      style="left: 1270px; top: 680px; z-index: 10;"
+    >ABONNEMENTS</div>
+
+    <!-- Scene 3 — closer to centre, pressure tightens -->
+    <div
+      id="p2-impots"
+      class="clip p2-pill p2-pill-teal"
+      data-start="0"
+      data-duration="7"
+      data-track-index="7"
+      style="left: 460px; top: 388px; z-index: 10;"
+    >IMPÔTS</div>
+
+    <div
+      id="p2-notes"
+      class="clip p2-pill p2-pill-navy"
+      data-start="0"
+      data-duration="7"
+      data-track-index="8"
+      style="left: 1310px; top: 388px; z-index: 10;"
+    >NOTES</div>
+
+  </div><!-- /#root -->
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"
+          integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2"
+          crossorigin="anonymous"></script>
+  <script>
+    window.__timelines = window.__timelines || {};
+    var tl = gsap.timeline({ paused: true });
+
+    // ═══════════════════════════════════════════════════════════════════
+    // Scene 1 (0.0 – 1.5s)
+    // White canvas. Avatar springs into view; WAVE enters on VO cue.
+    // ═══════════════════════════════════════════════════════════════════
+
+    // Avatar: spring-pop-entrance at t=0 → visible by 0.45s
+    tl.fromTo(
+      '#p2-avatar',
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.45, ease: 'power3.out' },
+      0
+    );
+
+    // WAVE pill: top-left, VO cue "Wave" ≈ t=0.5s
+    tl.fromTo(
+      '#p2-wave',
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' },
+      0.5
+    );
+
+    // ═══════════════════════════════════════════════════════════════════
+    // Scene 2 (1.5 – 3.5s)
+    // Density rises: ECOBANK, ESPÈCES, ABONNEMENTS staggered 0.3s each.
+    // ═══════════════════════════════════════════════════════════════════
+
+    // ECOBANK: top-right, VO cue ≈ t=1.7s
+    tl.fromTo(
+      '#p2-ecobank',
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' },
+      1.7
+    );
+
+    // ESPÈCES: bottom-left, stagger +0.3s → t=2.0s
+    tl.fromTo(
+      '#p2-especes',
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' },
+      2.0
+    );
+
+    // ABONNEMENTS: bottom-right, stagger +0.3s → t=2.3s
+    tl.fromTo(
+      '#p2-abonnements',
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' },
+      2.3
+    );
+
+    // ═══════════════════════════════════════════════════════════════════
+    // Scene 3 (3.5 – 5.5s)
+    // IMPÔTS + NOTES close in from sides (nearer to avatar).
+    // depth-of-field-blur rises on the avatar: 0 → 4px over 1.5s.
+    // ═══════════════════════════════════════════════════════════════════
+
+    // IMPÔTS: mid-left (closer to avatar), VO cue ≈ t=3.7s
+    tl.fromTo(
+      '#p2-impots',
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' },
+      3.7
+    );
+
+    // NOTES: mid-right (closer to avatar), stagger +0.3s → t=4.0s
+    tl.fromTo(
+      '#p2-notes',
+      { scale: 0, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' },
+      4.0
+    );
+
+    // Depth-of-field blur on avatar — signals suffocation.
+    // --dof CSS var read by filter:blur(var(--dof)) on the element.
+    tl.fromTo(
+      '#p2-avatar',
+      { '--dof': '0px' },
+      { '--dof': '4px', duration: 1.5, ease: 'power2.inOut' },
+      3.5
+    );
+
+    // ═══════════════════════════════════════════════════════════════════
+    // Scene 4 (5.5 – 7.0s)
+    // All labels in position. Red-orange glow blooms behind avatar
+    // (#dc2626, peak opacity 0.15). Pills jitter subtly — held end-state.
+    // ═══════════════════════════════════════════════════════════════════
+
+    // Ambient glow bloom — Form A: bloom-and-hold (no breathe; scene < 2s)
+    tl.fromTo(
+      '#p2-glow',
+      { opacity: 0, scale: 0.85 },
+      { opacity: 0.15, scale: 1, duration: 0.9, ease: 'power2.out' },
+      5.5
+    );
+
+    // Subtle sine jitter on pills — bounded, deterministic, index-derived phases.
+    // Phase offsets distribute pills evenly around the circle (π/3 apart = 60°).
+    // sin(0) = 0 at phase start → no jump from entry resting state.
+    // Amplitude: 3px (low end per sine-wave-loop rule for concurrent elements).
+    var jitterPillIds = [
+      '#p2-wave',
+      '#p2-ecobank',
+      '#p2-especes',
+      '#p2-abonnements',
+      '#p2-impots',
+      '#p2-notes'
+    ];
+    var jitterPillEls = jitterPillIds.map(function(id) {
+      return document.querySelector(id);
+    });
+    // Deterministic per-index phase offsets (π/3 intervals, no Math.random)
+    var phaseOffsets = [
+      0,
+      Math.PI / 3,
+      (2 * Math.PI) / 3,
+      Math.PI,
+      (4 * Math.PI) / 3,
+      (5 * Math.PI) / 3
+    ];
+    var jitterProxy = { p: 0 };
+
+    // Single finite tween drives the phase 0 → 2π × 1.5 cycles over 1.5s.
+    tl.to(
+      jitterProxy,
+      {
+        p: Math.PI * 2 * 1.5,
+        duration: 1.5,
+        ease: 'none',
+        onUpdate: function() {
+          for (var i = 0; i < jitterPillEls.length; i++) {
+            var el = jitterPillEls[i];
+            if (!el) continue;
+            var y = Math.sin(jitterProxy.p + phaseOffsets[i]) * 3;
+            // Compose: preserve scale(1) from entrance, add sine y-offset
+            el.style.transform = 'scale(1) translateY(' + y + 'px)';
+          }
+        }
+      },
+      5.5
+    );
+
+    window.__timelines['02-problem'] = tl;
+  </script>
+</template>

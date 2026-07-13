@@ -1,0 +1,187 @@
+<template data-composition-id="01-hook">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+#root {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+  container-type: size;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.hk-bg {
+  position: absolute;
+  inset: 0;
+  background: #1a2e4a;
+}
+
+/* Shared centering stage — content above 900px cutoff */
+.hk-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.hk-lead {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 2.6cqw;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #7b8fa6;
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+.hk-phrase {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 4.2cqw;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-align: center;
+  white-space: nowrap;
+  will-change: transform, opacity, filter;
+}
+
+#hk-p1 { color: #ffffff; }
+#hk-p2 { color: #28c98a; }
+#hk-p3 { color: #ffffff; font-size: 3.2cqw; }
+#hk-p4 { color: #28c98a; font-size: 2.2cqw; }
+</style>
+
+<div id="root"
+     data-composition-id="01-hook"
+     data-duration="5"
+     data-width="1920"
+     data-height="1080">
+
+  <!-- Track 0 · Navy background (full duration) -->
+  <div class="clip hk-bg"
+       data-start="0"
+       data-duration="5"
+       data-track-index="0"></div>
+
+  <!-- Track 1 · Scene 1 · "Tes finances" (0.0–1.5s) -->
+  <div class="clip hk-stage"
+       data-start="0"
+       data-duration="1.5"
+       data-track-index="1">
+    <div class="hk-lead" id="hk-lead1">Tes finances…</div>
+    <div class="hk-phrase" id="hk-p1">dans un tableur ?</div>
+  </div>
+
+  <!-- Track 2 · Scene 2 · "Des notes…" (1.5–2.6s) -->
+  <div class="clip hk-stage"
+       data-start="1.5"
+       data-duration="1.1"
+       data-track-index="2">
+    <div class="hk-lead" id="hk-lead2">Tes finances…</div>
+    <div class="hk-phrase" id="hk-p2">des notes éparpillées ?</div>
+  </div>
+
+  <!-- Track 3 · Scene 3 · "Une appli par compte ?" (2.6–3.7s) -->
+  <div class="clip hk-stage"
+       data-start="2.6"
+       data-duration="1.1"
+       data-track-index="3">
+    <div class="hk-lead" id="hk-lead3">Tes finances…</div>
+    <div class="hk-phrase" id="hk-p3">une appli par compte ?</div>
+  </div>
+
+  <!-- Track 4 · Scene 4 · Hold (3.7–5.0s) — final question + silence -->
+  <div class="clip hk-stage"
+       data-start="3.7"
+       data-duration="1.3"
+       data-track-index="4">
+    <div class="hk-lead" id="hk-lead4">Tes finances…</div>
+    <div class="hk-phrase" id="hk-p4">jamais une vue d'ensemble ?</div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"
+        integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2"
+        crossorigin="anonymous"></script>
+<script>
+(function () {
+  'use strict';
+  window.__timelines = window.__timelines || {};
+  var tl = gsap.timeline({ paused: true });
+
+  /* Scene 1 (0.0–1.5s): lead fades in, phrase slams from scale+blur */
+  tl.fromTo('#hk-lead1',
+    { autoAlpha: 0, y: 10 },
+    { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power3.out' },
+    0.0
+  );
+  tl.fromTo('#hk-p1',
+    { scale: 1.4, filter: 'blur(14px)', autoAlpha: 0 },
+    { scale: 1, filter: 'blur(0px)', autoAlpha: 1, duration: 0.5, ease: 'power4.out' },
+    0.1
+  );
+
+  /* Scene 2 (1.5–2.6s): phrase whips in from left, teal color */
+  tl.fromTo('#hk-lead2',
+    { autoAlpha: 0, y: 10 },
+    { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power3.out' },
+    1.5
+  );
+  tl.fromTo('#hk-p2',
+    { x: -250, autoAlpha: 0 },
+    { x: 0, autoAlpha: 1, duration: 0.45, ease: 'expo.out' },
+    1.5
+  );
+
+  /* Scene 3 (2.6–3.7s): phrase rises from below, slightly smaller */
+  tl.fromTo('#hk-lead3',
+    { autoAlpha: 0, y: 10 },
+    { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power3.out' },
+    2.6
+  );
+  tl.fromTo('#hk-p3',
+    { y: 60, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.5, ease: 'circ.out' },
+    2.6
+  );
+
+  /* Scene 4 (3.7–5.0s): final question + subtle jitter on the "?" */
+  tl.fromTo('#hk-lead4',
+    { autoAlpha: 0, y: 10 },
+    { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power3.out' },
+    3.7
+  );
+  tl.fromTo('#hk-p4',
+    { scale: 1.2, autoAlpha: 0 },
+    { scale: 1, autoAlpha: 1, duration: 0.5, ease: 'power4.out' },
+    3.7
+  );
+
+  /* Finite jitter on p4 during hold */
+  var phase = { p: 0 };
+  var p4el = document.getElementById('hk-p4');
+  tl.to(phase, {
+    p: Math.PI * 2 * 0.7,
+    duration: 1.1,
+    ease: 'none',
+    onUpdate: function () {
+      p4el.style.transform = 'translateY(' + (Math.sin(phase.p) * 1.5).toFixed(3) + 'px)';
+    }
+  }, 4.0);
+
+  window.__timelines['01-hook'] = tl;
+}());
+</script>
+
+</template>

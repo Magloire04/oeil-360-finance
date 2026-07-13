@@ -1,0 +1,5 @@
+# Artefacts générés — ne pas versionner
+renders/
+assets/voice/
+test_fr.wav
+node_modules/

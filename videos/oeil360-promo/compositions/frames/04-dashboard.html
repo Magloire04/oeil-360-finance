@@ -1,0 +1,405 @@
+<template data-composition-id="04-dashboard">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+#root {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+  container-type: size;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.db-bg {
+  position: absolute;
+  inset: 0;
+  background: #1a2e4a;
+}
+
+/* Card stage — centered above 900px cutoff */
+.db-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main dashboard card */
+#db-card {
+  background: rgba(255,255,255,0.04);
+  border: 1.5px solid rgba(40,201,138,0.2);
+  border-radius: 14px;
+  width: 920px;
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  will-change: transform, opacity;
+}
+
+/* Card header row */
+.db-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.db-eyebrow {
+  font-size: 0.8cqw;
+  font-weight: 600;
+  color: #28c98a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.db-period {
+  font-size: 0.75cqw;
+  color: #7b8fa6;
+}
+
+/* Balance display */
+#db-balance {
+  font-size: 3.0cqw;
+  font-weight: 700;
+  color: #28c98a;
+  letter-spacing: -0.02em;
+  will-change: filter;
+}
+
+/* Chart + rows row */
+.db-content-row {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+/* Donut chart */
+#db-donut {
+  flex-shrink: 0;
+  will-change: transform;
+}
+
+/* Transaction rows */
+.db-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.db-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  will-change: transform, opacity;
+}
+
+.db-row-label {
+  font-size: 0.85cqw;
+  color: #ffffff;
+}
+
+.db-row-sub {
+  font-size: 0.72cqw;
+  color: #7b8fa6;
+}
+
+.db-row-amount {
+  font-size: 0.9cqw;
+  font-weight: 600;
+}
+
+.db-row-amount.negative { color: #dc2626; }
+.db-row-amount.positive { color: #059669; }
+
+/* Cursor SVG element */
+#db-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Click ripple */
+#db-ripple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(40,201,138,0.8);
+  pointer-events: none;
+  will-change: transform, opacity;
+  /* No CSS transform — GSAP owns all transforms on this element */
+}
+
+/* Segment highlight overlays on donut */
+.db-seg-hl {
+  transition: none;
+}
+</style>
+
+<div id="root"
+     data-composition-id="04-dashboard"
+     data-duration="8"
+     data-width="1920"
+     data-height="1080">
+
+  <!-- Track 0 · Navy background -->
+  <div class="clip db-bg"
+       data-start="0"
+       data-duration="8"
+       data-track-index="0"></div>
+
+  <!-- Track 1 · Dashboard card stage (0–8s) -->
+  <div class="clip db-stage"
+       data-start="0"
+       data-duration="8"
+       data-track-index="1">
+
+    <div id="db-card">
+      <div class="db-header">
+        <div class="db-eyebrow">Tableau de bord 360°</div>
+        <div class="db-period">Juillet 2026</div>
+      </div>
+
+      <div id="db-balance">1 250 000 F CFA</div>
+
+      <div class="db-content-row">
+
+        <!-- Donut chart SVG -->
+        <svg id="db-donut" width="180" height="180" viewBox="0 0 180 180">
+          <!-- Track circle (ghost) -->
+          <circle cx="90" cy="90" r="64"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.06)"
+                  stroke-width="22"
+                  transform="rotate(-90 90 90)"/>
+          <!-- Segment 1: Alimentation 38% — teal -->
+          <!-- C = 2π×64 ≈ 402.1 · 38% ≈ 152.8 -->
+          <circle id="db-seg1" cx="90" cy="90" r="64"
+                  fill="none"
+                  stroke="#28c98a"
+                  stroke-width="22"
+                  stroke-dasharray="152.8 402.1"
+                  stroke-dashoffset="0"
+                  stroke-linecap="butt"
+                  transform="rotate(-90 90 90)"/>
+          <!-- Segment 2: Transport 28% — dark teal -->
+          <!-- 28% ≈ 112.6 ; offset = -(402.1-152.8) = -249.3 wait, offset = C * (1-start_pct) -->
+          <!-- Actually offset = -start_fraction × C = -(152.8) means it's after seg1 -->
+          <!-- stroke-dashoffset = -(sum_of_previous_segments) but we use negative -->
+          <circle id="db-seg2" cx="90" cy="90" r="64"
+                  fill="none"
+                  stroke="#059669"
+                  stroke-width="22"
+                  stroke-dasharray="112.6 402.1"
+                  stroke-dashoffset="-152.8"
+                  stroke-linecap="butt"
+                  transform="rotate(-90 90 90)"/>
+          <!-- Segment 3: Épargne 34% — navy lighter -->
+          <!-- 34% ≈ 136.7 ; offset = -(152.8+112.6) = -265.4 -->
+          <circle id="db-seg3" cx="90" cy="90" r="64"
+                  fill="none"
+                  stroke="#3a5a7a"
+                  stroke-width="22"
+                  stroke-dasharray="136.7 402.1"
+                  stroke-dashoffset="-265.4"
+                  stroke-linecap="butt"
+                  transform="rotate(-90 90 90)"/>
+          <!-- Centre donut hole label -->
+          <text x="90" y="85" text-anchor="middle" dominant-baseline="middle"
+                font-family="'Instrument Sans', sans-serif"
+                font-size="13" font-weight="700"
+                fill="#28c98a">360°</text>
+          <text x="90" y="104" text-anchor="middle" dominant-baseline="middle"
+                font-family="'Instrument Sans', sans-serif"
+                font-size="9" font-weight="400"
+                fill="#7b8fa6">vue totale</text>
+        </svg>
+
+        <!-- Transaction rows -->
+        <div class="db-rows">
+          <div class="db-row" id="db-r1">
+            <div>
+              <div class="db-row-label">Loyer</div>
+              <div class="db-row-sub">1 juil. 2026</div>
+            </div>
+            <div class="db-row-amount negative">−150 000 F</div>
+          </div>
+          <div class="db-row" id="db-r2">
+            <div>
+              <div class="db-row-label">Salaire</div>
+              <div class="db-row-sub">30 juin 2026</div>
+            </div>
+            <div class="db-row-amount positive">+500 000 F</div>
+          </div>
+          <div class="db-row" id="db-r3">
+            <div>
+              <div class="db-row-label">Alimentation</div>
+              <div class="db-row-sub">28 juin 2026</div>
+            </div>
+            <div class="db-row-amount negative">−45 000 F</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Track 2 · Cursor (2–8s) -->
+  <div class="clip"
+       data-start="2"
+       data-duration="6"
+       data-track-index="2"
+       style="position:absolute;inset:0;pointer-events:none;">
+    <svg id="db-cursor" viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 2L17 11.5L10.5 13L14 24L10 25.5L6.5 15L2 18.5V2Z"
+            fill="#ffffff" stroke="#1a2e4a" stroke-width="1.2"/>
+    </svg>
+    <div id="db-ripple"></div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"
+        integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2"
+        crossorigin="anonymous"></script>
+<script>
+(function () {
+  'use strict';
+  window.__timelines = window.__timelines || {};
+  var tl = gsap.timeline({ paused: true });
+
+  /* ──────────────────────────────────────────────
+     Scene 1 (0.0–2.0s): Dashboard card spring-pop-entrance
+  ────────────────────────────────────────────── */
+  tl.fromTo('#db-card',
+    { y: 50, scale: 0.9, autoAlpha: 0 },
+    { y: 0, scale: 1, autoAlpha: 1, duration: 0.75, ease: 'power3.out' },
+    0.0
+  );
+
+  /* Rows stagger in after card */
+  tl.fromTo(['#db-r1', '#db-r2', '#db-r3'],
+    { x: 30, autoAlpha: 0 },
+    { x: 0, autoAlpha: 1, duration: 0.45, ease: 'power3.out', stagger: 0.12 },
+    0.6
+  );
+
+  /* ──────────────────────────────────────────────
+     Scene 2 (2.0–4.5s): Cursor enters, moves to balance, click + glow
+     Cursor start: just outside right edge of card, midway
+     Balance center (approx in 1920×1080 canvas): x≈830, y≈370
+  ────────────────────────────────────────────── */
+
+  /* Cursor initial position (off-screen top-right) */
+  gsap.set('#db-cursor', { x: 1300, y: 200, autoAlpha: 0 });
+  gsap.set('#db-ripple', { x: 1300, y: 200 });
+
+  /* Cursor fades in and glides to balance text */
+  tl.fromTo('#db-cursor',
+    { autoAlpha: 0 },
+    { autoAlpha: 1, duration: 0.3, ease: 'power2.out' },
+    2.0
+  );
+  tl.to('#db-cursor',
+    { x: 800, y: 370, duration: 0.9, ease: 'power2.inOut' },
+    2.1
+  );
+
+  /* Click at t=3.1s: cursor scale press */
+  tl.to('#db-cursor', { scale: 0.85, duration: 0.1, ease: 'power2.in' }, 3.1);
+  tl.to('#db-cursor', { scale: 1.0, duration: 0.15, ease: 'power2.out' }, 3.2);
+
+  /* Ripple: move to same position, scale out */
+  tl.set('#db-ripple', { x: 800, y: 370 }, 3.1);
+  tl.fromTo('#db-ripple',
+    { scale: 0, autoAlpha: 0.9 },
+    { scale: 2.5, autoAlpha: 0, duration: 0.65, ease: 'power2.out' },
+    3.1
+  );
+
+  /* keyword-glow on balance text */
+  tl.fromTo('#db-balance',
+    { filter: 'drop-shadow(0 0 0px rgba(40,201,138,0))' },
+    { filter: 'drop-shadow(0 0 18px rgba(40,201,138,0.85))', duration: 0.35, ease: 'power3.out' },
+    3.15
+  );
+  tl.to('#db-balance',
+    { filter: 'drop-shadow(0 0 4px rgba(40,201,138,0.3))', duration: 0.6, ease: 'power2.inOut' },
+    3.7
+  );
+
+  /* ──────────────────────────────────────────────
+     Scene 3 (4.5–6.5s): Cursor moves to donut, segments highlight
+     Donut center (approx): x≈545, y≈530
+  ────────────────────────────────────────────── */
+  tl.to('#db-cursor',
+    { x: 545, y: 530, duration: 0.8, ease: 'power2.inOut' },
+    4.5
+  );
+  tl.to('#db-ripple',
+    { x: 545, y: 530, duration: 0 },
+    4.5
+  );
+
+  /* Segment highlights: scale stroke-width briefly */
+  tl.to('#db-seg1',
+    { attr: { 'stroke-width': 30 }, duration: 0.25, ease: 'power3.out' },
+    5.15
+  );
+  tl.to('#db-seg1',
+    { attr: { 'stroke-width': 22 }, duration: 0.3, ease: 'power2.inOut' },
+    5.5
+  );
+  tl.to('#db-seg2',
+    { attr: { 'stroke-width': 30 }, duration: 0.25, ease: 'power3.out' },
+    5.7
+  );
+  tl.to('#db-seg2',
+    { attr: { 'stroke-width': 22 }, duration: 0.3, ease: 'power2.inOut' },
+    6.05
+  );
+  tl.to('#db-seg3',
+    { attr: { 'stroke-width': 30 }, duration: 0.25, ease: 'power3.out' },
+    6.1
+  );
+  tl.to('#db-seg3',
+    { attr: { 'stroke-width': 22 }, duration: 0.25, ease: 'power2.inOut' },
+    6.45
+  );
+
+  /* ──────────────────────────────────────────────
+     Scene 4 (6.5–8.0s): Hold — finite jitter on donut
+  ────────────────────────────────────────────── */
+  var phase = { p: 0 };
+  var donut = document.getElementById('db-donut');
+  tl.to(phase, {
+    p: Math.PI * 2 * 0.6,
+    duration: 1.4,
+    ease: 'none',
+    onUpdate: function () {
+      donut.style.transform = 'translateY(' + (Math.sin(phase.p) * 1).toFixed(3) + 'px)';
+    }
+  }, 6.6);
+
+  window.__timelines['04-dashboard'] = tl;
+}());
+</script>
+
+</template>

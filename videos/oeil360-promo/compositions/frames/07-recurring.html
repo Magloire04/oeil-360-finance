@@ -1,0 +1,163 @@
+<template data-composition-id="07-recurring">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+#root {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+  container-type: size;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.rc-bg {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+}
+
+/* Center stage — content above 900px */
+.rc-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+#rc-icon {
+  will-change: transform, opacity;
+}
+
+.rc-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.rc-line {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 1.25cqw;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #1a2e4a;
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+#rc-auto {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 1.25cqw;
+  font-weight: 600;
+  color: #28c98a;
+  letter-spacing: -0.02em;
+  will-change: transform, opacity;
+}
+</style>
+
+<div id="root"
+     data-composition-id="07-recurring"
+     data-duration="5"
+     data-width="1920"
+     data-height="1080">
+
+  <!-- Track 0 · White background -->
+  <div class="clip rc-bg"
+       data-start="0"
+       data-duration="5"
+       data-track-index="0"></div>
+
+  <!-- Track 1 · Full stage content (0–5s) -->
+  <div class="clip rc-stage"
+       data-start="0"
+       data-duration="5"
+       data-track-index="1">
+
+    <!-- Calendar + loop SVG icon -->
+    <svg id="rc-icon" width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Calendar body -->
+      <rect x="8" y="20" width="64" height="56" rx="6" stroke="#1a2e4a" stroke-width="3.5" fill="none"/>
+      <!-- Header bar -->
+      <rect x="8" y="20" width="64" height="20" rx="6" fill="#1a2e4a" fill-opacity="0.08"/>
+      <!-- Calendar pins -->
+      <rect x="24" y="10" width="4" height="18" rx="2" fill="#1a2e4a"/>
+      <rect x="52" y="10" width="4" height="18" rx="2" fill="#1a2e4a"/>
+      <!-- Calendar grid dots -->
+      <circle cx="26" cy="56" r="3" fill="#1a2e4a" fill-opacity="0.4"/>
+      <circle cx="40" cy="56" r="3" fill="#1a2e4a" fill-opacity="0.4"/>
+      <circle cx="54" cy="56" r="3" fill="#1a2e4a" fill-opacity="0.4"/>
+      <circle cx="26" cy="68" r="3" fill="#1a2e4a" fill-opacity="0.4"/>
+      <circle cx="40" cy="68" r="3" fill="#28c98a"/>
+      <!-- Circular arrow -->
+      <path d="M78 42 A18 18 0 1 1 62 60" stroke="#28c98a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <polyline points="58,56 62,60 66,56" stroke="#28c98a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+
+    <!-- Text lines -->
+    <div class="rc-lines">
+      <div class="rc-line" id="rc-l1">Loyer</div>
+      <div class="rc-line" id="rc-l2">Abonnements</div>
+      <div class="rc-line" id="rc-l3">Charges fixes</div>
+      <div id="rc-auto">— automatisés</div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"
+        integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2"
+        crossorigin="anonymous"></script>
+<script>
+(function () {
+  'use strict';
+  window.__timelines = window.__timelines || {};
+  var tl = gsap.timeline({ paused: true });
+
+  /* Scene 1 (0.0–1.5s): icon slides up — spring-pop-entrance */
+  tl.fromTo('#rc-icon',
+    { y: 40, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.7, ease: 'power3.out' },
+    0.0
+  );
+
+  /* Scene 2 (1.5–3.5s): lines reveal sequentially — per-word staggered */
+  tl.fromTo('#rc-l1',
+    { y: 20, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
+    1.5
+  );
+  tl.fromTo('#rc-l2',
+    { y: 20, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
+    1.85
+  );
+  tl.fromTo('#rc-l3',
+    { y: 20, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
+    2.2
+  );
+
+  /* Scene 3 (3.5–5.0s): "— automatisés" slides in from right */
+  tl.fromTo('#rc-auto',
+    { x: 30, autoAlpha: 0 },
+    { x: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
+    3.5
+  );
+
+  /* Hold — stillness is the point; no further motion */
+
+  window.__timelines['07-recurring'] = tl;
+}());
+</script>
+
+</template>

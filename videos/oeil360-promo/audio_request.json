@@ -1,0 +1,49 @@
+{
+  "provider": "auto",
+  "speed": 1,
+  "lines": [
+    {
+      "id": "01",
+      "text": "Tes finances dans un tableur ? Des notes éparpillées ? Une appli par compte ?"
+    },
+    {
+      "id": "02",
+      "text": "Wave, Ecobank, espèces, abonnements, impôts — tout en silo. Jamais une vue d'ensemble."
+    },
+    {
+      "id": "03",
+      "text": "Centralise. Visualise. Maîtrise. — Oeil360 Finance."
+    },
+    {
+      "id": "04",
+      "text": "Un seul écran. Tous tes comptes, toutes tes catégories, ton solde global — d'un coup d'œil."
+    },
+    {
+      "id": "05",
+      "text": "Revenu ou dépense — en quelques secondes, classé, tracé, visualisé."
+    },
+    {
+      "id": "06",
+      "text": "Banque, mobile money, espèces — tous tes comptes réunis. Virer de l'un à l'autre, c'est deux clics."
+    },
+    {
+      "id": "07",
+      "text": "Loyer, abonnements, charges fixes — programmés une fois, jamais oubliés."
+    },
+    {
+      "id": "08",
+      "text": "Tes données t'appartiennent. Conforme Loi APDP Bénin. Authentification sécurisée par Auth0 — zéro mot de passe stocké."
+    },
+    {
+      "id": "09",
+      "text": "Reprends le contrôle de tes finances. — Oeil360 Finance."
+    }
+  ],
+  "bgm": {
+    "mode": "retrieve",
+    "query": "confident, modern, minimal — low-tempo electronic with subtle percussion",
+    "blob": "Oeil360 Finance te donne une vue 360° sur tes finances — tout centralisé, tout sécurisé, tout conforme APDP.",
+    "arc": "Hook → Problem → Product Intro → Feature Loop → Trust → CTA"
+  },
+  "voice": "ff_siwis"
+}

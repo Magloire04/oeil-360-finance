@@ -1,0 +1,282 @@
+<template data-composition-id="09-cta">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+#root {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+  container-type: size;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.cta-bg {
+  position: absolute;
+  inset: 0;
+  background: #1a2e4a;
+}
+
+/* Ambient glow layer — behind content */
+#cta-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 900px;
+  height: 900px;
+  margin-left: -450px;
+  margin-top: -480px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(40,201,138,0.18) 0%, transparent 70%);
+  filter: blur(60px);
+  will-change: opacity, transform;
+}
+
+/* Center stage: above 900px cutoff */
+.cta-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+/* SVG circle container */
+#cta-circle-wrap {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  will-change: transform, opacity;
+}
+
+/* The circle draw path */
+#cta-ring {
+  will-change: stroke-dashoffset;
+}
+
+/* 360° text inside the circle */
+#cta-360 {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.0cqw;
+  font-weight: 700;
+  color: #28c98a;
+  letter-spacing: -0.02em;
+  will-change: transform, opacity;
+}
+
+/* Wordmark row */
+#cta-wordmark {
+  display: flex;
+  gap: 0.28em;
+  align-items: baseline;
+}
+
+.cta-word {
+  display: inline-block;
+  font-size: 2.6cqw;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  will-change: transform, opacity;
+}
+
+/* Tagline */
+#cta-tagline {
+  font-size: 0.85cqw;
+  font-weight: 400;
+  color: #7b8fa6;
+  text-align: center;
+  letter-spacing: 0;
+  will-change: transform, opacity;
+}
+
+/* CTA pill */
+#cta-pill {
+  margin-top: 8px;
+  padding: 18px 56px;
+  border-radius: 80px;
+  border: 1.5px solid rgba(40,201,138,0.6);
+  background: rgba(40,201,138,0.1);
+  font-size: 0.9cqw;
+  font-weight: 600;
+  color: #28c98a;
+  letter-spacing: 0.02em;
+  will-change: transform, opacity;
+}
+</style>
+
+<div id="root"
+     data-composition-id="09-cta"
+     data-duration="9"
+     data-width="1920"
+     data-height="1080">
+
+  <!-- Track 0 · Navy background -->
+  <div class="clip cta-bg"
+       data-start="0"
+       data-duration="9"
+       data-track-index="0"></div>
+
+  <!-- Track 1 · Ambient glow (full duration — grows over time) -->
+  <div class="clip"
+       data-start="0"
+       data-duration="9"
+       data-track-index="1"
+       style="position:absolute;inset:0;pointer-events:none;">
+    <div id="cta-glow"></div>
+  </div>
+
+  <!-- Track 2 · Center stage content (0–9s) -->
+  <div class="clip cta-stage"
+       data-start="0"
+       data-duration="9"
+       data-track-index="2">
+
+    <!-- SVG circle + 360° -->
+    <div id="cta-circle-wrap">
+      <svg width="340" height="340" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ghost track circle -->
+        <circle cx="170" cy="170" r="150"
+                stroke="rgba(40,201,138,0.12)"
+                stroke-width="3"
+                fill="none"/>
+        <!-- Animated draw ring -->
+        <!-- C = 2π×150 ≈ 942.5 -->
+        <circle id="cta-ring"
+                cx="170" cy="170" r="150"
+                stroke="#28c98a"
+                stroke-width="3.5"
+                fill="none"
+                stroke-dasharray="942.5"
+                stroke-dashoffset="942.5"
+                stroke-linecap="round"
+                transform="rotate(-90 170 170)"/>
+      </svg>
+      <div id="cta-360">360°</div>
+    </div>
+
+    <!-- "Oeil360 Finance" wordmark — per-word stagger -->
+    <div id="cta-wordmark">
+      <span class="cta-word" id="cta-w1">Oeil360</span>
+      <span class="cta-word" id="cta-w2">Finance</span>
+    </div>
+
+    <!-- Tagline -->
+    <div id="cta-tagline">Reprends le contrôle de tes finances.</div>
+
+    <!-- CTA pill -->
+    <div id="cta-pill">Commencer maintenant</div>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"
+        integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2"
+        crossorigin="anonymous"></script>
+<script>
+(function () {
+  'use strict';
+  window.__timelines = window.__timelines || {};
+  var tl = gsap.timeline({ paused: true });
+
+  /* Set initial hidden states via fromTo start values */
+  /* ──────────────────────────────────────────────
+     Scene 1 (0.0–2.5s): SVG circle stroke-dashoffset draw
+     C = 942.5 ; dashoffset 942.5 → 0
+  ────────────────────────────────────────────── */
+  gsap.set('#cta-circle-wrap', { autoAlpha: 1 });
+  gsap.set('#cta-360', { autoAlpha: 0 });
+  gsap.set('#cta-wordmark', { autoAlpha: 0 });
+  gsap.set(['#cta-w1','#cta-w2'], { y: 30, autoAlpha: 0 });
+  gsap.set('#cta-tagline', { y: 20, autoAlpha: 0 });
+  gsap.set('#cta-pill', { scale: 0.85, autoAlpha: 0 });
+  gsap.set('#cta-glow', { autoAlpha: 0, scale: 0.6 });
+
+  /* Circle draw */
+  tl.fromTo('#cta-ring',
+    { attr: { 'stroke-dashoffset': 942.5 } },
+    { attr: { 'stroke-dashoffset': 0 }, duration: 2.3, ease: 'power2.inOut' },
+    0.0
+  );
+
+  /* ──────────────────────────────────────────────
+     Scene 2 (2.5–4.5s): "360°" spring-pop inside circle
+  ────────────────────────────────────────────── */
+  tl.fromTo('#cta-360',
+    { scale: 0.5, autoAlpha: 0 },
+    { scale: 1.0, autoAlpha: 1, duration: 0.55, ease: 'back.out(1.8)' },
+    2.5
+  );
+
+  /* ──────────────────────────────────────────────
+     Scene 3 (4.5–6.5s): "Oeil360 Finance" per-word stagger
+  ────────────────────────────────────────────── */
+  tl.set('#cta-wordmark', { autoAlpha: 1 }, 4.5);
+  tl.fromTo('#cta-w1',
+    { y: 30, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
+    4.5
+  );
+  tl.fromTo('#cta-w2',
+    { y: 30, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
+    4.65
+  );
+
+  /* ──────────────────────────────────────────────
+     Scene 4 (6.5–8.0s): Tagline + CTA pill spring-pop
+  ────────────────────────────────────────────── */
+  tl.fromTo('#cta-tagline',
+    { y: 20, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
+    6.5
+  );
+  tl.fromTo('#cta-pill',
+    { scale: 0.85, autoAlpha: 0 },
+    { scale: 1, autoAlpha: 1, duration: 0.5, ease: 'back.out(1.5)' },
+    6.85
+  );
+
+  /* ──────────────────────────────────────────────
+     Scene 5 (8.0–9.0s): ambient-glow-bloom + finite settle
+     Glow blooms and ring gets a subtle pulse (finite)
+  ────────────────────────────────────────────── */
+  tl.fromTo('#cta-glow',
+    { autoAlpha: 0, scale: 0.6 },
+    { autoAlpha: 1, scale: 1.0, duration: 0.8, ease: 'power2.out' },
+    8.0
+  );
+
+  /* Finite ring shimmer — scale up slightly then back */
+  tl.to('#cta-ring',
+    { attr: { 'stroke-width': 5 }, duration: 0.4, ease: 'power3.out' },
+    8.05
+  );
+  tl.to('#cta-ring',
+    { attr: { 'stroke-width': 3.5 }, duration: 0.4, ease: 'power2.inOut' },
+    8.5
+  );
+
+  /* Pill glow on final hold */
+  tl.to('#cta-pill',
+    { boxShadow: '0 0 28px rgba(40,201,138,0.4)', duration: 0.45, ease: 'power2.out' },
+    8.1
+  );
+
+  window.__timelines['09-cta'] = tl;
+}());
+</script>
+
+</template>

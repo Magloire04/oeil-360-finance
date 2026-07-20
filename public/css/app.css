@@ -537,6 +537,24 @@ h1.h3 {
     z-index: 1;
 }
 
+/* Vidéo de présentation (section démo) */
+.demo-video {
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.demo-video video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    background: var(--clr-navy);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
 /* Panneau démo */
 .demo-panel {
     display: grid;

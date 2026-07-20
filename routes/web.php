@@ -5,7 +5,16 @@ use App\Http\Controllers\ProfileController;
 use Auth0\Laravel\Controllers\CallbackController;
 use Auth0\Laravel\Controllers\LoginController;
 use Auth0\Laravel\Controllers\LogoutController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+// Landing publique — page d'accueil des visiteurs (aucune authentification requise).
+// Un utilisateur déjà connecté est renvoyé vers son dashboard.
+Route::get('/', function () {
+    return Auth::check()
+        ? redirect()->route('home')
+        : view('landing');
+})->name('landing');
 
 // Page publique — accessible sans authentification
 Route::view('/politique-confidentialite', 'politique-confidentialite')
@@ -24,7 +33,7 @@ Route::middleware('auth')->group(function () {
 
 // Pages protégées — auth + consent + activity
 Route::middleware(['auth', 'consent', 'activity'])->group(function () {
-    Route::view('/', 'dashboard')->name('home');
+    Route::view('/dashboard', 'dashboard')->name('home');
     Route::view('/transactions', 'transactions');
     Route::view('/categories', 'categories');
     Route::view('/accounts', 'accounts');

@@ -1,5 +1,6 @@
 {
-  "provider": "auto",
+  "provider": "heygen",
+  "lang": "fr",
   "speed": 1,
   "lines": [
     {
@@ -12,7 +13,7 @@
     },
     {
       "id": "03",
-      "text": "Centralise. Visualise. Maîtrise. — Oeil360 Finance."
+      "text": "Santralise. Vizualise. Maîtrise. — Oeil trois cent soixante Finance."
     },
     {
       "id": "04",
@@ -28,7 +29,7 @@
     },
     {
       "id": "07",
-      "text": "Loyer, abonnements, charges fixes — programmés une fois, jamais oubliés."
+      "text": "Loi-yé, abonnements, charges fixes — programmés une fois, jamais oubliés."
     },
     {
       "id": "08",
@@ -36,7 +37,7 @@
     },
     {
       "id": "09",
-      "text": "Reprends le contrôle de tes finances. — Oeil360 Finance."
+      "text": "Reprends le contrôle de tes finances. — Oeil trois cent soixante Finance."
     }
   ],
   "bgm": {
@@ -45,5 +46,5 @@
     "blob": "Oeil360 Finance te donne une vue 360° sur tes finances — tout centralisé, tout sécurisé, tout conforme APDP.",
     "arc": "Hook → Problem → Product Intro → Feature Loop → Trust → CTA"
   },
-  "voice": "ff_siwis"
+  "voice": "4829d1907f1e48f3b7a7a1d0594abd7d"
 }

@@ -202,7 +202,9 @@
 <!-- ================================================================== -->
 <!--  GSAP — must live inside <template>                                  -->
 <!-- ================================================================== -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"
+        integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2"
+        crossorigin="anonymous"></script>
 <script>
 (function () {
   'use strict';
@@ -242,13 +244,13 @@
     '#ac-c2',
     { y: 60, scale: 0.85, autoAlpha: 0 },
     { y: 0,  scale: 1,    autoAlpha: 1, duration: 0.6, ease: 'power3.out' },
-    2.0
+    1.0
   );
   tl.fromTo(
     '#ac-c3',
     { y: 60, scale: 0.85, autoAlpha: 0 },
     { y: 0,  scale: 1,    autoAlpha: 1, duration: 0.6, ease: 'power3.out' },
-    2.4
+    1.9
   );
 
   /* ── Subtle card jitter begins once all three cards are assembled ──

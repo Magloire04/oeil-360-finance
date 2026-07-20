@@ -116,31 +116,35 @@
 }
 </style>
 
+<!-- Re-synced to the HeyGen voice (line 09):
+     "Reprends le contrôle de tes finances."  spoken 0.16–1.78  (circle builds under it)
+     "Oeil360 Finance."                        spoken 2.54–4.46  → wordmark lands here
+     Tagline + pill follow as the written CTA, then a logo hold to 7.5s. -->
 <div id="root"
      data-composition-id="09-cta"
-     data-duration="9"
+     data-duration="7.5"
      data-width="1920"
      data-height="1080">
 
   <!-- Track 0 · Navy background -->
   <div class="clip cta-bg"
        data-start="0"
-       data-duration="9"
+       data-duration="7.5"
        data-track-index="0"></div>
 
   <!-- Track 1 · Ambient glow (full duration — grows over time) -->
   <div class="clip"
        data-start="0"
-       data-duration="9"
+       data-duration="7.5"
        data-track-index="1"
        style="position:absolute;inset:0;pointer-events:none;">
     <div id="cta-glow"></div>
   </div>
 
-  <!-- Track 2 · Center stage content (0–9s) -->
+  <!-- Track 2 · Center stage content (0–7.5s) -->
   <div class="clip cta-stage"
        data-start="0"
-       data-duration="9"
+       data-duration="7.5"
        data-track-index="2">
 
     <!-- SVG circle + 360° -->
@@ -192,10 +196,6 @@
   var tl = gsap.timeline({ paused: true });
 
   /* Set initial hidden states via fromTo start values */
-  /* ──────────────────────────────────────────────
-     Scene 1 (0.0–2.5s): SVG circle stroke-dashoffset draw
-     C = 942.5 ; dashoffset 942.5 → 0
-  ────────────────────────────────────────────── */
   gsap.set('#cta-circle-wrap', { autoAlpha: 1 });
   gsap.set('#cta-360', { autoAlpha: 0 });
   gsap.set('#cta-wordmark', { autoAlpha: 0 });
@@ -204,75 +204,66 @@
   gsap.set('#cta-pill', { scale: 0.85, autoAlpha: 0 });
   gsap.set('#cta-glow', { autoAlpha: 0, scale: 0.6 });
 
-  /* Circle draw */
+  /* Circle draw (0.0–2.3s) — abstract build under the spoken tagline */
   tl.fromTo('#cta-ring',
     { attr: { 'stroke-dashoffset': 942.5 } },
     { attr: { 'stroke-dashoffset': 0 }, duration: 2.3, ease: 'power2.inOut' },
     0.0
   );
 
-  /* ──────────────────────────────────────────────
-     Scene 2 (2.5–4.5s): "360°" spring-pop inside circle
-  ────────────────────────────────────────────── */
+  /* "360°" spring-pop inside circle (2.3s) — in the pause before the name */
   tl.fromTo('#cta-360',
     { scale: 0.5, autoAlpha: 0 },
     { scale: 1.0, autoAlpha: 1, duration: 0.55, ease: 'back.out(1.8)' },
-    2.5
+    2.3
   );
 
-  /* ──────────────────────────────────────────────
-     Scene 3 (4.5–6.5s): "Oeil360 Finance" per-word stagger
-  ────────────────────────────────────────────── */
-  tl.set('#cta-wordmark', { autoAlpha: 1 }, 4.5);
+  /* "Oeil360 Finance" wordmark lands on the spoken name (2.96s), quick stagger */
+  tl.set('#cta-wordmark', { autoAlpha: 1 }, 2.96);
   tl.fromTo('#cta-w1',
     { y: 30, autoAlpha: 0 },
     { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
-    4.5
+    2.96
   );
   tl.fromTo('#cta-w2',
     { y: 30, autoAlpha: 0 },
     { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
-    4.65
+    3.11
   );
 
-  /* ──────────────────────────────────────────────
-     Scene 4 (6.5–8.0s): Tagline + CTA pill spring-pop
-  ────────────────────────────────────────────── */
+  /* Tagline (4.0s) + CTA pill (4.4s) — the written call-to-action */
   tl.fromTo('#cta-tagline',
     { y: 20, autoAlpha: 0 },
     { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
-    6.5
+    4.0
   );
   tl.fromTo('#cta-pill',
     { scale: 0.85, autoAlpha: 0 },
     { scale: 1, autoAlpha: 1, duration: 0.5, ease: 'back.out(1.5)' },
-    6.85
+    4.4
   );
 
-  /* ──────────────────────────────────────────────
-     Scene 5 (8.0–9.0s): ambient-glow-bloom + finite settle
-     Glow blooms and ring gets a subtle pulse (finite)
-  ────────────────────────────────────────────── */
+  /* Ambient-glow-bloom + finite settle (4.7s), then hold to 7.5s */
   tl.fromTo('#cta-glow',
     { autoAlpha: 0, scale: 0.6 },
     { autoAlpha: 1, scale: 1.0, duration: 0.8, ease: 'power2.out' },
-    8.0
+    4.7
   );
 
   /* Finite ring shimmer — scale up slightly then back */
   tl.to('#cta-ring',
     { attr: { 'stroke-width': 5 }, duration: 0.4, ease: 'power3.out' },
-    8.05
+    4.75
   );
   tl.to('#cta-ring',
     { attr: { 'stroke-width': 3.5 }, duration: 0.4, ease: 'power2.inOut' },
-    8.5
+    5.15
   );
 
   /* Pill glow on final hold */
   tl.to('#cta-pill',
     { boxShadow: '0 0 28px rgba(40,201,138,0.4)', duration: 0.45, ease: 'power2.out' },
-    8.1
+    4.8
   );
 
   window.__timelines['09-cta'] = tl;

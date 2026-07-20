@@ -1,7 +1,8 @@
 # SCRIPT — oeil360-promo
 
-**Voice:** Kokoro offline · `ff_siwis` (voix féminine, française, posée et professionnelle)
+**Voice:** HeyGen (starfish) · `Harper` (`4829d1907f1e48f3b7a7a1d0594abd7d`, voix féminine française neuronale, posée et professionnelle) · lang `fr`
 **Voice settings:** speed 1.0 · pitch neutral
+**Note:** re-généré via HeyGen (juillet 2026) pour corriger la prononciation des marques/sigles (Wave, Ecobank, APDP, Auth0). Les frames 1-3 & 6-9 ont été re-synchronisées aux timings de mots HeyGen (voir `audio_meta.json`). Ancienne voix : Kokoro `ff_siwis` (nécessite Python + espeak-ng, indisponibles en local).
 **Voice direction:** Confiant, direct, humain — sans jargon commercial. Chaque phrase atterrit proprement avant la suivante. Rythme modéré, pas de rush.
 
 ---

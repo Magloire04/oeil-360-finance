@@ -105,48 +105,52 @@
 
 <!-- ================================================================== -->
 <!--  Composition root                                                    -->
+<!--  Scene onsets re-synced to the HeyGen voice word timings (line 03):  -->
+<!--  Santralise 0.24 · Vizualise 1.44 · Maîtrise 2.68 · Oeil… 4.04       -->
+<!--  (spoken text is phonetic; on-screen text stays "Centralise" etc.)   -->
+<!--  Held to 7.8s so the wordmark stays through the narration tail.      -->
 <!-- ================================================================== -->
 <div id="root"
      data-composition-id="03-product-intro"
-     data-duration="5"
+     data-duration="7.8"
      data-width="1920"
      data-height="1080">
 
   <!-- ── Track 0 · Navy ground (full duration) ── -->
   <div class="clip pi-bg"
        data-start="0"
-       data-duration="5"
+       data-duration="7.8"
        data-track-index="0">
   </div>
 
-  <!-- ── Track 1 · Scene 1 · "Centralise." (0.0–1.0s) ── -->
+  <!-- ── Track 1 · Scene 1 · "Centralise." (0.24–1.44s) ── -->
   <div class="clip pi-verb-stage"
        data-start="0"
-       data-duration="1.05"
+       data-duration="1.44"
        data-track-index="1">
     <div id="pi-s1" class="pi-verb">Centralise.</div>
   </div>
 
-  <!-- ── Track 2 · Scene 2 · "Visualise." (1.0–2.0s) ── -->
+  <!-- ── Track 2 · Scene 2 · "Visualise." (1.44–2.68s) ── -->
   <div class="clip pi-verb-stage"
-       data-start="1"
-       data-duration="1.05"
+       data-start="1.44"
+       data-duration="1.24"
        data-track-index="2">
     <div id="pi-s2" class="pi-verb">Visualise.</div>
   </div>
 
-  <!-- ── Track 3 · Scene 3 · "Maîtrise." (2.0–3.0s) ── -->
+  <!-- ── Track 3 · Scene 3 · "Maîtrise." (2.68–4.04s) ── -->
   <div class="clip pi-verb-stage"
-       data-start="2"
-       data-duration="1.05"
+       data-start="2.68"
+       data-duration="1.36"
        data-track-index="3">
     <div id="pi-s3" class="pi-verb">Maîtrise.</div>
   </div>
 
-  <!-- ── Track 4 · Scene 4 · "Oeil360 Finance." (3.0–5.0s) ── -->
+  <!-- ── Track 4 · Scene 4 · "Oeil360 Finance." (4.04–7.8s) ── -->
   <div class="clip pi-s4-stage"
-       data-start="3"
-       data-duration="2"
+       data-start="4.04"
+       data-duration="3.76"
        data-track-index="4">
 
     <!-- 2 px teal hairline separator -->
@@ -177,13 +181,12 @@
   /* ── Single paused timeline ── */
   const tl = gsap.timeline({ paused: true });
 
-  /* ── ONE beat array — the rhythmic spine (kinetic-beat-slam) ── */
-  const BEATS = [0.0, 1.0, 2.0, 3.0];   // scene onsets
+  /* ── ONE beat array — re-synced to the HeyGen voice (line 03) ── */
+  const BEATS = [0.239, 1.439, 2.679, 4.039];   // spoken onsets: Santralise / Vizualise / Maîtrise / Oeil…
 
   /* ════════════════════════════════════════════════════════════════
-     SCENE 1  (0.0 – 1.0 s)
-     "Centralise." — scale+blur slam, power4.out (hard slam / fast settle)
-     Long-tail settle is inherent in power4.out decay.
+     SCENE 1  ("Centralise." — spoken 0.28s)
+     scale+blur slam, power4.out (hard slam / fast settle)
   ════════════════════════════════════════════════════════════════ */
   tl.fromTo(
     '#pi-s1',
@@ -193,12 +196,12 @@
     BEATS[0]
   );
 
-  /* Hard-cut at t=1.0 — instant snap to invisible */
+  /* Hard-cut at the next spoken onset — instant snap to invisible */
   tl.set('#pi-s1', { autoAlpha: 0 }, BEATS[1]);
 
   /* ════════════════════════════════════════════════════════════════
-     SCENE 2  (1.0 – 2.0 s)
-     "Visualise." — side whip from left, expo.out (hardest snap)
+     SCENE 2  ("Visualise." — spoken 1.86s)
+     side whip from left, expo.out (hardest snap)
   ════════════════════════════════════════════════════════════════ */
   tl.fromTo(
     '#pi-s2',
@@ -208,13 +211,12 @@
     BEATS[1]
   );
 
-  /* Hard-cut at t=2.0 */
+  /* Hard-cut at the next spoken onset */
   tl.set('#pi-s2', { autoAlpha: 0 }, BEATS[2]);
 
   /* ════════════════════════════════════════════════════════════════
-     SCENE 3  (2.0 – 3.0 s)
-     "Maîtrise." — rise + tilt (circ.out — heavy rise with momentum)
-     Teal colour marks the apex.
+     SCENE 3  ("Maîtrise." — spoken 3.36s)
+     rise + tilt (circ.out — heavy rise with momentum). Teal = apex.
   ════════════════════════════════════════════════════════════════ */
   tl.fromTo(
     '#pi-s3',
@@ -224,16 +226,15 @@
     BEATS[2]
   );
 
-  /* Hard-cut at t=3.0 */
+  /* Hard-cut at the product-name onset */
   tl.set('#pi-s3', { autoAlpha: 0 }, BEATS[3]);
 
   /* ════════════════════════════════════════════════════════════════
-     SCENE 4  (3.0 – 5.0 s)
-     "Oeil360 Finance." — per-word staggered slide-up reveal
-     (dynamic-content-sequencing / per-word kinetic reveal)
+     SCENE 4  ("Oeil360 Finance." — spoken 4.74s)
+     per-word staggered slide-up reveal
   ════════════════════════════════════════════════════════════════ */
 
-  /* Hairline separator: scaleX reveal + fade (transformOrigin via GSAP — fromTo exemption) */
+  /* Hairline separator: scaleX reveal + fade */
   tl.fromTo(
     '#pi-sep',
     { scaleX: 0, autoAlpha: 0, transformOrigin: 'center center' },
@@ -254,16 +255,13 @@
     );
   });
 
-  /* ── Long-tail settle: the power3.out on the last word (pi-w2) settles
-        naturally by ≈ t=3.9 s.  Idle jitter begins at 3.85 s. ── */
-
   /* ════════════════════════════════════════════════════════════════
      SINE-WAVE JITTER on the period "." (sine-wave-loop, 1 px)
-     Starts after text settles. phase=0 at onset → sin(0)=0 → no jump.
+     Starts after the wordmark settles (~5.6s), holds to the frame end.
   ════════════════════════════════════════════════════════════════ */
-  var IDLE_START = 3.85;
-  var IDLE_DUR   = 5.0 - IDLE_START;   /* = 1.15 s */
-  var CYCLES     = 0.8;                 /* ~1.44 s/cycle — within 1.5 s floor */
+  var IDLE_START = 5.0;
+  var IDLE_DUR   = 1.4;
+  var CYCLES     = 0.8;
 
   var phase = { p: 0 };
   var dotEl = document.getElementById('pi-dot');
@@ -275,7 +273,6 @@
       duration: IDLE_DUR,
       ease: 'none',
       onUpdate: function () {
-        /* 1 px amplitude Y jitter — "sur le point" */
         dotEl.style.transform = 'translateY(' + (Math.sin(phase.p) * 1).toFixed(3) + 'px)';
       }
     },

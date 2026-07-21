@@ -39,9 +39,11 @@
         <h2 class="h5 fw-semibold mb-2" style="color:var(--clr-navy)">1. Responsable du traitement</h2>
         <div class="card">
             <div class="card-body text-muted">
-                <p class="mb-1"><strong>Nom :</strong> <span class="text-warning">[À COMPLÉTER — Nom/Prénom ou Raison sociale]</span></p>
-                <p class="mb-1"><strong>Adresse :</strong> <span class="text-warning">[À COMPLÉTER — Ville, Pays]</span></p>
-                <p class="mb-0"><strong>Contact :</strong> <span class="text-warning">[À COMPLÉTER — adresse email de contact]</span></p>
+                <p class="mb-1"><strong>Nom :</strong> Oeil360Finance</p>
+                <p class="mb-1"><strong>Adresse :</strong> Porto-Novo, Bénin</p>
+                <p class="mb-0"><strong>Contact :</strong>
+                    <a href="mailto:oeil360finance.support@gmail.com" style="color:var(--clr-teal)">oeil360finance.support@gmail.com</a>
+                </p>
             </div>
         </div>
     </section>
@@ -158,7 +160,8 @@
             </div>
         </div>
         <p class="text-muted mt-3 small">
-            Pour exercer vos droits : <span class="text-warning">[À COMPLÉTER — adresse email de contact]</span>
+            Pour exercer vos droits :
+            <a href="mailto:oeil360finance.support@gmail.com" style="color:var(--clr-teal)">oeil360finance.support@gmail.com</a>
         </p>
     </section>
 
@@ -178,7 +181,7 @@
         <h2 class="h5 fw-semibold mb-2" style="color:var(--clr-navy)">8. Contact et autorité de contrôle</h2>
         <p class="text-muted">
             Pour toute question relative à vos données personnelles, contactez-nous à :
-            <span class="text-warning">[À COMPLÉTER — adresse email de contact]</span>
+            <a href="mailto:oeil360finance.support@gmail.com" style="color:var(--clr-teal)">oeil360finance.support@gmail.com</a>
         </p>
         <p class="text-muted">
             Vous pouvez également adresser une réclamation à l'<strong>Autorité de Protection des Données

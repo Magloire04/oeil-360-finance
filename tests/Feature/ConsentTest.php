@@ -24,7 +24,8 @@ class ConsentTest extends TestCase
     {
         $user = User::factory()->unconsented()->create();
 
-        $this->actingAs($user)->get('/')->assertRedirect('/consent');
+        // '/' est désormais la landing publique : on vise une page protégée.
+        $this->actingAs($user)->get('/dashboard')->assertRedirect('/consent');
     }
 
     public function test_consent_page_returns_200_for_unconsented_user(): void
@@ -59,7 +60,7 @@ class ConsentTest extends TestCase
     {
         $user = User::factory()->create(); // factory defaults = consented
 
-        $this->actingAs($user)->get('/')->assertStatus(200);
+        $this->actingAs($user)->get('/dashboard')->assertStatus(200);
     }
 
     public function test_consented_user_cannot_be_forced_to_consent_page(): void

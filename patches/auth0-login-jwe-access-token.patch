@@ -1,10 +1,10 @@
 --- a/src/Guards/AuthenticationGuard.php
 +++ b/src/Guards/AuthenticationGuard.php
-@@ -372,7 +372,14 @@ private function pullState(): ?CredentialEntityContract
+@@ -372,9 +372,15 @@ private function pullState(): ?CredentialEntityContract
          /** @var mixed $credentials */
          if (is_object($credentials) && property_exists($credentials, 'user') && property_exists($credentials, 'idToken') && property_exists($credentials, 'accessToken') && property_exists($credentials, 'accessTokenScope') && property_exists($credentials, 'accessTokenExpiration') && property_exists($credentials, 'refreshToken')) {
              $decoded = null;
-
+ 
              if (null !== $credentials->accessToken) {
 -                $decoded = (new Parser(new SdkConfiguration(strategy: SdkConfiguration::STRATEGY_NONE), $credentials->accessToken))->export();
 +                try {
@@ -15,5 +15,5 @@
 +                    $decoded = [];
 +                }
              }
-
+ 
              /**

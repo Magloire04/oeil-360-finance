@@ -38,7 +38,7 @@
 <div class="card">
     <div class="card-body p-0">
         <div id="no-transfers" class="text-center text-muted py-4 d-none">Aucun transfert trouvé</div>
-        <table class="table table-hover mb-0" id="transfers-table">
+        <table class="table table-hover align-middle mb-0" id="transfers-table">
             <thead class="table-light">
                 <tr>
                     <th>Date</th>

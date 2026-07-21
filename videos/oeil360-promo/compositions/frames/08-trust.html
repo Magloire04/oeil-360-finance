@@ -1,0 +1,278 @@
+<template data-composition-id="08-trust">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+    /* ── Root: sized container — no background (painted on clip) ─────── */
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: 'Instrument Sans', sans-serif;
+    }
+
+    /* ── Card inner shell ─────────────────────────────────────────────── */
+    .t8-card {
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    /* APDP card — teal-tinted (frame.md card-tinted) */
+    .t8-card-apdp {
+      background: rgba(40, 201, 138, 0.04);
+      border: 1.5px solid rgba(40, 201, 138, 0.2);
+    }
+
+    /* Auth0 card — navy-tinted (frame spec override) */
+    .t8-card-auth0 {
+      background: rgba(26, 46, 74, 0.04);
+      border: 1.5px solid rgba(26, 46, 74, 0.15);
+    }
+
+    /* Card icon row */
+    .t8-icon {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Card h3 — frame.md: 1.25cqw, weight 500, navy, -0.02em */
+    .t8-title {
+      font-size: 1.25cqw;
+      font-weight: 500;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: #1a2e4a;
+      margin-bottom: 10px;
+    }
+
+    /* Card body — frame.md: 0.85cqw, weight 400, text-muted, lh 1.6 */
+    .t8-body {
+      font-size: 0.85cqw;
+      font-weight: 400;
+      line-height: 1.6;
+      color: #7b8fa6;
+    }
+
+    /* Eyebrow text — frame.md: 0.8cqw, weight 600, teal, uppercase, 0.08em */
+    .t8-eyebrow-text {
+      font-size: 0.8cqw;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #28c98a;
+      text-align: center;
+    }
+  </style>
+
+  <!-- Re-synced to the HeyGen voice (line 08), narration order:
+       "Tes données t'appartiennent."  spoken 0.16–1.24  → eyebrow first
+       "Conforme Loi APDP Bénin."       spoken 1.96–3.70  → left card
+       "Authentification … Auth0"       spoken 4.36–6.64  → right card
+       Held to 8.6s (line ends ~7.98s). -->
+  <div
+    id="root"
+    data-composition-id="08-trust"
+    data-duration="8.6"
+    data-width="1920"
+    data-height="1080"
+  >
+
+    <!-- ── Track 0: White background ─────────────────────────────────── -->
+    <div
+      id="t8-bg"
+      class="clip"
+      data-start="0"
+      data-duration="8.6"
+      data-track-index="0"
+      style="position: absolute; inset: 0; background: #ffffff;"
+    ></div>
+
+    <!-- ── Track 2: Eyebrow band ──────────────────────────────────────── -->
+    <!--
+      "Tes données t'appartiennent." — spoken FIRST (t≈0.16s), so revealed first.
+      Positioned above the two cards; centered full-width. Opacity 0 → 1 at t=0.4s.
+    -->
+    <div
+      id="t8-eyebrow"
+      class="clip"
+      data-start="0"
+      data-duration="8.6"
+      data-track-index="2"
+      style="
+        position: absolute;
+        top: 225px;
+        left: 0;
+        width: 1920px;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <span class="t8-eyebrow-text">Tes données t'appartiennent.</span>
+    </div>
+
+    <!-- ── Track 1: Left card — APDP shield ──────────────────────────── -->
+    <!--
+      Enters via spring-pop-entrance (y:40→0 + opacity:0→1) at t=1.96s,
+      on the spoken "Conforme … APDP".
+      Card left of midpoint (960): left 500 → right edge 920 (< 960 ✓).
+    -->
+    <div
+      id="t8-left"
+      class="clip"
+      data-start="0"
+      data-duration="8.6"
+      data-track-index="1"
+      style="
+        position: absolute;
+        top: 345px;
+        left: 500px;
+        width: 420px;
+        height: 260px;
+        transform-origin: 50% 50%;
+        will-change: transform, opacity;
+      "
+    >
+      <div class="t8-card t8-card-apdp">
+
+        <!-- Shield SVG — teal, ~48 px, simple pentagon + checkmark -->
+        <div class="t8-icon">
+          <svg width="48" height="54" viewBox="0 0 48 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path
+              d="M24 3L43 11V26C43 37.5 34.5 46 24 51C13.5 46 5 37.5 5 26V11Z"
+              fill="rgba(40,201,138,0.12)"
+              stroke="#28c98a"
+              stroke-width="2.5"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M16 27L21.5 33L33 21"
+              stroke="#28c98a"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <div class="t8-title">Conforme APDP Bénin</div>
+        <div class="t8-body">Loi n°2017-20</div>
+
+      </div>
+    </div>
+
+    <!-- ── Track 3: Right card — Auth0 padlock ───────────────────────── -->
+    <!--
+      Enters at t=4.36s on the spoken "Authentification … Auth0".
+      Card right of midpoint: left 1000 → right edge 1420 (> 960 ✓).
+    -->
+    <div
+      id="t8-right"
+      class="clip"
+      data-start="0"
+      data-duration="8.6"
+      data-track-index="3"
+      style="
+        position: absolute;
+        top: 345px;
+        left: 1000px;
+        width: 420px;
+        height: 260px;
+        transform-origin: 50% 50%;
+        will-change: transform, opacity;
+      "
+    >
+      <div class="t8-card t8-card-auth0">
+
+        <!-- Lock SVG — navy, ~48 px, simple padlock shape -->
+        <div class="t8-icon">
+          <svg width="44" height="54" viewBox="0 0 44 54" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Shackle (open arc, closed at top) -->
+            <path
+              d="M11 23V17C11 9.82 33 9.82 33 17V23"
+              stroke="#1a2e4a"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              fill="none"
+            />
+            <!-- Lock body -->
+            <rect
+              x="5"
+              y="23"
+              width="34"
+              height="27"
+              rx="5"
+              fill="rgba(26,46,74,0.1)"
+              stroke="#1a2e4a"
+              stroke-width="2.5"
+            />
+            <!-- Keyhole circle -->
+            <circle cx="22" cy="36.5" r="4" fill="#1a2e4a" />
+            <!-- Keyhole stem -->
+            <rect x="20.5" y="36.5" width="3" height="6" rx="1.5" fill="#1a2e4a" />
+          </svg>
+        </div>
+
+        <div class="t8-title">Auth0</div>
+        <div class="t8-body">Zéro mot de passe stocké</div>
+
+      </div>
+    </div>
+
+  </div><!-- /#root -->
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"
+          integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2"
+          crossorigin="anonymous"></script>
+  <script>
+    window.__timelines = window.__timelines || {};
+    var tl = gsap.timeline({ paused: true });
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // Eyebrow "Tes données t'appartiennent." — spoken first (t≈0.16s).
+    // Fade in at t=0.4s, then hold. No motion after — stillness = trust.
+    // ═══════════════════════════════════════════════════════════════════════
+    tl.fromTo(
+      '#t8-eyebrow',
+      { opacity: 0 },
+      { opacity: 1, duration: 0.5, ease: 'power2.out' },
+      0.4
+    );
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // Left card (APDP shield) — spoken "Conforme … APDP" at t≈1.96s.
+    // spring-pop-entrance: y:40→0, opacity:0→1, power3.out (calm settle).
+    // ═══════════════════════════════════════════════════════════════════════
+    tl.fromTo(
+      '#t8-left',
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.65, ease: 'power3.out' },
+      1.96
+    );
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // Right card (Auth0 lock) — spoken "Authentification … Auth0" at t≈4.36s.
+    // Same spring-pop-entrance signature.
+    // ═══════════════════════════════════════════════════════════════════════
+    tl.fromTo(
+      '#t8-right',
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.65, ease: 'power3.out' },
+      4.36
+    );
+
+    window.__timelines['08-trust'] = tl;
+  </script>
+</template>

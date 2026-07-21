@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2" crossorigin="anonymous"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #ffffff;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Timing restored to each frame's choreographed length (holds intact),
+      then re-cascaded. Frame durations = max(authored window, HeyGen voice + tail).
+      Voice starts at each frame's start (preserves reveal-on-cue sync).
+      Total: 66.2s.
+    -->
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="66.2"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- ── BGM · full-length bed, low volume, own track ─────────────── -->
+      <audio
+        id="el-bgm"
+        src="assets/bgm/bgm-loop.mp3"
+        data-start="0"
+        data-duration="66.2"
+        data-track-index="20"
+        data-volume="0.15"
+      ></audio>
+
+      <!-- ── Frame 1 · Hook (0 – 6.8) ─────────────────────────────────── -->
+      <div
+        id="el-01-hook"
+        class="scene"
+        data-composition-id="01-hook"
+        data-composition-src="compositions/frames/01-hook.html"
+        data-start="0"
+        data-duration="6.8"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-01-hook-voice"
+        src="assets/voice/01.wav"
+        data-start="0"
+        data-duration="5.982"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- ── Frame 2 · Le problème (6.8 – 13.8) ───────────────────────── -->
+      <div
+        id="el-02-problem"
+        class="scene"
+        data-composition-id="02-problem"
+        data-composition-src="compositions/frames/02-problem.html"
+        data-start="6.8"
+        data-duration="7"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-02-problem-voice"
+        src="assets/voice/02.wav"
+        data-start="6.8"
+        data-duration="6.034"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- ── Frame 3 · Introduction produit (13.8 – 21.6) ─────────────── -->
+      <div
+        id="el-03-product-intro"
+        class="scene"
+        data-composition-id="03-product-intro"
+        data-composition-src="compositions/frames/03-product-intro.html"
+        data-start="13.8"
+        data-duration="7.8"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-03-product-intro-voice"
+        src="assets/voice/03.wav"
+        data-start="13.8"
+        data-duration="7.523"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- ── Frame 4 · Tableau de bord (21.6 – 29.6) ──────────────────── -->
+      <div
+        id="el-04-dashboard"
+        class="scene"
+        data-composition-id="04-dashboard"
+        data-composition-src="compositions/frames/04-dashboard.html"
+        data-start="21.6"
+        data-duration="8"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-04-dashboard-voice"
+        src="assets/voice/04.wav"
+        data-start="21.6"
+        data-duration="5.433"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- ── Frame 5 · Transactions (29.6 – 37.6) ─────────────────────── -->
+      <div
+        id="el-05-transactions"
+        class="scene"
+        data-composition-id="05-transactions"
+        data-composition-src="compositions/frames/05-transactions.html"
+        data-start="29.6"
+        data-duration="8"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-05-transactions-voice"
+        src="assets/voice/05.wav"
+        data-start="29.6"
+        data-duration="5.381"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- ── Frame 6 · Comptes & Virements (37.6 – 44.6) ──────────────── -->
+      <div
+        id="el-06-accounts"
+        class="scene"
+        data-composition-id="06-accounts"
+        data-composition-src="compositions/frames/06-accounts.html"
+        data-start="37.6"
+        data-duration="7"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-06-accounts-voice"
+        src="assets/voice/06.wav"
+        data-start="37.6"
+        data-duration="5.982"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- ── Frame 7 · Récurrences (44.6 – 50.1) ──────────────────────── -->
+      <div
+        id="el-07-recurring"
+        class="scene"
+        data-composition-id="07-recurring"
+        data-composition-src="compositions/frames/07-recurring.html"
+        data-start="44.6"
+        data-duration="5.5"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-07-recurring-voice"
+        src="assets/voice/07.wav"
+        data-start="44.6"
+        data-duration="4.833"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- ── Frame 8 · Sécurité & Conformité (50.1 – 58.7) ────────────── -->
+      <div
+        id="el-08-trust"
+        class="scene"
+        data-composition-id="08-trust"
+        data-composition-src="compositions/frames/08-trust.html"
+        data-start="50.1"
+        data-duration="8.6"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-08-trust-voice"
+        src="assets/voice/08.wav"
+        data-start="50.1"
+        data-duration="8.307"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+      <!-- ── Frame 9 · CTA (58.7 – 66.2) ──────────────────────────────── -->
+      <div
+        id="el-09-cta"
+        class="scene"
+        data-composition-id="09-cta"
+        data-composition-src="compositions/frames/09-cta.html"
+        data-start="58.7"
+        data-duration="7.5"
+        data-track-index="1"
+      ></div>
+      <audio
+        id="el-09-cta-voice"
+        src="assets/voice/09.wav"
+        data-start="58.7"
+        data-duration="5.224"
+        data-track-index="10"
+        data-volume="1"
+      ></audio>
+
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

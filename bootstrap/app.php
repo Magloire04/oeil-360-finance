@@ -1,9 +1,16 @@
 <?php
 
+use App\Http\Middleware\EnsureConsentGiven;
+use App\Http\Middleware\UpdateLastActivity;
+use App\Http\Responses\ApiResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,16 +20,28 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // API routes share the browser session so the Auth0 web guard can authenticate
+        // fetch() calls from the same origin. Without these, the session cookie is never
+        // decrypted/read and auth()->check() always returns false on /api/* routes.
+        $middleware->api(prepend: [
+            EncryptCookies::class,
+            StartSession::class,
+        ]);
+
+        // Aliases utilisés dans routes/web.php pour les routes protégées
+        $middleware->alias([
+            'consent' => EnsureConsentGiven::class,
+            'activity' => UpdateLastActivity::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
 
-        $exceptions->render(function (\Illuminate\Validation\ValidationException $e, Request $request) {
+        $exceptions->render(function (ValidationException $e, Request $request) {
             if ($request->is('api/*')) {
-                return \App\Http\Responses\ApiResponse::error(
+                return ApiResponse::error(
                     'Données invalides',
                     'VALIDATION_ERROR',
                     $e->errors(),
@@ -31,9 +50,9 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, Request $request) {
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
-                return \App\Http\Responses\ApiResponse::error('Ressource introuvable', 'NOT_FOUND', null, 404);
+                return ApiResponse::error('Ressource introuvable', 'NOT_FOUND', null, 404);
             }
         });
     })->create();

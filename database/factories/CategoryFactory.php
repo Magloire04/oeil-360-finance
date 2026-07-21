@@ -18,6 +18,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => null,
             'name' => fake()->words(2, true),
             'type' => fake()->randomElement(['income', 'expense', 'both']),
             'is_archived' => false,

@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\RecurringTransaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,7 +20,9 @@ class RecurringTransactionFactory extends Factory
     public function definition(): array
     {
         $startDate = fake()->dateTimeBetween('2026-01-01', '2026-12-31')->format('Y-m-d');
+
         return [
+            'user_id' => null,
             'amount' => fake()->randomFloat(2, 100, 500000),
             'sense' => fake()->randomElement(['income', 'expense']),
             'frequency' => fake()->randomElement(['daily', 'weekly', 'monthly', 'yearly']),

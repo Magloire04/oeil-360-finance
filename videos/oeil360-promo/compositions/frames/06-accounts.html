@@ -1,0 +1,322 @@
+<template data-composition-id="06-accounts">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+/* ── Root sizing + container-type (required for cqw units) ── */
+#root {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+  container-type: size;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+/* ── White background layer (never on #root itself) ── */
+.ac-bg {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+}
+
+/* ── Account cards ──
+   Each card is absolute-positioned via inline style (left/top).
+   No CSS transform — GSAP-safe for spring-pop-entrance.            */
+.ac-card {
+  position: absolute;
+  width: 320px;
+  /* height intentional auto — padding drives height naturally */
+  background: rgba(40, 201, 138, 0.04);
+  border: 1.5px solid rgba(40, 201, 138, 0.2);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 22px 26px 24px;
+  will-change: transform, opacity;
+  transform-origin: 50% 50%;
+}
+
+.ac-icon {
+  font-size: 28px;
+  line-height: 1;
+  margin-bottom: 8px;
+  /* Emoji — no font-family override needed */
+}
+
+/* h3 ramp from frame.md: 1.25cqw, weight 500, −0.02em, near-black */
+.ac-name {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 500;
+  font-size: 1.1cqw;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: #1a2e4a;
+  margin-bottom: 6px;
+}
+
+/* stat-num ramp: 1.9cqw, weight 700, teal */
+.ac-balance {
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.35cqw;
+  line-height: 1.0;
+  color: #28c98a;
+}
+
+/* ── SVG arc overlay ──
+   Covers full canvas; pointer-events off so cards remain hoverable.  */
+#ac-svg-overlay {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+#ac-arc-path {
+  fill: none;
+  stroke: #28c98a;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#ac-arrowhead {
+  fill: #28c98a;
+}
+
+/* ── Ambient glow layer ──
+   Radial halo behind the SVG arc, centered at the bezier midpoint.
+   Arc runs from card-1 center (560,450) to card-2 center (960,450),
+   bezier peak at approx (760,390). Glow: 240×240px centered there.
+   left = 760−120 = 640px, top = 390−120 = 270px.                   */
+#ac-arc-glow {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  left: 640px;
+  top: 270px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(40, 201, 138, 0.22) 0%,
+    rgba(40, 201, 138, 0.08) 45%,
+    transparent 70%
+  );
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform-origin: 50% 50%;
+}
+</style>
+
+<!-- ================================================================== -->
+<!--  Composition root                                                    -->
+<!-- ================================================================== -->
+<div id="root"
+     data-composition-id="06-accounts"
+     data-duration="7"
+     data-width="1920"
+     data-height="1080">
+
+  <!-- ── Track 0 · White ground (full 7s) ── -->
+  <div class="clip ac-bg"
+       data-start="0"
+       data-duration="7"
+       data-track-index="0">
+  </div>
+
+  <!-- ── Track 1 · Card 1 — Banque Atlantique (left-third)
+       Center: left=400 + 160 = 560px, top=380 + 85 = 465px → used for SVG arc
+       spring-pop-entrance: y 60→0, scale 0.85→1, at t=0          ── -->
+  <div id="ac-c1" class="clip ac-card"
+       data-start="0"
+       data-duration="7"
+       data-track-index="1"
+       style="left: 400px; top: 380px;">
+    <div class="ac-icon">🏦</div>
+    <div class="ac-name">Banque Atlantique</div>
+    <div class="ac-balance">450 000 F CFA</div>
+  </div>
+
+  <!-- ── Track 2 · Card 2 — Wave Mobile Money (centre)
+       Center: left=800 + 160 = 960px, top=380 + 85 = 465px
+       spring-pop-entrance: stagger 0.4s from card 1 → t=2.0       ── -->
+  <div id="ac-c2" class="clip ac-card"
+       data-start="0"
+       data-duration="7"
+       data-track-index="2"
+       style="left: 800px; top: 380px;">
+    <div class="ac-icon">📱</div>
+    <div class="ac-name">Wave Mobile Money</div>
+    <div class="ac-balance">180 000 F</div>
+  </div>
+
+  <!-- ── Track 3 · Card 3 — Espèces (right-third)
+       Center: left=1200 + 160 = 1360px, top=380 + 85 = 465px
+       spring-pop-entrance: stagger 0.4s from card 2 → t=2.4       ── -->
+  <div id="ac-c3" class="clip ac-card"
+       data-start="0"
+       data-duration="7"
+       data-track-index="3"
+       style="left: 1200px; top: 380px;">
+    <div class="ac-icon">💵</div>
+    <div class="ac-name">Espèces</div>
+    <div class="ac-balance">75 000 F</div>
+  </div>
+
+  <!-- ── Track 4 · SVG arc + arrowhead (full 7s; arc stays invisible
+       via strokeDashoffset until Scene 3 at t=4.0)
+       Bezier: M 560,465 Q 760,310 960,465
+       Tangent at end from ctrl(760,310)→end(960,465):
+         dx=200 dy=155 → angle = atan2(155,200) ≈ 37.8°
+       Arrowhead polygon tip at (960,465), points "0,0 -14,-7 -14,7"
+       rotated ~38° so it follows the curve's exit tangent.         ── -->
+  <svg id="ac-svg-overlay"
+       class="clip"
+       data-start="0"
+       data-duration="7"
+       data-track-index="4"
+       xmlns="http://www.w3.org/2000/svg"
+       viewBox="0 0 1920 1080">
+    <path id="ac-arc-path"
+          d="M 560,465 Q 760,310 960,465"/>
+    <polygon id="ac-arrowhead"
+             points="0,0 -14,-7 -14,7"
+             transform="translate(960,465) rotate(37.8)"/>
+  </svg>
+
+  <!-- ── Track 5 · Arc glow (full 7s; invisible until Scene 4 t=6.0) ── -->
+  <div id="ac-arc-glow"
+       class="clip"
+       data-start="0"
+       data-duration="7"
+       data-track-index="5">
+  </div>
+
+</div><!-- /#root -->
+
+<!-- ================================================================== -->
+<!--  GSAP — must live inside <template>                                  -->
+<!-- ================================================================== -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"
+        integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2"
+        crossorigin="anonymous"></script>
+<script>
+(function () {
+  'use strict';
+
+  window.__timelines = window.__timelines || {};
+
+  /* ── svg-path-draw setup ──
+     Measure the arc's total length BEFORE the timeline is built.
+     Set dasharray = dashoffset = length → arc starts fully invisible.
+     GSAP fromTo then animates dashoffset length → 0 at t=4.0.       */
+  var arcEl  = document.getElementById('ac-arc-path');
+  var arcLen = arcEl.getTotalLength();
+  arcEl.style.strokeDasharray  = String(arcLen);
+
+  /* ── Single paused timeline ── */
+  var tl = gsap.timeline({ paused: true });
+
+  /* ════════════════════════════════════════════════════════════════
+     SCENE 1  (0.0 – 2.0 s)
+     "Banque Atlantique" card springs in — spring-pop-entrance.
+     fromTo states the collapsed start explicitly (seek-safe).
+     power3.out: smooth long-tail settle, no bounce.
+  ════════════════════════════════════════════════════════════════ */
+  tl.fromTo(
+    '#ac-c1',
+    { y: 60, scale: 0.85, autoAlpha: 0 },
+    { y: 0,  scale: 1,    autoAlpha: 1, duration: 0.6, ease: 'power3.out' },
+    0
+  );
+
+  /* ════════════════════════════════════════════════════════════════
+     SCENE 2  (2.0 – 4.0 s)
+     "Wave Mobile Money" then "Espèces" spring in — 0.4 s stagger.
+     Both use the same spring-pop-entrance recipe.
+  ════════════════════════════════════════════════════════════════ */
+  tl.fromTo(
+    '#ac-c2',
+    { y: 60, scale: 0.85, autoAlpha: 0 },
+    { y: 0,  scale: 1,    autoAlpha: 1, duration: 0.6, ease: 'power3.out' },
+    1.0
+  );
+  tl.fromTo(
+    '#ac-c3',
+    { y: 60, scale: 0.85, autoAlpha: 0 },
+    { y: 0,  scale: 1,    autoAlpha: 1, duration: 0.6, ease: 'power3.out' },
+    1.9
+  );
+
+  /* ── Subtle card jitter begins once all three cards are assembled ──
+     sine-wave-loop: amplitude 1.5 px, period 3 s, runs t=4.0→7.0 (3 s finite).
+     CYCLES = 3.0 s duration / 3.0 s period = 1.0 full cycle.
+     phase = 0 at onset → sin(0)=0 → no jump from settled position.
+     Cards offset by π/2 each for organic out-of-phase motion.
+     gsap.set() inside onUpdate writes y via GSAP's cache so seek works. */
+  var c1El = document.getElementById('ac-c1');
+  var c2El = document.getElementById('ac-c2');
+  var c3El = document.getElementById('ac-c3');
+
+  var jPhase = { p: 0 };
+  tl.to(
+    jPhase,
+    {
+      p: Math.PI * 2 * 1.0,   /* 1 full cycle over 3 s */
+      duration: 3.0,
+      ease: 'none',
+      onUpdate: function () {
+        var amp = 1.5;
+        gsap.set(c1El, { y: Math.sin(jPhase.p)                       * amp });
+        gsap.set(c2El, { y: Math.sin(jPhase.p + Math.PI / 2)         * amp });
+        gsap.set(c3El, { y: Math.sin(jPhase.p + Math.PI)             * amp });
+      }
+    },
+    4.0   /* jitter starts when triptych is complete, runs to t=7.0 */
+  );
+
+  /* ════════════════════════════════════════════════════════════════
+     SCENE 3  (4.0 – 6.0 s)
+     Transfer arc draws via svg-path-draw:
+       strokeDashoffset arcLen → 0 over 1.5 s, power2.out.
+     Arrowhead fades in as the stroke reaches the tip (t=5.5).
+  ════════════════════════════════════════════════════════════════ */
+  tl.fromTo(
+    '#ac-arc-path',
+    { strokeDashoffset: arcLen },
+    { strokeDashoffset: 0, duration: 1.5, ease: 'power2.out' },
+    4.0
+  );
+
+  /* Arrowhead: fromTo so it is invisible at t=0 under seek */
+  tl.fromTo(
+    '#ac-arrowhead',
+    { autoAlpha: 0 },
+    { autoAlpha: 1, duration: 0.3, ease: 'power1.out' },
+    5.5
+  );
+
+  /* ════════════════════════════════════════════════════════════════
+     SCENE 4  (6.0 – 7.0 s)
+     ambient-glow-bloom: halo behind the SVG arc blooms in.
+     opacity 0→peak + scale swell 0.8→1 (halo "inflates" into place).
+     power2.out: arrives soft, not snappy.
+  ════════════════════════════════════════════════════════════════ */
+  tl.fromTo(
+    '#ac-arc-glow',
+    { autoAlpha: 0, scale: 0.8 },
+    { autoAlpha: 1, scale: 1,   duration: 0.6, ease: 'power2.out' },
+    6.0
+  );
+
+  /* ── Register the single paused timeline ── */
+  window.__timelines['06-accounts'] = tl;
+}());
+</script>
+
+</template>

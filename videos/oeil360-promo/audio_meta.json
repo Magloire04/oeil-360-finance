@@ -1,0 +1,800 @@
+{
+  "tts_provider": "heygen",
+  "voice_id": "4829d1907f1e48f3b7a7a1d0594abd7d",
+  "bgm": {
+    "path": "assets/bgm/track.mp3",
+    "volume": 0.12,
+    "query": "confident, modern, minimal — low-tempo electronic with subtle percussion",
+    "mode": "retrieve",
+    "duration_s": 17
+  },
+  "bgm_pending": false,
+  "bgm_provider": "heygen",
+  "bgm_pid": null,
+  "bgm_log": null,
+  "bgm_mode": "retrieve",
+  "bgm_target_duration_s": null,
+  "bgm_seed_duration_s": null,
+  "bgm_loop_count": null,
+  "voices": [
+    {
+      "id": "01",
+      "path": "assets/voice/01.wav",
+      "duration_s": 5.982,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Tes",
+          "start": 0.159,
+          "end": 0.319
+        },
+        {
+          "id": "w1",
+          "text": "finances",
+          "start": 0.359,
+          "end": 0.699
+        },
+        {
+          "id": "w2",
+          "text": "dans",
+          "start": 0.74,
+          "end": 0.859
+        },
+        {
+          "id": "w3",
+          "text": "un",
+          "start": 0.899,
+          "end": 0.959
+        },
+        {
+          "id": "w4",
+          "text": "tableur",
+          "start": 1.039,
+          "end": 1.539
+        },
+        {
+          "id": "w5",
+          "text": "?",
+          "start": 1.539,
+          "end": 1.539
+        },
+        {
+          "id": "w6",
+          "text": "Des",
+          "start": 2.579,
+          "end": 2.679
+        },
+        {
+          "id": "w7",
+          "text": "notes",
+          "start": 2.74,
+          "end": 2.939
+        },
+        {
+          "id": "w8",
+          "text": "éparpillées",
+          "start": 3,
+          "end": 3.679
+        },
+        {
+          "id": "w9",
+          "text": "?",
+          "start": 3.679,
+          "end": 3.679
+        },
+        {
+          "id": "w10",
+          "text": "Une",
+          "start": 4.639,
+          "end": 4.739
+        },
+        {
+          "id": "w11",
+          "text": "appli",
+          "start": 4.799,
+          "end": 5.059
+        },
+        {
+          "id": "w12",
+          "text": "par",
+          "start": 5.099,
+          "end": 5.259
+        },
+        {
+          "id": "w13",
+          "text": "compte",
+          "start": 5.299,
+          "end": 5.659
+        },
+        {
+          "id": "w14",
+          "text": "?",
+          "start": 5.659,
+          "end": 5.659
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "path": "assets/voice/02.wav",
+      "duration_s": 6.034,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Wave,",
+          "start": 0.239,
+          "end": 0.62
+        },
+        {
+          "id": "w1",
+          "text": "Ecobank,",
+          "start": 0.839,
+          "end": 1.439
+        },
+        {
+          "id": "w2",
+          "text": "espèces,",
+          "start": 1.639,
+          "end": 2.259
+        },
+        {
+          "id": "w3",
+          "text": "abonnements,",
+          "start": 2.419,
+          "end": 2.939
+        },
+        {
+          "id": "w4",
+          "text": "impôts",
+          "start": 2.98,
+          "end": 3.299
+        },
+        {
+          "id": "w5",
+          "text": "—",
+          "start": 3.299,
+          "end": 3.299
+        },
+        {
+          "id": "w6",
+          "text": "tout",
+          "start": 3.339,
+          "end": 3.5
+        },
+        {
+          "id": "w7",
+          "text": "en",
+          "start": 3.559,
+          "end": 3.699
+        },
+        {
+          "id": "w8",
+          "text": "silo.",
+          "start": 3.74,
+          "end": 4.039
+        },
+        {
+          "id": "w9",
+          "text": "Jamais",
+          "start": 4.539,
+          "end": 4.879
+        },
+        {
+          "id": "w10",
+          "text": "une",
+          "start": 4.92,
+          "end": 5.019
+        },
+        {
+          "id": "w11",
+          "text": "vue",
+          "start": 5.079,
+          "end": 5.179
+        },
+        {
+          "id": "w12",
+          "text": "d'ensemble.",
+          "start": 5.219,
+          "end": 5.759
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "path": "assets/voice/03.wav",
+      "duration_s": 7.523,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Santralise.",
+          "start": 0.239,
+          "end": 0.939
+        },
+        {
+          "id": "w1",
+          "text": "Vizualise.",
+          "start": 1.439,
+          "end": 2.2
+        },
+        {
+          "id": "w2",
+          "text": "Maîtrise.",
+          "start": 2.679,
+          "end": 3.299
+        },
+        {
+          "id": "w3",
+          "text": "—",
+          "start": 3.299,
+          "end": 3.299
+        },
+        {
+          "id": "w4",
+          "text": "Oeil",
+          "start": 4.039,
+          "end": 4.219
+        },
+        {
+          "id": "w5",
+          "text": "trois",
+          "start": 4.279,
+          "end": 4.44
+        },
+        {
+          "id": "w6",
+          "text": "cent",
+          "start": 4.599,
+          "end": 4.759
+        },
+        {
+          "id": "w7",
+          "text": "soixante",
+          "start": 5.44,
+          "end": 5.92
+        },
+        {
+          "id": "w8",
+          "text": "Finance.",
+          "start": 6.679,
+          "end": 7.219
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "path": "assets/voice/04.wav",
+      "duration_s": 5.433,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Un",
+          "start": 0.199,
+          "end": 0.299
+        },
+        {
+          "id": "w1",
+          "text": "seul",
+          "start": 0.459,
+          "end": 0.62
+        },
+        {
+          "id": "w2",
+          "text": "écran.",
+          "start": 0.68,
+          "end": 1
+        },
+        {
+          "id": "w3",
+          "text": "Tous",
+          "start": 1.559,
+          "end": 1.639
+        },
+        {
+          "id": "w4",
+          "text": "tes",
+          "start": 1.699,
+          "end": 1.839
+        },
+        {
+          "id": "w5",
+          "text": "comptes,",
+          "start": 1.879,
+          "end": 2.159
+        },
+        {
+          "id": "w6",
+          "text": "toutes",
+          "start": 2.46,
+          "end": 2.599
+        },
+        {
+          "id": "w7",
+          "text": "tes",
+          "start": 2.639,
+          "end": 2.72
+        },
+        {
+          "id": "w8",
+          "text": "catégories,",
+          "start": 2.779,
+          "end": 3.299
+        },
+        {
+          "id": "w9",
+          "text": "ton",
+          "start": 3.539,
+          "end": 3.74
+        },
+        {
+          "id": "w10",
+          "text": "solde",
+          "start": 3.799,
+          "end": 4.079
+        },
+        {
+          "id": "w11",
+          "text": "global",
+          "start": 4.119,
+          "end": 4.48
+        },
+        {
+          "id": "w12",
+          "text": "—",
+          "start": 4.48,
+          "end": 4.48
+        },
+        {
+          "id": "w13",
+          "text": "d'un",
+          "start": 4.539,
+          "end": 4.659
+        },
+        {
+          "id": "w14",
+          "text": "coup",
+          "start": 4.699,
+          "end": 4.799
+        },
+        {
+          "id": "w15",
+          "text": "d'œil.",
+          "start": 4.839,
+          "end": 5.159
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "path": "assets/voice/05.wav",
+      "duration_s": 5.381,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Revenu",
+          "start": 0.14,
+          "end": 0.56
+        },
+        {
+          "id": "w1",
+          "text": "ou",
+          "start": 0.68,
+          "end": 0.719
+        },
+        {
+          "id": "w2",
+          "text": "dépense",
+          "start": 0.819,
+          "end": 1.279
+        },
+        {
+          "id": "w3",
+          "text": "—",
+          "start": 1.279,
+          "end": 1.279
+        },
+        {
+          "id": "w4",
+          "text": "en",
+          "start": 1.319,
+          "end": 1.419
+        },
+        {
+          "id": "w5",
+          "text": "quelques",
+          "start": 1.459,
+          "end": 1.759
+        },
+        {
+          "id": "w6",
+          "text": "secondes,",
+          "start": 1.779,
+          "end": 2.2
+        },
+        {
+          "id": "w7",
+          "text": "classé,",
+          "start": 2.659,
+          "end": 3.079
+        },
+        {
+          "id": "w8",
+          "text": "tracé,",
+          "start": 3.46,
+          "end": 3.959
+        },
+        {
+          "id": "w9",
+          "text": "visualisé.",
+          "start": 4.519,
+          "end": 5.139
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "path": "assets/voice/06.wav",
+      "duration_s": 5.982,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Banque,",
+          "start": 0.259,
+          "end": 0.639
+        },
+        {
+          "id": "w1",
+          "text": "mobile",
+          "start": 0.979,
+          "end": 1.259
+        },
+        {
+          "id": "w2",
+          "text": "money,",
+          "start": 1.299,
+          "end": 1.579
+        },
+        {
+          "id": "w3",
+          "text": "espèces",
+          "start": 1.879,
+          "end": 2.259
+        },
+        {
+          "id": "w4",
+          "text": "—",
+          "start": 2.259,
+          "end": 2.259
+        },
+        {
+          "id": "w5",
+          "text": "tous",
+          "start": 2.359,
+          "end": 2.46
+        },
+        {
+          "id": "w6",
+          "text": "tes",
+          "start": 2.519,
+          "end": 2.639
+        },
+        {
+          "id": "w7",
+          "text": "comptes",
+          "start": 2.679,
+          "end": 2.919
+        },
+        {
+          "id": "w8",
+          "text": "réunis.",
+          "start": 2.98,
+          "end": 3.399
+        },
+        {
+          "id": "w9",
+          "text": "Virer",
+          "start": 3.699,
+          "end": 4
+        },
+        {
+          "id": "w10",
+          "text": "de",
+          "start": 4.039,
+          "end": 4.099
+        },
+        {
+          "id": "w11",
+          "text": "l'un",
+          "start": 4.119,
+          "end": 4.36
+        },
+        {
+          "id": "w12",
+          "text": "à",
+          "start": 4.4,
+          "end": 4.46
+        },
+        {
+          "id": "w13",
+          "text": "l'autre,",
+          "start": 4.5,
+          "end": 4.779
+        },
+        {
+          "id": "w14",
+          "text": "c'est",
+          "start": 4.92,
+          "end": 5.139
+        },
+        {
+          "id": "w15",
+          "text": "deux",
+          "start": 5.179,
+          "end": 5.359
+        },
+        {
+          "id": "w16",
+          "text": "clics.",
+          "start": 5.42,
+          "end": 5.759
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "path": "assets/voice/07.wav",
+      "duration_s": 4.833,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Loi-yé,",
+          "start": 0.159,
+          "end": 0.56
+        },
+        {
+          "id": "w1",
+          "text": "abonnements,",
+          "start": 0.859,
+          "end": 1.459
+        },
+        {
+          "id": "w2",
+          "text": "charges",
+          "start": 1.799,
+          "end": 2.139
+        },
+        {
+          "id": "w3",
+          "text": "fixes",
+          "start": 2.18,
+          "end": 2.44
+        },
+        {
+          "id": "w4",
+          "text": "—",
+          "start": 2.44,
+          "end": 2.44
+        },
+        {
+          "id": "w5",
+          "text": "programmés",
+          "start": 2.48,
+          "end": 3.019
+        },
+        {
+          "id": "w6",
+          "text": "une",
+          "start": 3.079,
+          "end": 3.24
+        },
+        {
+          "id": "w7",
+          "text": "fois,",
+          "start": 3.279,
+          "end": 3.48
+        },
+        {
+          "id": "w8",
+          "text": "jamais",
+          "start": 3.839,
+          "end": 4.139
+        },
+        {
+          "id": "w9",
+          "text": "oubliés.",
+          "start": 4.179,
+          "end": 4.559
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "path": "assets/voice/08.wav",
+      "duration_s": 8.307,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Tes",
+          "start": 0.159,
+          "end": 0.28
+        },
+        {
+          "id": "w1",
+          "text": "données",
+          "start": 0.319,
+          "end": 0.539
+        },
+        {
+          "id": "w2",
+          "text": "t'appartiennent.",
+          "start": 0.56,
+          "end": 1.24
+        },
+        {
+          "id": "w3",
+          "text": "Conforme",
+          "start": 1.959,
+          "end": 2.339
+        },
+        {
+          "id": "w4",
+          "text": "Loi",
+          "start": 2.379,
+          "end": 2.639
+        },
+        {
+          "id": "w5",
+          "text": "APDP",
+          "start": 2.839,
+          "end": 3.319
+        },
+        {
+          "id": "w6",
+          "text": "Bénin.",
+          "start": 3.379,
+          "end": 3.699
+        },
+        {
+          "id": "w7",
+          "text": "Authentification",
+          "start": 4.36,
+          "end": 5.219
+        },
+        {
+          "id": "w8",
+          "text": "sécurisée",
+          "start": 5.339,
+          "end": 5.879
+        },
+        {
+          "id": "w9",
+          "text": "par",
+          "start": 5.94,
+          "end": 6.039
+        },
+        {
+          "id": "w10",
+          "text": "Auth0",
+          "start": 6.139,
+          "end": 6.639
+        },
+        {
+          "id": "w11",
+          "text": "—",
+          "start": 6.639,
+          "end": 6.639
+        },
+        {
+          "id": "w12",
+          "text": "zéro",
+          "start": 6.699,
+          "end": 6.839
+        },
+        {
+          "id": "w13",
+          "text": "mot",
+          "start": 6.96,
+          "end": 7.079
+        },
+        {
+          "id": "w14",
+          "text": "de",
+          "start": 7.099,
+          "end": 7.199
+        },
+        {
+          "id": "w15",
+          "text": "passe",
+          "start": 7.239,
+          "end": 7.48
+        },
+        {
+          "id": "w16",
+          "text": "stocké.",
+          "start": 7.619,
+          "end": 7.979
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "path": "assets/voice/09.wav",
+      "duration_s": 5.224,
+      "words": [
+        {
+          "id": "w0",
+          "text": "Reprends",
+          "start": 0.219,
+          "end": 0.659
+        },
+        {
+          "id": "w1",
+          "text": "le",
+          "start": 0.699,
+          "end": 0.759
+        },
+        {
+          "id": "w2",
+          "text": "contrôle",
+          "start": 0.839,
+          "end": 1.319
+        },
+        {
+          "id": "w3",
+          "text": "de",
+          "start": 1.36,
+          "end": 1.419
+        },
+        {
+          "id": "w4",
+          "text": "tes",
+          "start": 1.48,
+          "end": 1.62
+        },
+        {
+          "id": "w5",
+          "text": "finances.",
+          "start": 1.719,
+          "end": 2.259
+        },
+        {
+          "id": "w6",
+          "text": "—",
+          "start": 2.259,
+          "end": 2.259
+        },
+        {
+          "id": "w7",
+          "text": "Oeil",
+          "start": 2.96,
+          "end": 3.179
+        },
+        {
+          "id": "w8",
+          "text": "trois",
+          "start": 3.22,
+          "end": 3.5
+        },
+        {
+          "id": "w9",
+          "text": "cent",
+          "start": 3.559,
+          "end": 3.659
+        },
+        {
+          "id": "w10",
+          "text": "soixante",
+          "start": 3.819,
+          "end": 4.259
+        },
+        {
+          "id": "w11",
+          "text": "Finance.",
+          "start": 4.38,
+          "end": 4.9
+        }
+      ]
+    }
+  ],
+  "sfx": [],
+  "total_duration_s": 54.699
+}

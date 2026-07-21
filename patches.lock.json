@@ -1,0 +1,17 @@
+{
+    "_hash": "21d58b77331fbdbb9c59a52dbd2ac1e7bd612701f500e25eccc432aaf1746e39",
+    "patches": {
+        "auth0/login": [
+            {
+                "package": "auth0/login",
+                "description": "Fix JWE access token parsing in pullState() — Auth0 sometimes returns encrypted JWE instead of RS256 JWT",
+                "url": "patches/auth0-login-jwe-access-token.patch",
+                "sha256": "d27061b723f9fb49f599abc5965e0b844e03a45acab4d55140017f9bc389e8a3",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}

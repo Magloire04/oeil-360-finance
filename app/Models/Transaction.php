@@ -2,15 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property-read Category|null $category
+ * @property-read Account|null $account
+ * @property-read RecurringTransaction|null $recurringTransaction
+ */
 class Transaction extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'amount',
         'sense',
         'transaction_date',

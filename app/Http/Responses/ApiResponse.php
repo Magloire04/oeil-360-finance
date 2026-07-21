@@ -9,8 +9,8 @@ class ApiResponse
     public static function success(mixed $data = null, ?array $meta = null, int $status = 200): JsonResponse
     {
         return response()->json([
-            'data'  => $data,
-            'meta'  => $meta,
+            'data' => $data,
+            'meta' => $meta,
             'error' => null,
         ], $status, [], JSON_PRESERVE_ZERO_FRACTION);
     }
@@ -22,11 +22,11 @@ class ApiResponse
         int $status = 400
     ): JsonResponse {
         return response()->json([
-            'data'  => null,
-            'meta'  => null,
+            'data' => null,
+            'meta' => null,
             'error' => [
                 'message' => $message,
-                'code'    => $code,
+                'code' => $code,
                 'details' => $details,
             ],
         ], $status, [], JSON_PRESERVE_ZERO_FRACTION);

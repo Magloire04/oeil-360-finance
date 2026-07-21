@@ -39,8 +39,9 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+            'driver' => 'auth0.authenticator',
+            'provider' => 'auth0-provider',
+            'configuration' => 'web',
         ],
     ],
 

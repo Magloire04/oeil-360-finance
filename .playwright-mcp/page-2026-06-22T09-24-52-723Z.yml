@@ -1,0 +1,30 @@
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - img "dev-4sdpohpiqjqno461" [ref=e10]
+        - heading "Welcome" [level=1] [ref=e11]
+        - paragraph [ref=e13]: Log in to dev-4sdpohpiqjqno461 to continue to Oeil 360 Finance.
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e18]:
+            - generic [ref=e20]:
+              - generic [ref=e21]: Email address *
+              - textbox "Email address" [ref=e22]
+            - generic [ref=e24]:
+              - generic [ref=e25]: Password *
+              - textbox "Password" [ref=e26]
+              - switch "Show password" [ref=e27] [cursor=pointer]
+          - paragraph [ref=e28]:
+            - link "Reset password" [ref=e29] [cursor=pointer]:
+              - /url: /u/login/password-reset-start/Username-Password-Authentication?state=hKFo2SBYQ29WRUl0OXJ6TFlybU9FNndRbDR4M0hBaGFFYzJwbKFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIGpHX0htVm5ZeFJhZFNMMHE1SWYzaVlxU0N6ZDJRRkI2o2NpZNkgSnNsVURPVEFIendYVHJtYzlSZ3NiUWpwb1ZraDlMSGk
+          - button "Continue" [ref=e31] [cursor=pointer]
+        - paragraph [ref=e33]:
+          - text: Don't have an account?
+          - link "Sign up" [ref=e34] [cursor=pointer]:
+            - /url: /u/signup?state=hKFo2SBYQ29WRUl0OXJ6TFlybU9FNndRbDR4M0hBaGFFYzJwbKFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIGpHX0htVm5ZeFJhZFNMMHE1SWYzaVlxU0N6ZDJRRkI2o2NpZNkgSnNsVURPVEFIendYVHJtYzlSZ3NiUWpwb1ZraDlMSGk
+        - generic [ref=e36]: Or
+        - button "Continue with Google" [ref=e39] [cursor=pointer]:
+          - generic [ref=e41]: Continue with Google
+    - link "Link to the Auth0 website" [ref=e42] [cursor=pointer]:
+      - /url: https://auth0.com/?utm_source=lock&utm_campaign=badge&utm_medium=widget

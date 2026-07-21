@@ -17,13 +17,13 @@ class GenerateRecurringTransactionsTest extends TestCase
     private function makeRecurring(array $overrides = []): RecurringTransaction
     {
         $category = Category::factory()->create();
-        $account  = Account::factory()->create();
+        $account = Account::factory()->create();
 
         return RecurringTransaction::factory()->create(array_merge([
-            'category_id'          => $category->id,
-            'account_id'           => $account->id,
-            'is_active'            => true,
-            'frequency'            => 'monthly',
+            'category_id' => $category->id,
+            'account_id' => $account->id,
+            'is_active' => true,
+            'frequency' => 'monthly',
             'next_occurrence_date' => Carbon::today()->toDateString(),
         ], $overrides));
     }
@@ -31,18 +31,18 @@ class GenerateRecurringTransactionsTest extends TestCase
     public function test_genere_une_transaction_pour_une_recurrente_due(): void
     {
         $recurring = $this->makeRecurring([
-            'amount'               => 25000,
-            'sense'                => 'expense',
+            'amount' => 25000,
+            'sense' => 'expense',
             'next_occurrence_date' => Carbon::today()->toDateString(),
         ]);
 
         $this->artisan('transactions:generate-recurring')->assertExitCode(0);
 
         $this->assertDatabaseHas('transactions', [
-            'amount'                   => 25000,
-            'sense'                    => 'expense',
+            'amount' => 25000,
+            'sense' => 'expense',
             'recurring_transaction_id' => $recurring->id,
-            'transaction_date'         => Carbon::today()->toDateString(),
+            'transaction_date' => Carbon::today()->toDateString(),
         ]);
         $this->assertSame(1, Transaction::count());
     }
@@ -51,7 +51,7 @@ class GenerateRecurringTransactionsTest extends TestCase
     {
         $today = Carbon::today();
         $recurring = $this->makeRecurring([
-            'frequency'            => 'daily',
+            'frequency' => 'daily',
             'next_occurrence_date' => $today->toDateString(),
         ]);
 
@@ -65,7 +65,7 @@ class GenerateRecurringTransactionsTest extends TestCase
     {
         $today = Carbon::today();
         $recurring = $this->makeRecurring([
-            'frequency'            => 'weekly',
+            'frequency' => 'weekly',
             'next_occurrence_date' => $today->toDateString(),
         ]);
 
@@ -79,7 +79,7 @@ class GenerateRecurringTransactionsTest extends TestCase
     {
         $today = Carbon::today();
         $recurring = $this->makeRecurring([
-            'frequency'            => 'monthly',
+            'frequency' => 'monthly',
             'next_occurrence_date' => $today->toDateString(),
         ]);
 
@@ -93,7 +93,7 @@ class GenerateRecurringTransactionsTest extends TestCase
     {
         $today = Carbon::today();
         $recurring = $this->makeRecurring([
-            'frequency'            => 'yearly',
+            'frequency' => 'yearly',
             'next_occurrence_date' => $today->toDateString(),
         ]);
 
@@ -106,7 +106,7 @@ class GenerateRecurringTransactionsTest extends TestCase
     public function test_ignore_les_recurrentes_inactives(): void
     {
         $this->makeRecurring([
-            'is_active'            => false,
+            'is_active' => false,
             'next_occurrence_date' => Carbon::today()->toDateString(),
         ]);
 
@@ -129,7 +129,7 @@ class GenerateRecurringTransactionsTest extends TestCase
     public function test_pas_de_duplication_si_relance_le_meme_jour(): void
     {
         $this->makeRecurring([
-            'frequency'            => 'monthly',
+            'frequency' => 'monthly',
             'next_occurrence_date' => Carbon::today()->toDateString(),
         ]);
 

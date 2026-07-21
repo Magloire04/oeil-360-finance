@@ -1,0 +1,637 @@
+<template>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+    /* ── Composition root ─────────────────────────────────────────────────── */
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Instrument Sans', sans-serif;
+      container-type: size;
+    }
+
+    /* ── App window shell ─────────────────────────────────────────────────── */
+    .t5-app-window {
+      width: 820px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow:
+        0 32px 80px rgba(26, 46, 74, 0.18),
+        0 8px 24px rgba(26, 46, 74, 0.09);
+    }
+
+    /* ── Navy header bar ──────────────────────────────────────────────────── */
+    .t5-header {
+      background: #1a2e4a;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 0;
+      flex-shrink: 0;
+    }
+
+    .t5-traffic-lights {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .t5-tl {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .t5-tl-r { background: #ff5f57; }
+    .t5-tl-y { background: #febc2e; }
+    .t5-tl-g { background: #28c840; }
+
+    .t5-header-title {
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      margin-left: 18px;
+    }
+
+    /* ── Content area ─────────────────────────────────────────────────────── */
+    .t5-app-content {
+      background: #f7f9fb;
+      height: 474px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Sub-nav band ─────────────────────────────────────────────────────── */
+    .t5-subnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px 14px;
+      background: #ffffff;
+      border-bottom: 1px solid rgba(40, 201, 138, 0.14);
+      flex-shrink: 0;
+    }
+
+    .t5-subnav-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a2e4a;
+      letter-spacing: -0.01em;
+    }
+
+    .t5-btn-new {
+      background: #28c98a;
+      color: #ffffff;
+      border: none;
+      border-radius: 100px;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Instrument Sans', sans-serif;
+      cursor: default;
+    }
+
+    /* ── State layers ─────────────────────────────────────────────────────── */
+    /* Three absolute layers that stack inside .t5-app-content */
+    .t5-state {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      background: #f7f9fb;
+    }
+
+    /* State 2 and 3 start hidden; GSAP fromTo sets these from-values at build */
+    #t5-state2 { opacity: 0; }
+    #t5-state3 { opacity: 0; }
+
+    /* ── Transaction row (shared) ─────────────────────────────────────────── */
+    .t5-tx-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(26, 46, 74, 0.06);
+      background: #ffffff;
+    }
+
+    /* Result rows get transform-origin so GSAP scale works from center */
+    .t5-result-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(26, 46, 74, 0.06);
+      background: #ffffff;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+
+    /* ── Icon circle ──────────────────────────────────────────────────────── */
+    .t5-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+    .t5-icon-teal   { background: #28c98a; }
+    .t5-icon-orange { background: #f59e0b; }
+    .t5-icon-blue   { background: #3b82f6; }
+    .t5-icon-red    { background: #dc2626; }
+
+    /* ── Transaction meta ─────────────────────────────────────────────────── */
+    .t5-tx-info { flex: 1; min-width: 0; }
+
+    .t5-tx-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a2e4a;
+      line-height: 1.3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .t5-tx-date {
+      font-size: 11px;
+      color: #7b8fa6;
+      margin-top: 3px;
+    }
+
+    .t5-tx-amount {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .t5-pos { color: #059669; }
+    .t5-neg { color: #dc2626; }
+
+    .t5-new-badge {
+      font-size: 9px;
+      font-weight: 700;
+      color: #28c98a;
+      background: rgba(40, 201, 138, 0.12);
+      border-radius: 100px;
+      padding: 2px 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* ── Form (State 2) ───────────────────────────────────────────────────── */
+    .t5-form-body {
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: #ffffff;
+      flex: 1;
+    }
+
+    .t5-form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .t5-form-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #7b8fa6;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .t5-type-pills {
+      display: flex;
+      gap: 10px;
+    }
+
+    .t5-type-pill {
+      padding: 9px 22px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: default;
+      border: none;
+      font-family: 'Instrument Sans', sans-serif;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    .t5-pill-active {
+      background: #28c98a;
+      color: #ffffff;
+    }
+
+    .t5-pill-inactive {
+      background: rgba(40, 201, 138, 0.08);
+      color: #7b8fa6;
+      border: 1.5px solid rgba(40, 201, 138, 0.20);
+    }
+
+    /* Amount input field */
+    .t5-amount-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f7f9fb;
+      border: 1.5px solid rgba(40, 201, 138, 0.28);
+      border-radius: 12px;
+      padding: 13px 20px;
+    }
+
+    .t5-amount-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      min-height: 38px;
+    }
+
+    #t5-amount-val {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a2e4a;
+      letter-spacing: -0.02em;
+    }
+
+    .t5-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 28px;
+      background: #28c98a;
+      border-radius: 1px;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+
+    .t5-amount-currency {
+      font-size: 13px;
+      font-weight: 500;
+      color: #7b8fa6;
+      flex-shrink: 0;
+    }
+
+    /* Category tag */
+    #t5-salaire-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(40, 201, 138, 0.10);
+      border: 1.5px solid rgba(40, 201, 138, 0.28);
+      border-radius: 100px;
+      padding: 9px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #28c98a;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="05-transactions"
+    data-start="0"
+    data-duration="8"
+    data-width="1920"
+    data-height="1080"
+  >
+
+    <!-- ── Track 0: White background (full-bleed clip) ────────────────────── -->
+    <div
+      id="t5-bg"
+      class="clip"
+      data-start="0"
+      data-duration="8"
+      data-track-index="0"
+      style="position: absolute; inset: 0; background: #ffffff;"
+    ></div>
+
+    <!-- ── Track 1: Floating app window ──────────────────────────────────── -->
+    <!--
+      Layout: asymmetric 60/40 — window sits left of centre.
+      Jitter outer wrapper: fixed position, receives sine-wave-loop transform.
+      Entrance inner wrapper: receives GSAP x/scale/opacity entrance tween.
+      Window: 820 × 530 px.
+        left = 200 px, top = 80 px → bottom at 610 px (well above 900 px keep-out).
+    -->
+    <div
+      id="t5-clip"
+      class="clip"
+      data-start="0"
+      data-duration="8"
+      data-track-index="1"
+      style="position: absolute; inset: 0;"
+    >
+
+      <!-- Jitter target: only receives sine-wave-loop style.transform writes -->
+      <div
+        id="t5-jitter"
+        style="position: absolute; left: 200px; top: 80px; will-change: transform;"
+      >
+        <!-- Entrance target: GSAP fromTo animates x / scale / opacity -->
+        <div
+          id="t5-win"
+          style="transform-origin: 50% 50%; will-change: transform, opacity;"
+        >
+          <div class="t5-app-window">
+
+            <!-- Navy header with traffic lights + "Transactions" title -->
+            <div class="t5-header">
+              <div class="t5-traffic-lights">
+                <div class="t5-tl t5-tl-r"></div>
+                <div class="t5-tl t5-tl-y"></div>
+                <div class="t5-tl t5-tl-g"></div>
+              </div>
+              <span class="t5-header-title">Transactions</span>
+            </div>
+
+            <!-- Content area — three state layers stacked absolutely -->
+            <div class="t5-app-content">
+
+              <!-- ── STATE 1: Placeholder list (visible at t=0) ──────────── -->
+              <div id="t5-state1" class="t5-state">
+                <div class="t5-subnav">
+                  <span class="t5-subnav-title">Récentes</span>
+                  <button class="t5-btn-new">+ Nouveau</button>
+                </div>
+                <div>
+                  <div class="t5-tx-row">
+                    <div class="t5-icon t5-icon-teal">S</div>
+                    <div class="t5-tx-info">
+                      <div class="t5-tx-label">Salaire</div>
+                      <div class="t5-tx-date">Avr 2024</div>
+                    </div>
+                    <div class="t5-tx-amount t5-pos">+250 000</div>
+                  </div>
+                  <div class="t5-tx-row">
+                    <div class="t5-icon t5-icon-orange">A</div>
+                    <div class="t5-tx-info">
+                      <div class="t5-tx-label">Alimentation</div>
+                      <div class="t5-tx-date">Mar 2024</div>
+                    </div>
+                    <div class="t5-tx-amount t5-neg">-45 000</div>
+                  </div>
+                  <div class="t5-tx-row">
+                    <div class="t5-icon t5-icon-blue">L</div>
+                    <div class="t5-tx-info">
+                      <div class="t5-tx-label">Loyer</div>
+                      <div class="t5-tx-date">Mar 2024</div>
+                    </div>
+                    <div class="t5-tx-amount t5-neg">-120 000</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ── STATE 2: Form (hidden; revealed at t≈2.05) ─────────── -->
+              <div id="t5-state2" class="t5-state">
+                <div class="t5-subnav">
+                  <span class="t5-subnav-title">Nouvelle transaction</span>
+                </div>
+                <div class="t5-form-body">
+
+                  <!-- Type toggle pills -->
+                  <div class="t5-form-section">
+                    <div class="t5-form-label">Type</div>
+                    <div class="t5-type-pills">
+                      <button id="t5-revenu-pill" class="t5-type-pill t5-pill-active">Revenu</button>
+                      <button class="t5-type-pill t5-pill-inactive">Dépense</button>
+                    </div>
+                  </div>
+
+                  <!-- Amount field with typing reveal -->
+                  <div class="t5-form-section">
+                    <div class="t5-form-label">Montant</div>
+                    <div class="t5-amount-field">
+                      <div class="t5-amount-wrap">
+                        <span id="t5-amount-val"></span><span class="t5-cursor"></span>
+                      </div>
+                      <span class="t5-amount-currency">F CFA</span>
+                    </div>
+                  </div>
+
+                  <!-- Category (pops in via spring-pop-entrance) -->
+                  <div class="t5-form-section">
+                    <div class="t5-form-label">Catégorie</div>
+                    <div>
+                      <span id="t5-salaire-tag">&#9670; Salaire</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- ── STATE 3: Result list (hidden; revealed at t≈4.55) ───── -->
+              <div id="t5-state3" class="t5-state">
+                <div class="t5-subnav">
+                  <span class="t5-subnav-title">Récentes</span>
+                  <button class="t5-btn-new">+ Nouveau</button>
+                </div>
+                <div>
+
+                  <!-- New: income row — spring-pop at t=4.80 -->
+                  <div id="t5-row-income" class="t5-result-row">
+                    <div class="t5-icon t5-icon-teal">&#8593;</div>
+                    <div class="t5-tx-info">
+                      <div class="t5-tx-label">
+                        Salaire
+                        <span class="t5-new-badge">NOUVEAU</span>
+                      </div>
+                      <div class="t5-tx-date">Avr 2024</div>
+                    </div>
+                    <div class="t5-tx-amount t5-pos">+350 000 F CFA</div>
+                  </div>
+
+                  <!-- New: transport row — spring-pop at t=5.40 -->
+                  <div id="t5-row-transport" class="t5-result-row">
+                    <div class="t5-icon t5-icon-red">&#8595;</div>
+                    <div class="t5-tx-info">
+                      <div class="t5-tx-label">Transport</div>
+                      <div class="t5-tx-date">Avr 2024</div>
+                    </div>
+                    <div class="t5-tx-amount t5-neg">-15 000 F</div>
+                  </div>
+
+                  <!-- Older rows (muted context) -->
+                  <div class="t5-tx-row" style="opacity: 0.42;">
+                    <div class="t5-icon t5-icon-teal">S</div>
+                    <div class="t5-tx-info">
+                      <div class="t5-tx-label">Salaire</div>
+                      <div class="t5-tx-date">Mar 2024</div>
+                    </div>
+                    <div class="t5-tx-amount t5-pos">+250 000</div>
+                  </div>
+                  <div class="t5-tx-row" style="opacity: 0.42;">
+                    <div class="t5-icon t5-icon-orange">A</div>
+                    <div class="t5-tx-info">
+                      <div class="t5-tx-label">Alimentation</div>
+                      <div class="t5-tx-date">Mar 2024</div>
+                    </div>
+                    <div class="t5-tx-amount t5-neg">-45 000</div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- /.t5-app-content -->
+          </div><!-- /.t5-app-window -->
+        </div><!-- /#t5-win -->
+      </div><!-- /#t5-jitter -->
+
+    </div><!-- /#t5-clip -->
+
+  </div><!-- /#root -->
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var winEl       = document.getElementById('t5-win');
+      var jitterEl    = document.getElementById('t5-jitter');
+      var state1      = document.getElementById('t5-state1');
+      var state2      = document.getElementById('t5-state2');
+      var state3      = document.getElementById('t5-state3');
+      var revenuPill  = document.getElementById('t5-revenu-pill');
+      var amountEl    = document.getElementById('t5-amount-val');
+      var salaireTag  = document.getElementById('t5-salaire-tag');
+      var rowIncome   = document.getElementById('t5-row-income');
+      var rowTransport = document.getElementById('t5-row-transport');
+
+      // ══════════════════════════════════════════════════════════════════════
+      // SCENE 1 (0.0–2.0s)
+      // App window enters from right: card-morph-anchor style
+      // fromTo: x:200→0, scale:0.9→1, opacity:0→1
+      // ══════════════════════════════════════════════════════════════════════
+
+      tl.fromTo(
+        winEl,
+        { x: 200, scale: 0.9, opacity: 0 },
+        { x: 0, scale: 1, opacity: 1, duration: 0.7, ease: 'power2.out' },
+        0
+      );
+
+      // Declare from-states for hidden layers immediately at build time.
+      // These fromTo calls set opacity:0 on state2 and state3 synchronously
+      // so seek at t=0 always finds them invisible.
+      tl.fromTo(
+        state2,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: 'power2.out' },
+        2.05
+      );
+
+      tl.fromTo(
+        state3,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, ease: 'power2.out' },
+        4.55
+      );
+
+      // ══════════════════════════════════════════════════════════════════════
+      // SCENE 2 (2.0–4.5s)
+      // Form appears: Revenu pill press-spring, amount typing, Salaire pop
+      // ══════════════════════════════════════════════════════════════════════
+
+      // Fade state 1 out
+      tl.to(state1, { opacity: 0, duration: 0.25, ease: 'power1.out' }, 2.0);
+
+      // press-release-spring on "Revenu" pill ──────────────────────────────
+      // Press phase: linear compression (scale 1 → 0.95)
+      tl.to(
+        revenuPill,
+        { scale: 0.95, duration: 0.15, ease: 'power1.in' },
+        2.35
+      );
+      // Release phase: spring recovery with back.out overshoot (~1.05 → 1.0)
+      // RELEASE_START = PRESS_START + PRESS_DUR = 2.35 + 0.15 = 2.50 ✓
+      tl.to(
+        revenuPill,
+        { scale: 1, duration: 0.45, ease: 'back.out(1.7)' },
+        2.50
+      );
+
+      // Amount character reveal — dynamic-content-sequencing driver ─────────
+      // Driver tween advances t: 0 → string length; onUpdate slices the text.
+      var amountStr = '350 000';
+      var amountDriver = { t: 0 };
+      tl.to(amountDriver, {
+        t: amountStr.length,
+        duration: 0.65,
+        ease: 'none',
+        onUpdate: function () {
+          var n = Math.round(amountDriver.t);
+          if (n < 0) { n = 0; }
+          if (n > amountStr.length) { n = amountStr.length; }
+          amountEl.textContent = amountStr.slice(0, n);
+        }
+      }, 2.75);
+
+      // "Salaire" tag spring-pop-entrance ───────────────────────────────────
+      // fromTo: scale:0,opacity:0,y:8 → scale:1,opacity:1,y:0 (power3.out)
+      tl.fromTo(
+        salaireTag,
+        { scale: 0, opacity: 0, y: 8 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+        3.50
+      );
+
+      // ══════════════════════════════════════════════════════════════════════
+      // SCENE 3 (4.5–6.5s)
+      // Transaction added: income row pops first, then transport row below
+      // ══════════════════════════════════════════════════════════════════════
+
+      // Fade state 2 out
+      tl.to(state2, { opacity: 0, duration: 0.25, ease: 'power1.out' }, 4.5);
+
+      // Income row +350 000 F CFA — spring-pop-entrance
+      tl.fromTo(
+        rowIncome,
+        { scale: 0.85, opacity: 0, y: 16 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+        4.80
+      );
+
+      // Transport row -15 000 F — spring-pop-entrance (staggered)
+      tl.fromTo(
+        rowTransport,
+        { scale: 0.85, opacity: 0, y: 16 },
+        { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+        5.40
+      );
+
+      // ══════════════════════════════════════════════════════════════════════
+      // SCENE 4 (6.5–8.0s)
+      // Hold — sine-wave-loop jitter on the floating card (1px, 1.5s, 0.5 cycles)
+      // Jitter is on #t5-jitter (outer wrapper) — separate from #t5-win which
+      // GSAP already owns — so there is zero transform conflict.
+      // sin(0) = 0 at phase start → no jump from settled state.
+      // ══════════════════════════════════════════════════════════════════════
+
+      var jitterPhase = { p: 0 };
+      tl.to(jitterPhase, {
+        p: Math.PI * 2 * 0.5,  // 0.5 full cycles (3 s period in 1.5 s window)
+        duration: 1.5,
+        ease: 'none',
+        onUpdate: function () {
+          var y = Math.sin(jitterPhase.p) * 1; // 1 px amplitude
+          jitterEl.style.transform = 'translateY(' + y.toFixed(3) + 'px)';
+        }
+      }, 6.5);
+
+      window.__timelines['05-transactions'] = tl;
+    }());
+  </script>
+</template>

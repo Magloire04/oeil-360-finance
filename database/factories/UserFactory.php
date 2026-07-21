@@ -30,16 +30,25 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'consent_given_at' => now(),
+            'consent_version' => '1.0',
+            'last_activity_at' => now(),
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /** User n'ayant pas encore accepté la politique de confidentialité. */
+    public function unconsented(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'consent_given_at' => null,
+            'consent_version' => null,
         ]);
     }
 }

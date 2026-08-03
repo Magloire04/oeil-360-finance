@@ -13,6 +13,8 @@ Avoir une vue à 360° sur l'ensemble de mes finances personnelles : chaque entr
 
 Application **mono-utilisateur**, usage strictement personnel. Pas de notion de compte partagé, de rôles, ou d'équipe. Accès via navigateur web, **mobile-first** (utilisation principale prévue depuis un téléphone).
 
+> ⚠️ **Évolution v1 publique (voir §7).** À partir de la v1, le service est **déployé publiquement avec de vrais utilisateurs** : il devient **multi-utilisateurs** et introduit un **rôle administrateur** (l'exploitant). Le cœur applicatif reste à **usage personnel par utilisateur**, avec **isolation stricte des données** (chacun ne voit que les siennes). La loi n°2017-20 (APDP) s'applique alors pleinement.
+
 ## 3. Comportement attendu
 
 ### 3.1 Saisie d'une transaction
@@ -81,13 +83,50 @@ Aucune transaction n'est "trop petite" pour être enregistrée — pas de montan
 
 Ces points sont **volontairement exclus** de cette première version. Toute envie de les ajouter "en cours de route" doit être documentée comme un écart de scope, pas glissée silencieusement dans le code (cf. standards ASIN — "tout écart est une décision, pas un oubli") :
 
-- Multi-utilisateur ou partage de compte avec une autre personne
+- Partage d'un **même** compte entre plusieurs personnes — *la v1 publique devient multi-utilisateurs (voir §7), mais sans partage de compte : chaque utilisateur ne voit que ses propres données, jamais celles d'un autre*
 - Application mobile native (le web doit être responsive/mobile-first, mais pas d'app iOS/Android séparée)
 - Connexion bancaire automatique ou import automatique de relevés
 - Budgets prévisionnels et alertes de dépassement de budget
 - Gestion multi-devise
 - Export comptable/fiscal avancé (un export simple CSV des transactions reste envisageable, mais pas un module de reporting fiscal)
 
-## 7. Prochaine étape
+## 7. Administration, observabilité & conformité APDP (évolution v1 publique)
+
+> **Évolution majeure.** La v1 passe d'un usage mono-utilisateur d'entraînement à un **déploiement public réel**. Cette section documente ce que la v1 publique ajoute au périmètre initial — les §2 et §6 sont amendés en conséquence (décision documentée, cf. standards ASIN « tout écart est une décision, pas un oubli »).
+
+### 7.1 Rôle administrateur
+
+- Introduction d'un **rôle administrateur** (l'exploitant du service), distinct des utilisateurs finaux.
+- L'accès admin est **contrôlé côté serveur à chaque requête** ; masquer un lien ou un bouton ne protège rien.
+- Un utilisateur final ne doit **jamais** accéder aux données ni aux vues d'administration.
+
+### 7.2 Tableau de bord d'observabilité (admin)
+
+Vue globale de l'usage et de la santé du service, sur une **période choisie** (jour / semaine / mois / personnalisée) :
+
+- **Utilisateurs** : total d'inscrits, nouvelles inscriptions par période, utilisateurs actifs (jour / semaine / mois), taux de consentement.
+- **Activité** : nombre d'opérations (transactions, transferts, récurrentes…) par période, **fonctionnalités les plus utilisées**.
+- **Trafic** : nombre de visites par période.
+- **Performances** : temps de réponse (moyenne, p95) et **taux d'erreur**.
+
+### 7.3 Statistiques d'usage — minimisation APDP
+
+- Données d'usage **pseudonymes et minimisées** : route / fonctionnalité, statut, durée, référence utilisateur — **jamais** d'IP nominative, d'agent navigateur, ni de contenu d'opération.
+- **Conservation limitée** : purge automatique au-delà de 90 jours.
+- **Anonymisation** à la suppression d'un compte.
+- Mention explicite dans la politique de confidentialité.
+
+### 7.4 Consentement APDP & versioning
+
+- La politique de confidentialité porte un **numéro de version** (point de vérité unique côté code).
+- Le consentement de chaque utilisateur est **horodaté et versionné**.
+- **Re-consentement** : lorsqu'une nouvelle version de la politique est publiée, l'utilisateur est invité à **ré-accepter** avant de continuer à utiliser l'application ; un consentement donné sur une version antérieure ne suffit plus.
+
+### 7.5 Cas limites ajoutés
+
+- **Utilisateur non-admin appelant une route admin** (interface ou API) : refus systématique côté serveur (jamais un accès accordé).
+- **Consentement sur une version périmée** : redirection vers l'écran de (re-)consentement, traité comme un consentement manquant.
+
+## 8. Prochaine étape
 
 Ce document doit être **relu et validé** (ou corrigé) avant de passer à la suite. Une fois validé, l'étape suivante est de demander à Claude Code de générer le **PLAN** (fichier de tâches numérotées avec fichiers concernés et définition de "Done"), en **Plan Mode** (`Shift+Tab`), à partir de ce SPEC — pas de code avant cette étape.

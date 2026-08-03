@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Http\Controllers\ConsentController;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +32,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'consent_given_at' => now(),
-            'consent_version' => '1.0',
+            'consent_version' => ConsentController::POLICY_VERSION,
             'last_activity_at' => now(),
         ];
     }

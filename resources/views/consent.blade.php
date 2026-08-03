@@ -41,6 +41,14 @@
             conformément à la Loi n°2017-20 du Bénin (APDP).
         </p>
 
+        @if (! empty($isUpdate))
+            <div class="alert alert-info py-2 small mb-3">
+                <i class="bi bi-info-circle me-1"></i>
+                Notre politique de confidentialité a été mise à jour. Merci de la relire et de
+                l'accepter à nouveau pour continuer à utiliser l'application.
+            </div>
+        @endif
+
         @if ($errors->any())
             <div class="alert alert-danger py-2 small mb-3">
                 {{ $errors->first() }}

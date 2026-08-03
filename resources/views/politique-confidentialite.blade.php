@@ -28,7 +28,7 @@
     <div class="mb-5">
         <h1 class="h3 fw-bold" style="color:var(--clr-navy)">Politique de confidentialité</h1>
         <p class="text-muted small">
-            Version 1.0 — Dernière mise à jour : {{ date('d/m/Y') }}<br>
+            Version {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }} — Dernière mise à jour : {{ date('d/m/Y') }}<br>
             Conformément à la Loi n°2017-20 du 20 avril 2017 portant code du numérique
             en République du Bénin (APDP).
         </p>
@@ -206,7 +206,7 @@
 
     <hr>
     <p class="text-muted small text-center">
-        © {{ date('Y') }} Oeil360 Finance — Version de la politique : 1.0
+        © {{ date('Y') }} Oeil360 Finance — Version de la politique : {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }}
         @auth
             <br><a href="{{ url('/') }}" style="color:var(--clr-teal)">Retour à l'application</a>
         @endauth

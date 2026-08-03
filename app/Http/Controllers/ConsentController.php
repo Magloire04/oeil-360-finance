@@ -8,11 +8,18 @@ use Illuminate\View\View;
 
 class ConsentController extends Controller
 {
-    public const POLICY_VERSION = '1.0';
+    public const POLICY_VERSION = '1.1';
 
-    public function show(): View
+    public function show(Request $request): View
     {
-        return view('consent');
+        $user = $request->user();
+
+        // Re-consentement : l'utilisateur a déjà consenti, mais à une version antérieure.
+        $isUpdate = $user !== null
+            && $user->consent_given_at !== null
+            && $user->consent_version !== self::POLICY_VERSION;
+
+        return view('consent', ['isUpdate' => $isUpdate]);
     }
 
     public function store(Request $request): RedirectResponse

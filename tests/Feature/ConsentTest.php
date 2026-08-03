@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\ConsentController;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -53,7 +54,34 @@ class ConsentTest extends TestCase
             ->assertRedirect('/');
 
         $this->assertNotNull($user->fresh()->consent_given_at);
-        $this->assertEquals('1.0', $user->fresh()->consent_version);
+        $this->assertEquals(ConsentController::POLICY_VERSION, $user->fresh()->consent_version);
+    }
+
+    public function test_user_with_outdated_consent_is_redirected_to_consent(): void
+    {
+        // Consentement donné, mais sur une version antérieure de la politique.
+        $user = User::factory()->create(['consent_version' => '1.0-ancienne']);
+
+        $this->actingAs($user)->get('/dashboard')->assertRedirect('/consent');
+    }
+
+    public function test_reconsent_updates_to_current_version(): void
+    {
+        $user = User::factory()->create(['consent_version' => '1.0-ancienne']);
+
+        $this->actingAs($user)
+            ->post('/consent', ['agree' => '1'])
+            ->assertRedirect('/');
+
+        $this->assertEquals(ConsentController::POLICY_VERSION, $user->fresh()->consent_version);
+    }
+
+    public function test_current_version_consent_is_not_forced_again(): void
+    {
+        // Le factory par défaut consent à la version courante : pas de re-consentement.
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->get('/dashboard')->assertStatus(200);
     }
 
     public function test_consented_user_can_access_dashboard(): void

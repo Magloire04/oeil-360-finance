@@ -51,4 +51,12 @@ class UserFactory extends Factory
             'consent_version' => null,
         ]);
     }
+
+    /** User disposant des droits d'administration. */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_admin' => true,
+        ]);
+    }
 }

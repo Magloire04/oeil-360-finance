@@ -43,4 +43,7 @@ Route::middleware(['auth', 'consent', 'activity'])->group(function () {
 
     Route::get('/mon-compte', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/mon-compte/export', [ProfileController::class, 'export'])->name('profile.export');
+
+    // Interface admin d'observabilité — réservée aux comptes is_admin.
+    Route::view('/admin', 'admin')->middleware('admin')->name('admin');
 });

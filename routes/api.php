@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\Admin\MetricsController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\RecurringTransactionController;
@@ -29,4 +30,15 @@ Route::middleware('auth:web')->group(function () {
     Route::get('dashboard/monthly', [DashboardController::class, 'monthly']);
 
     Route::delete('profile', [ProfileController::class, 'destroy']);
+
+    // Observabilité admin — réservé aux comptes is_admin (contrôle côté serveur).
+    Route::middleware('admin')->prefix('admin')->group(function () {
+        Route::get('metrics/overview', [MetricsController::class, 'overview']);
+        Route::get('metrics/user-growth', [MetricsController::class, 'userGrowth']);
+        Route::get('metrics/active-users', [MetricsController::class, 'activeUsers']);
+        Route::get('metrics/operations', [MetricsController::class, 'operations']);
+        Route::get('metrics/top-features', [MetricsController::class, 'topFeatures']);
+        Route::get('metrics/traffic', [MetricsController::class, 'traffic']);
+        Route::get('metrics/performance', [MetricsController::class, 'performance']);
+    });
 });

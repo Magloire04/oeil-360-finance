@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password' => 'hashed',
         'consent_given_at' => 'datetime',
         'last_activity_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
 
     public function accounts(): HasMany
@@ -49,5 +50,10 @@ class User extends Authenticatable
     public function recurringTransactions(): HasMany
     {
         return $this->hasMany(RecurringTransaction::class);
+    }
+
+    public function activityEvents(): HasMany
+    {
+        return $this->hasMany(ActivityEvent::class);
     }
 }

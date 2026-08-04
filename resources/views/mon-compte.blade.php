@@ -132,5 +132,5 @@
 @endsection
 
 @push('scripts')
-<script src="/js/mon-compte.js"></script>
+<script src="{{ assetVersion('js/mon-compte.js') }}"></script>
 @endpush

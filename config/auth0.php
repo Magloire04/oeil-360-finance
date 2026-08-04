@@ -72,6 +72,9 @@ return Configuration::VERSION_2 + [
         Configuration::CONFIG_ROUTE_LOGIN => '/auth/login',
         Configuration::CONFIG_ROUTE_AFTER_LOGIN => '/',
         Configuration::CONFIG_ROUTE_LOGOUT => '/auth/logout',
-        Configuration::CONFIG_ROUTE_AFTER_LOGOUT => '/auth/login',
+        // Après déconnexion, retourner sur la landing publique (page invité) et NON sur
+        // /auth/login : cette dernière relance une connexion, ce qui, avec une session SSO
+        // encore active, ré-authentifie silencieusement (et recréait un compte supprimé).
+        Configuration::CONFIG_ROUTE_AFTER_LOGOUT => '/',
     ],
 ];

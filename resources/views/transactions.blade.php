@@ -150,5 +150,5 @@
 @endsection
 
 @push('scripts')
-<script src="/js/transactions.js"></script>
+<script src="{{ assetVersion('js/transactions.js') }}"></script>
 @endpush

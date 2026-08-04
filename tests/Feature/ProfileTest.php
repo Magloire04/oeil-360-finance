@@ -60,6 +60,8 @@ class ProfileTest extends TestCase
             ->assertJsonPath('data.message', 'Compte supprimé avec succès.');
 
         $this->assertDatabaseMissing('users', ['id' => $userId]);
+        // La session doit être vidée : sinon un ré-login SSO recréerait le compte.
+        $this->assertGuest('web');
     }
 
     public function test_unauthenticated_cannot_delete_account(): void

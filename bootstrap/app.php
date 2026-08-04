@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\EnsureConsentGiven;
+use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\RecordActivityEvent;
 use App\Http\Middleware\UpdateLastActivity;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -28,10 +30,16 @@ return Application::configure(basePath: dirname(__DIR__))
             StartSession::class,
         ]);
 
+        // Journalisation d'usage pseudonyme sur toutes les requêtes web et api
+        // (l'écriture réelle a lieu dans terminate() et applique une skip-list).
+        $middleware->web(append: [RecordActivityEvent::class]);
+        $middleware->api(append: [RecordActivityEvent::class]);
+
         // Aliases utilisés dans routes/web.php pour les routes protégées
         $middleware->alias([
             'consent' => EnsureConsentGiven::class,
             'activity' => UpdateLastActivity::class,
+            'admin' => EnsureUserIsAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

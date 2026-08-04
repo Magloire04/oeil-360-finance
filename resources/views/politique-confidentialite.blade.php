@@ -28,7 +28,7 @@
     <div class="mb-5">
         <h1 class="h3 fw-bold" style="color:var(--clr-navy)">Politique de confidentialité</h1>
         <p class="text-muted small">
-            Version 1.0 — Dernière mise à jour : {{ date('d/m/Y') }}<br>
+            Version {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }} — Dernière mise à jour : {{ date('d/m/Y') }}<br>
             Conformément à la Loi n°2017-20 du 20 avril 2017 portant code du numérique
             en République du Bénin (APDP).
         </p>
@@ -42,7 +42,7 @@
                 <p class="mb-1"><strong>Nom :</strong> Oeil360Finance</p>
                 <p class="mb-1"><strong>Adresse :</strong> Porto-Novo, Bénin</p>
                 <p class="mb-0"><strong>Contact :</strong>
-                    <a href="mailto:oeil360finance.support@gmail.com" style="color:var(--clr-teal)">oeil360finance.support@gmail.com</a>
+                    <a href="mailto:oeil360finance@bytechnum.com" style="color:var(--clr-teal)">oeil360finance@bytechnum.com</a>
                 </p>
             </div>
         </div>
@@ -68,10 +68,19 @@
                     <li>Transactions récurrentes programmées</li>
                 </ul>
                 <h6 class="fw-semibold">Données techniques</h6>
-                <ul class="text-muted mb-0">
+                <ul class="text-muted mb-3">
                     <li>Date et heure du consentement</li>
                     <li>Adresse IP et agent navigateur (données de session, chiffrées)</li>
                     <li>Date de dernière activité</li>
+                </ul>
+                <h6 class="fw-semibold">Statistiques d'usage</h6>
+                <ul class="text-muted mb-0">
+                    <li>Pages et fonctionnalités consultées (référence technique, ex. « transactions »)</li>
+                    <li>Temps de réponse et code de statut des requêtes</li>
+                    <li>
+                        Ces données sont <strong>pseudonymes et minimisées</strong> : elles n'incluent
+                        <strong>ni adresse IP nominative, ni contenu de vos opérations</strong>.
+                    </li>
                 </ul>
             </div>
         </div>
@@ -84,6 +93,8 @@
         <ul class="text-muted">
             <li>Fournir les fonctionnalités de gestion financière personnelle</li>
             <li>Calculer et afficher vos soldes et statistiques</li>
+            <li>Mesurer l'usage et les performances du service afin de l'améliorer
+                (statistiques agrégées et pseudonymes)</li>
             <li>Assurer la sécurité et la continuité du service</li>
             <li>Respecter nos obligations légales (conservation, audit)</li>
         </ul>
@@ -110,6 +121,10 @@
             à compter de votre dernière activité sur l'application. Au-delà de cette période d'inactivité,
             vos données pourront être supprimées ou anonymisées. Vous pouvez demander la suppression à
             tout moment en utilisant la fonctionnalité "Supprimer mon compte" dans votre espace personnel.
+        </p>
+        <p class="text-muted">
+            Les <strong>statistiques d'usage</strong> (pages consultées, temps de réponse) sont
+            conservées pour une durée limitée (90 jours) puis automatiquement purgées.
         </p>
     </section>
 
@@ -161,7 +176,7 @@
         </div>
         <p class="text-muted mt-3 small">
             Pour exercer vos droits :
-            <a href="mailto:oeil360finance.support@gmail.com" style="color:var(--clr-teal)">oeil360finance.support@gmail.com</a>
+            <a href="mailto:oeil360finance@bytechnum.com" style="color:var(--clr-teal)">oeil360finance@bytechnum.com</a>
         </p>
     </section>
 
@@ -181,7 +196,7 @@
         <h2 class="h5 fw-semibold mb-2" style="color:var(--clr-navy)">8. Contact et autorité de contrôle</h2>
         <p class="text-muted">
             Pour toute question relative à vos données personnelles, contactez-nous à :
-            <a href="mailto:oeil360finance.support@gmail.com" style="color:var(--clr-teal)">oeil360finance.support@gmail.com</a>
+            <a href="mailto:oeil360finance@bytechnum.com" style="color:var(--clr-teal)">oeil360finance@bytechnum.com</a>
         </p>
         <p class="text-muted">
             Vous pouvez également adresser une réclamation à l'<strong>Autorité de Protection des Données
@@ -191,7 +206,7 @@
 
     <hr>
     <p class="text-muted small text-center">
-        © {{ date('Y') }} Oeil360 Finance — Version de la politique : 1.0
+        © {{ date('Y') }} Oeil360 Finance — Version de la politique : {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }}
         @auth
             <br><a href="{{ url('/') }}" style="color:var(--clr-teal)">Retour à l'application</a>
         @endauth

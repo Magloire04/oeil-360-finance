@@ -56,6 +56,13 @@
                         <i class="bi bi-question-circle"></i> Aide
                     </a>
                 </li>
+                @if (auth()->user()?->is_admin)
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('admin*') ? 'active' : '' }}" href="{{ route('admin') }}">
+                        <i class="bi bi-speedometer2"></i> Admin
+                    </a>
+                </li>
+                @endif
             </ul>
             <div class="d-flex align-items-center gap-2">
                 <span class="text-white-50 small d-none d-lg-inline">

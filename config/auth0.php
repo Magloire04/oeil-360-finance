@@ -47,20 +47,23 @@ return Configuration::VERSION_2 + [
             Configuration::CONFIG_STRATEGY => SdkConfiguration::STRATEGY_API,
         ],
 
-        'web' => [
-            Configuration::CONFIG_STRATEGY => SdkConfiguration::STRATEGY_REGULAR,
-            Configuration::CONFIG_COOKIE_SECRET => Configuration::get(Configuration::CONFIG_COOKIE_SECRET, env('APP_KEY')),
-            Configuration::CONFIG_REDIRECT_URI => Configuration::get(Configuration::CONFIG_REDIRECT_URI, env('AUTH0_REDIRECT_URI', env('APP_URL').'/auth/callback')),
-            Configuration::CONFIG_SESSION_STORAGE => Configuration::get(Configuration::CONFIG_SESSION_STORAGE),
-            Configuration::CONFIG_SESSION_STORAGE_ID => Configuration::get(Configuration::CONFIG_SESSION_STORAGE_ID),
-            Configuration::CONFIG_TRANSIENT_STORAGE => Configuration::get(Configuration::CONFIG_TRANSIENT_STORAGE),
-            Configuration::CONFIG_TRANSIENT_STORAGE_ID => Configuration::get(Configuration::CONFIG_TRANSIENT_STORAGE_ID),
-            // Use Composer's bundled CA bundle to fix SSL verification on Windows/WAMP
-            // (curl.cainfo is PHP_INI_SYSTEM and cannot be set via ini_set at runtime)
-            'httpClient' => new Client([
-                'verify' => CaBundle::getBundledCaBundlePath(),
-            ]),
-        ],
+        'web' => array_merge(
+            [
+                Configuration::CONFIG_STRATEGY => SdkConfiguration::STRATEGY_REGULAR,
+                Configuration::CONFIG_COOKIE_SECRET => Configuration::get(Configuration::CONFIG_COOKIE_SECRET, env('APP_KEY')),
+                Configuration::CONFIG_REDIRECT_URI => Configuration::get(Configuration::CONFIG_REDIRECT_URI, env('AUTH0_REDIRECT_URI', env('APP_URL').'/auth/callback')),
+                Configuration::CONFIG_SESSION_STORAGE => Configuration::get(Configuration::CONFIG_SESSION_STORAGE),
+                Configuration::CONFIG_SESSION_STORAGE_ID => Configuration::get(Configuration::CONFIG_SESSION_STORAGE_ID),
+                Configuration::CONFIG_TRANSIENT_STORAGE => Configuration::get(Configuration::CONFIG_TRANSIENT_STORAGE),
+                Configuration::CONFIG_TRANSIENT_STORAGE_ID => Configuration::get(Configuration::CONFIG_TRANSIENT_STORAGE_ID),
+            ],
+            // Client Guzzle avec CA bundle : nécessaire UNIQUEMENT sur Windows/WAMP
+            // (vérification SSL locale). En prod Linux, le CA système suffit ; injecter
+            // un objet ici casserait aussi `config:cache`. On ne l'ajoute donc que sous Windows.
+            PHP_OS_FAMILY === 'Windows'
+                ? ['httpClient' => new Client(['verify' => CaBundle::getBundledCaBundlePath()])]
+                : [],
+        ),
     ],
 
     'routes' => [

@@ -39,7 +39,9 @@
             if (res.ok) {
                 modal.hide();
                 showToast('Votre compte a été supprimé. Vous allez être redirigé…', 'success');
-                setTimeout(() => { window.location.href = '/auth/login'; }, 2000);
+                // Déconnexion complète (termine aussi la session SSO Auth0) pour éviter
+                // un ré-login silencieux qui recréerait le compte supprimé.
+                setTimeout(() => { window.location.href = '/auth/logout'; }, 2000);
             } else {
                 const json = await res.json().catch(() => null);
                 const msg = json?.error?.message ?? 'Une erreur est survenue.';

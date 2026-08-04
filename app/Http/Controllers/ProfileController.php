@@ -49,8 +49,10 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        // Déconnexion avant suppression pour éviter les erreurs de guard
-        Auth::logout();
+        // Déconnexion avant suppression pour éviter les erreurs de guard.
+        // Le guard 'web' (Auth0) est explicité ; la session SSO Auth0 est terminée
+        // côté navigateur via la redirection front vers /auth/logout.
+        Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

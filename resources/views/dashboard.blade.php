@@ -155,5 +155,5 @@
 @endsection
 
 @push('scripts')
-<script src="/js/dashboard.js"></script>
+<script src="{{ assetVersion('js/dashboard.js') }}"></script>
 @endpush

@@ -152,5 +152,5 @@
 @endsection
 
 @push('scripts')
-<script src="/js/admin.js"></script>
+<script src="{{ assetVersion('js/admin.js') }}"></script>
 @endpush

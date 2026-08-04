@@ -85,5 +85,5 @@
 @endsection
 
 @push('scripts')
-<script src="/js/accounts.js"></script>
+<script src="{{ assetVersion('js/accounts.js') }}"></script>
 @endpush

@@ -132,5 +132,5 @@
 @endsection
 
 @push('scripts')
-<script src="/js/recurring.js"></script>
+<script src="{{ assetVersion('js/recurring.js') }}"></script>
 @endpush

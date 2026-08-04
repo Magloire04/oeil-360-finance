@@ -91,5 +91,5 @@
 @endsection
 
 @push('scripts')
-<script src="/js/categories.js"></script>
+<script src="{{ assetVersion('js/categories.js') }}"></script>
 @endpush

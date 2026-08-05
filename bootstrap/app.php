@@ -3,6 +3,7 @@
 use App\Http\Middleware\EnsureConsentGiven;
 use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Http\Middleware\RecordActivityEvent;
+use App\Http\Middleware\RejectDeletedIdentity;
 use App\Http\Middleware\UpdateLastActivity;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -29,6 +30,10 @@ return Application::configure(basePath: dirname(__DIR__))
             EncryptCookies::class,
             StartSession::class,
         ]);
+
+        // Bloque l'accès aux identités dont le compte a été supprimé (avant auth/consent),
+        // pour empêcher toute recréation silencieuse via le SSO.
+        $middleware->web(append: [RejectDeletedIdentity::class]);
 
         // Journalisation d'usage pseudonyme sur toutes les requêtes web et api
         // (l'écriture réelle a lieu dans terminate() et applique une skip-list).

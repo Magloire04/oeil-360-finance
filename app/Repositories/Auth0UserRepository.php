@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\DeletedIdentity;
 use App\Models\User;
 use App\Services\UserBootstrapService;
 use Auth0\Laravel\UserRepositoryContract;
@@ -17,6 +18,12 @@ class Auth0UserRepository implements UserRepositoryContract
         // but not 'sub'). Accept either key so findSession() doesn't break the auth loop.
         $sub = $user['sub'] ?? $user['auth0_id'] ?? null;
         if (! $sub) {
+            return null;
+        }
+
+        // Compte supprimé volontairement : ne JAMAIS recréer l'utilisateur via le SSO.
+        // Le middleware RejectDeletedIdentity affiche le message et coupe la session.
+        if (DeletedIdentity::isBlocked($sub)) {
             return null;
         }
 

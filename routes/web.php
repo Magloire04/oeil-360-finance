@@ -20,6 +20,9 @@ Route::get('/', function () {
 Route::view('/politique-confidentialite', 'politique-confidentialite')
     ->name('politique.confidentialite');
 
+// Écran affiché à une identité dont le compte a été supprimé (recréation bloquée).
+Route::view('/compte-supprime', 'account-deleted')->name('account.deleted');
+
 // Routes Auth0 (publiques)
 Route::get('/auth/login', LoginController::class)->name('login');
 Route::get('/auth/logout', LogoutController::class)->name('logout');

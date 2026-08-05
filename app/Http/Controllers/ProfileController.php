@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeletedIdentity;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +49,12 @@ class ProfileController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         $user = $request->user();
+
+        // Suppression définitive : on mémorise l'identité (hash pseudonyme) pour empêcher
+        // toute recréation automatique du compte via le SSO à une reconnexion ultérieure.
+        if ($user->auth0_id) {
+            DeletedIdentity::block((string) $user->auth0_id);
+        }
 
         // Déconnexion avant suppression pour éviter les erreurs de guard.
         // Le guard 'web' (Auth0) est explicité ; la session SSO Auth0 est terminée

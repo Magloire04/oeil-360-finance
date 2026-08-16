@@ -1,4 +1,4 @@
-Oeil360 Finance — Application de gestion des finances personnelles
+Oeil360 Finance - Application de gestion des finances personnelles
 
 PRODUIT
 Application web mono-utilisateur pour la gestion complète des finances personnelles.
@@ -20,7 +20,7 @@ CONFORMITÉ & SÉCURITÉ
 - Aucune donnée partagée entre utilisateurs
 
 DEVISE
-Franc CFA (XOF) — marché Afrique de l'Ouest
+Franc CFA (XOF) - marché Afrique de l'Ouest
 
 TECHNOLOGIE
 Laravel (API backend) · Bootstrap 5 · JavaScript Vanilla · Auth0 · MySQL
@@ -29,7 +29,7 @@ PROPOSITION DE VALEUR
 Fini les tableurs et les notes éparpillées. Oeil360 Finance centralise toute ta vie financière dans une interface claire, sécurisée et conforme aux exigences légales en vigueur au Bénin.
 
 AUDIENCE CIBLE
-Partenaires et clients — particuliers, entrepreneurs, décideurs cherchant à reprendre le contrôle de leurs finances personnelles.
+Partenaires et clients - particuliers, entrepreneurs, décideurs cherchant à reprendre le contrôle de leurs finances personnelles.
 
 MESSAGE CLÉ
-Oeil360 Finance te donne une vue 360° sur tes finances — tout centralisé, tout sécurisé, tout conforme.
+Oeil360 Finance te donne une vue 360° sur tes finances - tout centralisé, tout sécurisé, tout conforme.

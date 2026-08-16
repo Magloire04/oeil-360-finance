@@ -1,13 +1,13 @@
-# CLAUDE.md — Oeil_360_finance
+# CLAUDE.md - Oeil_360_finance
 
 ## Contexte projet
 
-Application web personnelle de gestion des dépenses (revenus & dépenses, vue 360°). Usage mono-utilisateur. **Projet d'entraînement** pour appliquer rigoureusement les standards ASIN appris en formation — traiter ce projet perso avec le même sérieux qu'un projet ASIN réel, c'est tout l'objectif de l'exercice.
+Application web personnelle de gestion des dépenses (revenus & dépenses, vue 360°). Usage mono-utilisateur. **Projet d'entraînement** pour appliquer rigoureusement les standards ASIN appris en formation - traiter ce projet perso avec le même sérieux qu'un projet ASIN réel, c'est tout l'objectif de l'exercice.
 
 - **Stack** : Laravel (API backend) + Bootstrap 5 + HTML5 + JavaScript Vanilla (frontend)
 - **Devise** : Franc CFA (XOF) uniquement
 - **Hébergement** : développement local pour l'instant, pas encore déployé
-- **Spécification complète** : voir `SPEC.md` à la racine — ne pas commencer à coder sans l'avoir lu
+- **Spécification complète** : voir `SPEC.md` à la racine - ne pas commencer à coder sans l'avoir lu
 
 ## Skill à utiliser systématiquement
 
@@ -21,11 +21,11 @@ Ce projet doit respecter le skill **`asin-dev-standards`** (nommage, sécurité 
 
 Ne jamais sauter directement de SPEC à CODE.
 
-## Conventions critiques (rappel — détail complet dans le skill)
+## Conventions critiques (rappel - détail complet dans le skill)
 
 - Nommage : PascalCase (composants), camelCase (variables/fonctions), kebab-case (fichiers de config)
 - API : enveloppe `{ data, meta, error }` systématique, codes HTTP sémantiques, routes REST en pluriel
-- Git : `feature/OEIL360FINANCE-{desc}` même en solo — pratique délibérée du Gitflow ASIN
+- Git : `feature/OEIL360FINANCE-{desc}` même en solo - pratique délibérée du Gitflow ASIN
 - Sécurité : aucun secret en dur, `.env.example` versionné (jamais le `.env` réel), requêtes paramétrées uniquement
 
 ## Interdit

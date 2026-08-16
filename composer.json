@@ -1,10 +1,10 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "bytechnum/oeil360-finance",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
-    "license": "MIT",
+    "description": "Gestionnaire de finances personnelles en Franc CFA (XOF) : revenus, depenses et vue 360. Laravel + Bootstrap 5, authentification Auth0, PWA, conforme APDP.",
+    "keywords": ["finance", "budget", "xof", "laravel", "auth0", "pwa"],
+    "license": "proprietary",
     "require": {
         "php": "^8.3",
         "auth0/login": "^7.22",
@@ -81,7 +81,7 @@
         "composer-exit-on-patch-failure": true,
         "patches": {
             "auth0/login": {
-                "Fix JWE access token parsing in pullState() — Auth0 sometimes returns encrypted JWE instead of RS256 JWT": "patches/auth0-login-jwe-access-token.patch"
+                "Fix JWE access token parsing in pullState() - Auth0 sometimes returns encrypted JWE instead of RS256 JWT": "patches/auth0-login-jwe-access-token.patch"
             }
         }
     },

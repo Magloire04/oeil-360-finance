@@ -1,65 +1,145 @@
 # Oeil 360° Finance
 
-Application web personnelle de gestion des finances en **Franc CFA (XOF)** — suivre chaque entrée et chaque sortie d'argent pour répondre en permanence à : *combien j'ai, d'où ça vient, où ça part.*
+[![CI](https://github.com/Magloire04/oeil-360-finance/actions/workflows/ci.yml/badge.svg)](https://github.com/Magloire04/oeil-360-finance/actions/workflows/ci.yml)
+
+Application web de gestion des finances personnelles en **Franc CFA (XOF)** : suivre chaque entrée et chaque sortie d'argent pour répondre en permanence à *combien j'ai, d'où ça vient, où ça part.*
+
+- **Statut** : v1 publique en production
+- **En ligne** : [oeil360finance.bytechnum.com](https://oeil360finance.bytechnum.com)
+- **Contact** : [oeil360finance@bytechnum.com](mailto:oeil360finance@bytechnum.com)
+
+---
+
+## Aperçu
+
+Oeil 360° Finance est un gestionnaire de budget personnel multi-utilisateurs. Chaque personne gère ses comptes, ses catégories, ses transactions, ses transferts et ses opérations récurrentes, et retrouve une vue synthétique de sa situation sur la période de son choix. L'authentification passe par Auth0 (dont la connexion Google), l'application est installable comme une PWA, et le traitement des données respecte la loi n°2017-20 du Bénin (APDP).
 
 ---
 
 ## Fonctionnalités
 
-### Vue 360° (Dashboard V2)
+### Vue 360° (Dashboard)
 
-- **4 KPI tiles** : solde total, nombre de transactions sur la période, dépense moyenne journalière, catégorie la plus dépensière
-- Solde par compte avec mini barre de progression (% du total)
-- Résumé de la période : total entrées / total sorties / solde net
+- 4 indicateurs clés : solde total, nombre de transactions sur la période, dépense moyenne journalière, catégorie la plus dépensière
+- Solde par compte avec mini barre de progression (part du total)
+- Résumé de la période : total entrées, total sorties, solde net
 - Graphique camembert des dépenses par catégorie
-- **Graphique barres groupées** : Revenus vs Dépenses sur 12 mois glissants
-- Sélecteur de période : aujourd'hui / semaine / mois / année / dates personnalisées
-- 10 dernières transactions avec lien "Voir toutes →"
+- Graphique barres groupées : Revenus vs Dépenses sur 12 mois glissants
+- Sélecteur de période : aujourd'hui, semaine, mois, année, dates personnalisées
+- 10 dernières transactions avec lien vers l'historique complet
 
 ### Transactions
 
-- Saisie complète : montant, sens (entrée/dépense), date, catégorie, compte, note libre
+- Saisie complète : montant, sens (entrée ou dépense), date, catégorie, compte, note libre
 - Historique paginé avec filtres combinables (période, catégorie, compte, sens, recherche par mot-clé)
 - Modification et suppression
 
 ### Catégories
 
-- Catégories personnalisables par type : Revenu / Dépense / Les deux
-- Archivage (jamais de suppression destructrice si la catégorie est utilisée)
-- Restauration des catégories archivées
+- Catégories personnalisables par type : Revenu, Dépense ou Les deux
+- Archivage (jamais de suppression destructrice si la catégorie est utilisée) et restauration
 
 ### Comptes
 
 - Gestion multi-comptes : Espèces, Mobile Money, Compte bancaire
 - Solde calculé en temps réel (solde initial + transactions + transferts)
-- Archivage / restauration
+- Archivage et restauration
 
 ### Transferts entre comptes
 
 - Déplacement d'argent entre deux comptes différents
-- Non comptabilisé comme revenu ou dépense dans les totaux globaux
+- Jamais comptabilisé comme revenu ou dépense dans les totaux globaux
 
 ### Transactions récurrentes
 
 - Définition d'une transaction qui se répète automatiquement
 - Fréquences : quotidienne, hebdomadaire, mensuelle, annuelle
-- Activation / désactivation
-- Génération via commande Artisan : `php artisan transactions:generate-recurring`
-- Chaque occurrence générée reste modifiable individuellement
+- Activation et désactivation ; chaque occurrence générée reste modifiable individuellement
+- Génération via `php artisan transactions:generate-recurring` (planifiable en cron)
 
 ---
 
-## Stack technique V2
+## Application installable (PWA)
+
+L'application est une Progressive Web App : elle peut être installée sur mobile et bureau depuis le navigateur.
+
+- Manifeste web (`public/manifest.webmanifest`), thème et icônes (dont icône maskable et `apple-touch-icon`)
+- Service worker (`public/sw.js`) et page hors-ligne (`public/offline.html`)
+- Métadonnées regroupées dans `resources/views/partials/pwa.blade.php` et incluses dans chaque page
+
+---
+
+## Espace administrateur et observabilité
+
+Un tableau de bord d'observabilité (`/admin`) est réservé aux comptes marqués `is_admin`, avec un contrôle appliqué côté serveur à chaque requête. Il agrège des métriques d'usage pseudonymes : croissance des inscrits, utilisateurs actifs, volume d'opérations, fonctionnalités les plus utilisées, trafic et performances.
+
+La promotion d'un compte se fait en ligne de commande :
+
+```bash
+php artisan oeil360:make-admin utilisateur@example.com
+php artisan oeil360:make-admin utilisateur@example.com --revoke
+```
+
+---
+
+## Confidentialité et conformité APDP (loi n°2017-20)
+
+Le projet applique les principes de la loi béninoise sur la protection des données personnelles :
+
+- **Consentement versionné** : à chaque évolution de la politique, l'utilisateur repasse par l'écran de consentement (`/consent`) avant d'accéder à l'application
+- **Politique de confidentialité publique** et versionnée : [`/politique-confidentialite`](https://oeil360finance.bytechnum.com/politique-confidentialite)
+- **Minimisation des données d'usage** : les statistiques sont pseudonymes (ni IP nominative, ni contenu des opérations) et purgées automatiquement au-delà de la rétention (`php artisan oeil360:prune-activity-events`, planifié quotidiennement)
+- **Droit d'accès** : export complet des données depuis l'espace « Mon compte »
+- **Droit à l'effacement** : suppression du compte (`DELETE /api/profile`) qui anonymise les données et bloque toute recréation silencieuse via le SSO (écran `/compte-supprime` et reconnexion fédérée via `/auth/relogin`)
+- **Conservation limitée** : purge des comptes inactifs au-delà de `DATA_RETENTION_YEARS` (`php artisan oeil360:purge-inactive`, dry-run par défaut, `--execute` pour la suppression réelle)
+
+---
+
+## Rôles et contrôle d'accès
+
+Deux rôles : utilisateur final et administrateur (opérateur d'observabilité). Chaque utilisateur Auth0 ne voit que ses propres données. L'isolation est garantie à chaque requête API : toutes les requêtes sont filtrées par `user_id = auth()->id()`, et une tentative d'accès aux données d'un autre utilisateur renvoie 404. Les routes d'administration ajoutent le middleware `admin` (vérification `is_admin` côté serveur).
+
+---
+
+## Stack technique
 
 | Couche | Technologie |
 | --- | --- |
-| Backend | Laravel 13 (PHP 8.4.15 via WAMP64) |
-| Authentification | Auth0 (`auth0/login` SDK v7) |
-| Base de données | MySQL (InnoDB) |
-| Frontend | Bootstrap 5.3.8 + Vanilla JS ES6 |
+| Backend | Laravel 13 (PHP 8.4) |
+| Authentification | Auth0 (`auth0/login` SDK v7), connexion sociale Google |
+| Base de données | MySQL (InnoDB) en production, SQLite en mémoire pour les tests |
+| Frontend | Bootstrap 5.3.8 + JavaScript Vanilla ES6 |
 | Graphiques | Chart.js 4.4.7 |
 | Icônes | Bootstrap Icons 1.11.3 |
-| Tests | PHPUnit (66 tests, 214 assertions) |
+| Tests | PHPUnit (119 tests, 343 assertions) |
+| Qualité | Laravel Pint (style) + PHPStan / Larastan (analyse statique) |
+
+---
+
+## Architecture API
+
+Toutes les réponses suivent la même enveloppe :
+
+```json
+{
+  "data": { },
+  "meta": { },
+  "error": null
+}
+```
+
+Les routes API sont protégées par le guard de session Auth0 (`auth:web`). Le pipeline web ajoute la journalisation d'usage pseudonyme et le blocage des identités supprimées ; les pages protégées passent en plus par `consent` et `activity`, et l'espace admin par `admin`.
+
+| Ressource | Endpoints |
+| --- | --- |
+| Dashboard | `GET /api/dashboard` ; `GET /api/dashboard/monthly` |
+| Catégories | `GET/POST /api/categories` ; `GET/PUT/DELETE /api/categories/{id}` ; `POST /api/categories/{id}/restore` |
+| Comptes | `GET/POST /api/accounts` ; `GET/PUT/DELETE /api/accounts/{id}` ; `POST /api/accounts/{id}/restore` |
+| Transactions | `GET/POST /api/transactions` ; `GET/PUT/DELETE /api/transactions/{id}` |
+| Transferts | `GET/POST /api/transfers` ; `GET/PUT/DELETE /api/transfers/{id}` |
+| Récurrentes | `GET/POST /api/recurring-transactions` ; `GET/PUT/DELETE /api/recurring-transactions/{id}` |
+| Profil | `DELETE /api/profile` (suppression définitive du compte) |
+| Observabilité admin | `GET /api/admin/metrics/{overview, user-growth, active-users, operations, top-features, traffic, performance}` (middleware `admin`) |
 
 ---
 
@@ -67,13 +147,13 @@ Application web personnelle de gestion des finances en **Franc CFA (XOF)** — s
 
 ### Prérequis
 
-- WAMP64 avec **PHP 8.4.15** activé (Apache + MySQL)
+- WAMP64 avec **PHP 8.4** activé (Apache + MySQL)
 - Composer
 - Un compte Auth0 (gratuit)
 
-### 1. Virtual Host WAMP
+### 1. Virtual Host
 
-Dans WAMP → Apache → `httpd-vhosts.conf`, ajouter :
+Dans WAMP, `httpd-vhosts.conf` :
 
 ```apache
 <VirtualHost *:80>
@@ -86,7 +166,7 @@ Dans WAMP → Apache → `httpd-vhosts.conf`, ajouter :
 </VirtualHost>
 ```
 
-Dans `C:\Windows\System32\drivers\etc\hosts`, ajouter :
+Dans `C:\Windows\System32\drivers\etc\hosts` :
 
 ```text
 127.0.0.1 oeil360.test
@@ -94,10 +174,10 @@ Dans `C:\Windows\System32\drivers\etc\hosts`, ajouter :
 
 Redémarrer WAMP.
 
-### 2. Installation PHP
+### 2. Dépendances et environnement
 
 ```bash
-# Toujours utiliser le PHP WAMP (pas le PHP système)
+# Toujours utiliser le PHP de WAMP (pas le PHP système)
 C:\wamp64\bin\php\php8.4.15\php.exe composer install
 
 cp .env.example .env
@@ -106,13 +186,9 @@ C:\wamp64\bin\php\php8.4.15\php.exe artisan key:generate
 
 ### 3. Base de données
 
-Créer la base dans phpMyAdmin ou MySQL CLI :
-
 ```sql
 CREATE DATABASE oeil360finance CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
-
-Configurer `.env` :
 
 ```env
 DB_DATABASE=oeil360finance
@@ -124,102 +200,126 @@ DB_PASSWORD=
 C:\wamp64\bin\php\php8.4.15\php.exe artisan migrate
 ```
 
-### 4. Auth0 — Configuration
+### 4. Lancement
 
-1. Créer une application **Regular Web Application** sur [auth0.com](https://auth0.com)
-2. Dans les settings de l'app Auth0 :
-   - **Allowed Callback URLs** : `http://oeil360.test/auth/callback`
-   - **Allowed Logout URLs** : `http://oeil360.test`
-3. Renseigner `.env` :
-
-```env
-AUTH0_DOMAIN=your-tenant.auth0.com
-AUTH0_CLIENT_ID=your_client_id
-AUTH0_CLIENT_SECRET=your_client_secret
-AUTH0_COOKIE_SECRET=une-chaine-aleatoire-de-32-caracteres-minimum
-```
-
-### 5. Lancement
-
-Ouvrir [http://oeil360.test](http://oeil360.test) → redirige vers Auth0 si non connecté.
-
-À la **première connexion**, les 9 catégories et 3 comptes par défaut sont créés automatiquement pour le nouvel utilisateur.
+Ouvrir [http://oeil360.test](http://oeil360.test) : redirection vers Auth0 si non connecté. À la première connexion, les 9 catégories et 3 comptes par défaut sont créés automatiquement.
 
 ---
 
-## Données par défaut (créées automatiquement à la première connexion Auth0)
+## Configuration
 
-**9 catégories :**
+Les clés se trouvent dans `.env.example` (versionné ; le `.env` réel ne l'est jamais).
+
+### Auth0
+
+Créer une application **Regular Web Application** sur [auth0.com](https://auth0.com), puis renseigner :
+
+```env
+AUTH0_DOMAIN=votre-tenant.auth0.com
+AUTH0_CLIENT_ID=...
+AUTH0_CLIENT_SECRET=...
+AUTH0_COOKIE_SECRET=chaine-aleatoire-de-32-caracteres-minimum
+AUTH0_REDIRECT_URI=http://oeil360.test/auth/callback
+```
+
+Dans les réglages de l'application Auth0 :
+
+- **Allowed Callback URLs** : `http://oeil360.test/auth/callback` (local) et `https://oeil360finance.bytechnum.com/auth/callback` (production)
+- **Allowed Logout URLs** : `http://oeil360.test` (local) et `https://oeil360finance.bytechnum.com` (production)
+- Connexion sociale Google activée dans Authentication > Social
+
+### Autres clés
+
+- `DATA_RETENTION_YEARS` : durée de conservation avant purge des comptes inactifs
+- `AUTH0_REGISTER_MIDDLEWARE` : `true` par défaut ; mis à `false` par la CI et les tests pour contourner Auth0
+
+---
+
+## Données par défaut (créées à la première connexion)
+
+**9 catégories**
 
 - Revenus : Salaire, Freelance, Autres revenus
 - Dépenses : Alimentation, Transport, Logement, Santé, Loisirs, Autres dépenses
 
-**3 comptes :**
+**3 comptes**
 
-- Caisse (espèces)
-- Mobile Money
-- Banque
+- Caisse (espèces), Mobile Money, Banque
 
 ---
 
-## Commandes utiles
+## Tests et qualité
 
 ```bash
-# Lancer les tests
-C:\wamp64\bin\php\php8.4.15\php.exe artisan test
+# Suite de tests (PHPUnit)
+php artisan test
 
-# Générer les transactions récurrentes dues (à planifier via cron en prod)
-C:\wamp64\bin\php\php8.4.15\php.exe artisan transactions:generate-recurring
+# Style de code
+./vendor/bin/pint --test
+
+# Analyse statique
+./vendor/bin/phpstan analyse
+```
+
+La CI GitHub Actions (`.github/workflows/ci.yml`) exécute les tests (SQLite en mémoire), Pint et PHPStan sur PHP 8.4 à chaque push et pull request vers `main` et la branche d'intégration `feature/OEIL360FINANCE-v2`.
+
+---
+
+## Commandes Artisan utiles
+
+```bash
+# Générer les transactions récurrentes dues (planifiable en cron)
+php artisan transactions:generate-recurring
+
+# Purger les événements d'usage au-delà de la rétention (minimisation APDP)
+php artisan oeil360:prune-activity-events
+
+# Purger/anonymiser les comptes inactifs (dry-run par défaut ; --execute pour agir)
+php artisan oeil360:purge-inactive --execute
+
+# Promouvoir (ou révoquer avec --revoke) un compte administrateur
+php artisan oeil360:make-admin utilisateur@example.com
 
 # Réinitialiser la base
-C:\wamp64\bin\php\php8.4.15\php.exe artisan migrate:fresh
+php artisan migrate:fresh
 ```
 
 ---
 
-## Architecture API
+## Déploiement
 
-Toutes les réponses suivent l'enveloppe :
+Flux de livraison (Gitflow, appliqué même en solo comme exercice ASIN) :
 
-```json
-{
-  "data": { ... },
-  "meta": { ... },
-  "error": null
-}
-```
+1. Branche `feature/OEIL360FINANCE-{desc}` créée depuis la branche d'intégration
+2. Pull Request vers `feature/OEIL360FINANCE-v2` (intégration)
+3. Pull Request de release de `feature/OEIL360FINANCE-v2` vers `main` (production)
+4. Déploiement sur le serveur : `bash deploy.sh`
 
-Toutes les routes API requièrent une session Auth0 active (`middleware('auth')`).
-
-| Ressource | Endpoint |
-| --- | --- |
-| Dashboard | `GET /api/dashboard` |
-| Dashboard mensuel | `GET /api/dashboard/monthly` |
-| Catégories | `GET/POST /api/categories` · `GET/PUT/DELETE /api/categories/{id}` · `POST /api/categories/{id}/restore` |
-| Comptes | `GET/POST /api/accounts` · `GET/PUT/DELETE /api/accounts/{id}` · `POST /api/accounts/{id}/restore` |
-| Transactions | `GET/POST /api/transactions` · `GET/PUT/DELETE /api/transactions/{id}` |
-| Transferts | `GET/POST /api/transfers` · `GET/PUT/DELETE /api/transfers/{id}` |
-| Récurrentes | `GET/POST /api/recurring-transactions` · `GET/PUT/DELETE /api/recurring-transactions/{id}` |
-
----
-
-## Multi-utilisateurs
-
-Chaque utilisateur Auth0 a ses propres données (catégories, comptes, transactions, transferts). L'isolation est garantie au niveau de chaque requête API : toutes les queries sont filtrées par `user_id = auth()->id()`. Un utilisateur ne peut jamais accéder aux données d'un autre (réponse 404 si tentative).
+`deploy.sh` passe l'application en maintenance, récupère `main`, installe les dépendances de production, applique les migrations, reconstruit les caches (config et vues) puis lève la maintenance. Le workflow `release.yml` publie une Release GitHub avec changelog lorsqu'un tag `v*` est poussé.
 
 ---
 
 ## Règles métier clés
 
-- Devise unique : **Franc CFA (XOF)** — pas de multi-devise
+- Devise unique : **Franc CFA (XOF)**, pas de multi-devise
 - Montant à zéro refusé à la saisie
-- Le sens (entrée/sortie) est toujours un choix explicite — jamais déduit automatiquement
+- Le sens (entrée ou sortie) est toujours un choix explicite, jamais déduit automatiquement
 - Solde d'un compte = `solde_initial + Σ(entrées) − Σ(sorties) + Σ(transferts_entrants) − Σ(transferts_sortants)`
-- Un transfert entre comptes ne compte **jamais** comme revenu ou dépense globale
-- Suppression d'une catégorie / d'un compte utilisé → **archivage** (jamais de suppression destructrice)
+- Un transfert entre comptes ne compte jamais comme revenu ou dépense globale
+- Suppression d'une catégorie ou d'un compte utilisé : archivage, jamais de suppression destructrice
 
 ---
 
-## Contexte du projet
+## Hors périmètre (v1)
 
-Ce projet est développé par **Élisée Atondé** dans le cadre de sa formation **ASIN (Bénin)** — l'objectif est d'appliquer rigoureusement les standards professionnels (nommage, sécurité applicative, Auth0, Git/Gitflow, TDD, revue de code) sur un cas réel et personnel.
+- Multi-devise
+- Application mobile native (la PWA en tient lieu)
+- Partage de comptes entre plusieurs utilisateurs
+
+---
+
+## Contexte, auteur et licence
+
+Projet développé par **Élisée Atondé** dans le cadre de sa formation **ASIN (Bénin)** : appliquer rigoureusement les standards professionnels (nommage, sécurité applicative, Auth0, Git/Gitflow, TDD, revue de code, CI/CD) sur un cas réel et personnel.
+
+**Licence** : propriétaire. Tous droits réservés. Voir [LICENSE](LICENSE).

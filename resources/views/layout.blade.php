@@ -65,17 +65,15 @@
                 @endif
             </ul>
             <div class="d-flex align-items-center gap-2">
-                <span class="text-white-50 small d-none d-lg-inline">
-                    {{ auth()->user()?->name ?? auth()->user()?->email ?? '' }}
-                </span>
                 <a href="{{ url('/mon-compte') }}"
-                   class="btn btn-outline-light btn-sm {{ request()->is('mon-compte*') ? 'active' : '' }}"
-                   title="Mon compte">
-                    <i class="bi bi-person-circle"></i>
-                    <span class="d-none d-lg-inline ms-1">Mon compte</span>
+                   class="navbar-user {{ request()->is('mon-compte*') ? 'active' : '' }}"
+                   title="{{ auth()->user()?->email ?? 'Mon compte' }}">
+                    <span class="navbar-avatar">{{ strtoupper(mb_substr(auth()->user()?->name ?? auth()->user()?->email ?? 'U', 0, 1)) }}</span>
+                    <span class="d-none d-lg-inline">Mon compte</span>
                 </a>
                 <a href="{{ route('logout') }}" class="btn btn-outline-light btn-sm">
-                    <i class="bi bi-box-arrow-right"></i> Déconnexion
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span class="d-none d-lg-inline ms-1">Déconnexion</span>
                 </a>
             </div>
         </div>

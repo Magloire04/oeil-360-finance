@@ -67,17 +67,6 @@ L'application est une Progressive Web App : elle peut être installée sur mobil
 - Service worker (`public/sw.js`) et page hors-ligne (`public/offline.html`)
 - Métadonnées regroupées dans `resources/views/partials/pwa.blade.php` et incluses dans chaque page
 
----
-
-## Espace administrateur et observabilité
-
-Un tableau de bord d'observabilité (`/admin`) est réservé aux comptes marqués `is_admin`, avec un contrôle appliqué côté serveur à chaque requête. Il agrège des métriques d'usage pseudonymes : croissance des inscrits, utilisateurs actifs, volume d'opérations, fonctionnalités les plus utilisées, trafic et performances.
-
-La promotion d'un compte se fait en ligne de commande :
-
-```bash
-php artisan oeil360:make-admin utilisateur@example.com
-php artisan oeil360:make-admin utilisateur@example.com --revoke
 ```
 
 ---
@@ -92,12 +81,6 @@ Le projet applique les principes de la loi béninoise sur la protection des donn
 - **Droit d'accès** : export complet des données depuis l'espace « Mon compte »
 - **Droit à l'effacement** : suppression du compte (`DELETE /api/profile`) qui anonymise les données et bloque toute recréation silencieuse via le SSO (écran `/compte-supprime` et reconnexion fédérée via `/auth/relogin`)
 - **Conservation limitée** : purge des comptes inactifs au-delà de `DATA_RETENTION_YEARS` (`php artisan oeil360:purge-inactive`, dry-run par défaut, `--execute` pour la suppression réelle)
-
----
-
-## Rôles et contrôle d'accès
-
-Deux rôles : utilisateur final et administrateur (opérateur d'observabilité). Chaque utilisateur Auth0 ne voit que ses propres données. L'isolation est garantie à chaque requête API : toutes les requêtes sont filtrées par `user_id = auth()->id()`, et une tentative d'accès aux données d'un autre utilisateur renvoie 404. Les routes d'administration ajoutent le middleware `admin` (vérification `is_admin` côté serveur).
 
 ---
 
@@ -220,19 +203,6 @@ AUTH0_CLIENT_ID=...
 AUTH0_CLIENT_SECRET=...
 AUTH0_COOKIE_SECRET=chaine-aleatoire-de-32-caracteres-minimum
 AUTH0_REDIRECT_URI=http://oeil360.test/auth/callback
-```
-
-Dans les réglages de l'application Auth0 :
-
-- **Allowed Callback URLs** : `http://oeil360.test/auth/callback` (local) et `https://oeil360finance.bytechnum.com/auth/callback` (production)
-- **Allowed Logout URLs** : `http://oeil360.test` (local) et `https://oeil360finance.bytechnum.com` (production)
-- Connexion sociale Google activée dans Authentication > Social
-
-### Autres clés
-
-- `DATA_RETENTION_YEARS` : durée de conservation avant purge des comptes inactifs
-- `AUTH0_REGISTER_MIDDLEWARE` : `true` par défaut ; mis à `false` par la CI et les tests pour contourner Auth0
-
 ---
 
 ## Données par défaut (créées à la première connexion)
@@ -288,7 +258,7 @@ php artisan migrate:fresh
 
 ## Déploiement
 
-Flux de livraison (Gitflow, appliqué même en solo comme exercice ASIN) :
+Flux de livraison :
 
 1. Branche `feature/OEIL360FINANCE-{desc}` créée depuis la branche d'intégration
 2. Pull Request vers `feature/OEIL360FINANCE-v2` (intégration)
@@ -317,9 +287,5 @@ Flux de livraison (Gitflow, appliqué même en solo comme exercice ASIN) :
 - Partage de comptes entre plusieurs utilisateurs
 
 ---
-
-## Contexte, auteur et licence
-
-Projet développé par **Élisée Atondé** dans le cadre de sa formation **ASIN (Bénin)** : appliquer rigoureusement les standards professionnels (nommage, sécurité applicative, Auth0, Git/Gitflow, TDD, revue de code, CI/CD) sur un cas réel et personnel.
 
 **Licence** : propriétaire. Tous droits réservés. Voir [LICENSE](LICENSE).

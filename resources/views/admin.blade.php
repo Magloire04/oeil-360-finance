@@ -17,7 +17,7 @@
                     <button class="btn btn-outline-primary btn-sm active" data-period="month">30 jours</button>
                     <button class="btn btn-outline-primary btn-sm" data-period="year">Année</button>
                 </div>
-                <div class="d-flex gap-2 ms-2">
+                <div class="d-flex gap-2 ms-2 period-dates">
                     <input type="date" id="start-date" class="form-control form-control-sm" style="width:160px">
                     <input type="date" id="end-date" class="form-control form-control-sm" style="width:160px">
                     <button class="btn btn-primary btn-sm" id="apply-period">Appliquer</button>
@@ -136,6 +136,7 @@
         <div id="no-perf" class="text-center text-muted py-4 d-none">
             Aucune donnée de performance sur cette période
         </div>
+        <div class="table-responsive">
         <table class="table table-hover align-middle mb-0" id="perf-table">
             <thead class="table-light">
                 <tr>
@@ -147,6 +148,7 @@
             </thead>
             <tbody id="perf-body"></tbody>
         </table>
+        </div>
     </div>
 </div>
 @endsection

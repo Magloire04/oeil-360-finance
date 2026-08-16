@@ -39,6 +39,12 @@
 /* ----------------------------------------------------------
    2. Base
    ---------------------------------------------------------- */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--clr-bg);
     font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
@@ -451,6 +457,19 @@ h1.h3 {
     }
     .card-body {
         padding: 1rem;
+    }
+    /* Sélecteur de période : les champs de dates deviennent flexibles et le bouton passe en pleine largeur */
+    .period-dates {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .period-dates .form-control {
+        flex: 1 1 45%;
+        width: auto !important;
+        min-width: 0;
+    }
+    .period-dates .btn {
+        flex: 1 1 100%;
     }
 }
 

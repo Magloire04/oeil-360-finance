@@ -17,11 +17,11 @@
             <div class="card-body">
                 <dl class="mb-0">
                     <dt class="text-muted small">Nom</dt>
-                    <dd class="mb-3 fw-semibold">{{ auth()->user()?->name ?? '—' }}</dd>
+                    <dd class="mb-3 fw-semibold">{{ auth()->user()?->name ?? '-' }}</dd>
                     <dt class="text-muted small">Email</dt>
-                    <dd class="mb-3 fw-semibold">{{ auth()->user()?->email ?? '—' }}</dd>
+                    <dd class="mb-3 fw-semibold">{{ auth()->user()?->email ?? '-' }}</dd>
                     <dt class="text-muted small">Membre depuis</dt>
-                    <dd class="mb-0 fw-semibold">{{ auth()->user()?->created_at?->format('d/m/Y') ?? '—' }}</dd>
+                    <dd class="mb-0 fw-semibold">{{ auth()->user()?->created_at?->format('d/m/Y') ?? '-' }}</dd>
                 </dl>
             </div>
         </div>
@@ -45,7 +45,7 @@
                         @endif
                     </dd>
                     <dt class="text-muted small">Version de la politique</dt>
-                    <dd class="mb-3">{{ auth()->user()?->consent_version ?? '—' }}</dd>
+                    <dd class="mb-3">{{ auth()->user()?->consent_version ?? '-' }}</dd>
                     <dt class="text-muted small">Politique de confidentialité</dt>
                     <dd class="mb-0">
                         <a href="/politique-confidentialite" target="_blank" rel="noopener"
@@ -62,7 +62,7 @@
 {{-- Export des données --}}
 <div class="card mb-4 animate-fadein" style="animation-delay:.1s">
     <div class="card-header">
-        <i class="bi bi-download me-1"></i> Mes données (droit d'accès — APDP art. 496)
+        <i class="bi bi-download me-1"></i> Mes données (droit d'accès, APDP art. 496)
     </div>
     <div class="card-body">
         <p class="text-muted mb-3">
@@ -77,7 +77,7 @@
 {{-- Suppression du compte --}}
 <div class="card animate-fadein" style="animation-delay:.15s;border-left:4px solid var(--clr-expense)!important">
     <div class="card-header" style="color:var(--clr-expense)">
-        <i class="bi bi-trash3 me-1"></i> Supprimer mon compte (droit à l'effacement — APDP art. 501)
+        <i class="bi bi-trash3 me-1"></i> Supprimer mon compte (droit à l'effacement, APDP art. 501)
     </div>
     <div class="card-body">
         <p class="text-muted mb-2">

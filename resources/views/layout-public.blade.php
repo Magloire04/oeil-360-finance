@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Oeil 360° Finance') — Oeil 360° Finance</title>
-    <meta name="description" content="@yield('meta_description', 'Oeil360 Finance — votre tableau de bord financier personnel en Franc CFA (XOF). Suivez revenus, dépenses, comptes et transactions récurrentes en un seul endroit.')">
+    <title>@yield('title', 'Oeil 360° Finance') · Oeil 360° Finance</title>
+    <meta name="description" content="@yield('meta_description', 'Oeil360 Finance : votre tableau de bord financier personnel en Franc CFA (XOF). Suivez revenus, dépenses, comptes et transactions récurrentes en un seul endroit.')">
     <link rel="icon" type="image/png" href="/images/oeil360-icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
@@ -12,7 +12,7 @@
 </head>
 <body>
 
-{{-- Navbar publique — pas de lien vers les pages protégées, CTA de connexion --}}
+{{-- Navbar publique : pas de lien vers les pages protégées, CTA de connexion --}}
 <nav class="navbar navbar-expand-lg app-navbar">
     <div class="container-fluid">
         <a class="navbar-brand p-0" href="{{ url('/') }}">

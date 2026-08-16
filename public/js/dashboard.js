@@ -38,7 +38,7 @@
         document.getElementById('kpi-tx-count').textContent    = kpis.transactions_count;
         document.getElementById('kpi-daily-expense').textContent = formatXOF(kpis.daily_avg_expense);
         const topEl = document.getElementById('kpi-top-category');
-        topEl.textContent = kpis.top_expense_category ?? '—';
+        topEl.textContent = kpis.top_expense_category ?? '-';
         topEl.title       = kpis.top_expense_category ?? '';
     }
 
@@ -148,9 +148,9 @@
             const prefix      = isIncome ? '+' : '−';
             return `<tr>
                 <td>${esc(formatDate(tx.transaction_date))}</td>
-                <td>${tx.note ? esc(tx.note) : '<span class="text-muted">—</span>'}</td>
-                <td><span class="badge ${badgeClass}">${esc(tx.category?.name ?? '—')}</span></td>
-                <td>${esc(tx.account?.name ?? '—')}</td>
+                <td>${tx.note ? esc(tx.note) : '<span class="text-muted">-</span>'}</td>
+                <td><span class="badge ${badgeClass}">${esc(tx.category?.name ?? '-')}</span></td>
+                <td>${esc(tx.account?.name ?? '-')}</td>
                 <td class="text-end ${amountClass}">${prefix} ${formatXOF(tx.amount)}</td>
             </tr>`;
         }).join('');

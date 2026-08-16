@@ -2,12 +2,12 @@
 
 @section('title', 'Découvrir')
 
-@section('meta_description', 'Oeil360 Finance — reprenez le contrôle de vos finances personnelles en Franc CFA (XOF) : revenus, dépenses, comptes, transferts et charges récurrentes dans un seul tableau de bord.')
+@section('meta_description', 'Oeil360 Finance : reprenez le contrôle de vos finances personnelles en Franc CFA (XOF) : revenus, dépenses, comptes, transferts et charges récurrentes dans un seul tableau de bord.')
 
 @section('content')
 
 {{-- ============================================================
-     SECTION 1 — HERO PUBLIC
+     SECTION 1 : HERO PUBLIC
      ============================================================ --}}
 <div class="help-hero animate-fadein">
     <div class="help-hero-icon">
@@ -17,7 +17,7 @@
         Voyez vos finances à 360°
     </h1>
     <p class="lead text-muted mb-4" style="max-width:560px;margin:0 auto">
-        Oeil360 Finance centralise vos revenus, dépenses, comptes et charges récurrentes —
+        Oeil360 Finance centralise vos revenus, dépenses, comptes et charges récurrentes,
         en Franc CFA, sans tableur ni application dispersée.
     </p>
     <div class="d-flex gap-3 justify-content-center flex-wrap">
@@ -31,7 +31,7 @@
 </div>
 
 {{-- ============================================================
-     SECTIONS 2 à 4 — contenu partagé avec la page Aide (/help)
+     SECTIONS 2 à 4 : contenu partagé avec la page Aide (/help)
      Source unique : resources/views/partials/
      ============================================================ --}}
 <span id="fonctionnalites"></span>
@@ -42,7 +42,7 @@
 @include('partials.demo')
 
 {{-- ============================================================
-     SECTION 5 — SÉCURITÉ & CONFORMITÉ (spécifique landing)
+     SECTION 5 : SÉCURITÉ & CONFORMITÉ (spécifique landing)
      ============================================================ --}}
 <div class="help-section fade-up" id="securite">
     <h2 class="help-section-title text-center mb-1">Vos données vous appartiennent</h2>
@@ -113,19 +113,16 @@
 </div>
 
 {{-- ============================================================
-     SECTION 6 — FAQ (partagée)
+     SECTION 6 : FAQ (partagée)
      ============================================================ --}}
 <span id="faq"></span>
 @include('partials.faq')
 
 {{-- ============================================================
-     SECTION 7 — CTA FINAL
+     SECTION 7 : CTA FINAL
      ============================================================ --}}
 <div class="fade-up mb-4">
     <div class="cta-section">
-        <div class="kpi-icon mx-auto mb-3" style="width:56px;height:56px;font-size:1.4rem">
-            <i class="bi bi-rocket-takeoff"></i>
-        </div>
         <h2 class="mb-2">Prêt à prendre le contrôle&nbsp;?</h2>
         <p class="text-muted mb-4" style="max-width:460px;margin:0 auto 1.5rem">
             Connectez-vous en quelques secondes, ajoutez votre première transaction

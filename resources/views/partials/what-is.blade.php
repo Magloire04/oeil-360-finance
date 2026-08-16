@@ -1,4 +1,4 @@
-{{-- C'est quoi Oeil360 Finance — partagé entre la page Aide (/help) et la landing publique (/) --}}
+{{-- C'est quoi Oeil360 Finance : partagé entre la page Aide (/help) et la landing publique (/) --}}
 <div class="help-section fade-up">
     <div class="row align-items-center g-4">
         <div class="col-md-6">
@@ -6,14 +6,14 @@
             <p class="text-muted mb-3">
                 Oeil360 Finance est votre tableau de bord financier personnel.
                 Enregistrez chaque revenu et chaque dépense, suivez vos soldes en temps réel
-                et visualisez où va votre argent — le tout en un seul endroit.
+                et visualisez où va votre argent, le tout en un seul endroit.
             </p>
             <p class="text-muted mb-3">
                 L'objectif&nbsp;: répondre à la question <strong style="color:var(--clr-navy)">"Combien j'ai, d'où ça vient, où ça va&nbsp;?"</strong>
                 à tout moment, sans effort.
             </p>
             <p class="text-muted mb-0">
-                Conçu pour le contexte UEMOA — uniquement en <strong>Franc CFA (XOF)</strong>,
+                Conçu pour le contexte UEMOA, uniquement en <strong>Franc CFA (XOF)</strong>,
                 pour un suivi simple et précis.
             </p>
         </div>

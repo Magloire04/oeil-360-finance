@@ -23,6 +23,19 @@ Route::view('/politique-confidentialite', 'politique-confidentialite')
 // Écran affiché à une identité dont le compte a été supprimé (recréation bloquée).
 Route::view('/compte-supprime', 'account-deleted')->name('account.deleted');
 
+// Reconnexion « propre » : déconnexion FÉDÉRÉE (Auth0 + fournisseur d'identité, ex. Google)
+// puis retour à l'accueil. Indispensable après une suppression pour repartir d'une session
+// vierge et pouvoir se connecter avec un AUTRE compte (sinon le SSO renvoie l'identité supprimée).
+Route::get('/auth/relogin', function () {
+    try {
+        $url = Auth::guard('web')->sdk()->logout(url('/'), ['federated' => '1']);
+
+        return redirect()->away($url);
+    } catch (Throwable) {
+        return redirect()->route('login');
+    }
+})->name('auth.relogin');
+
 // Routes Auth0 (publiques)
 Route::get('/auth/login', LoginController::class)->name('login');
 Route::get('/auth/logout', LogoutController::class)->name('logout');

@@ -1,7 +1,7 @@
-# SPEC — Oeil_360_finance (Gestion personnelle des dépenses)
+# SPEC - Oeil_360_finance (Gestion personnelle des dépenses)
 
 > Nom de travail. À renommer librement.
-> Ce document dit **QUOI** construire — pas comment. La conception technique (architecture, modèle de données, stack détaillée) vient après, en Plan Mode avec Claude Code, une fois ce document validé.
+> Ce document dit **QUOI** construire - pas comment. La conception technique (architecture, modèle de données, stack détaillée) vient après, en Plan Mode avec Claude Code, une fois ce document validé.
 
 ---
 
@@ -21,13 +21,13 @@ Application **mono-utilisateur**, usage strictement personnel. Pas de notion de 
 
 Chaque transaction enregistrée comporte :
 - un **montant** (en Francs CFA, décimales autorisées)
-- un **sens** : entrée (revenu) ou sortie (dépense) — choisi explicitement, pas déduit du signe du montant
+- un **sens** : entrée (revenu) ou sortie (dépense) - choisi explicitement, pas déduit du signe du montant
 - une **date** (par défaut aujourd'hui, modifiable)
 - une **catégorie** (une seule par transaction)
 - un **compte / moyen de paiement** associé (une seule par transaction)
 - une **note** libre, optionnelle
 
-Aucune transaction n'est "trop petite" pour être enregistrée — pas de montant minimum imposé.
+Aucune transaction n'est "trop petite" pour être enregistrée - pas de montant minimum imposé.
 
 ### 3.2 Catégories
 
@@ -39,7 +39,7 @@ Aucune transaction n'est "trop petite" pour être enregistrée — pas de montan
 
 - Plusieurs comptes possibles : ex. Espèces, Mobile Money (MTN, Moov), Compte bancaire
 - Chaque compte a un **solde courant**, calculé automatiquement
-- **Transfert entre comptes** possible (ex. retrait espèces depuis le compte bancaire) — un transfert n'est ni un revenu ni une dépense au sens global, mais déplace de l'argent d'un compte à l'autre
+- **Transfert entre comptes** possible (ex. retrait espèces depuis le compte bancaire) - un transfert n'est ni un revenu ni une dépense au sens global, mais déplace de l'argent d'un compte à l'autre
 
 ### 3.4 Vue 360° (tableau de bord)
 
@@ -66,24 +66,24 @@ Aucune transaction n'est "trop petite" pour être enregistrée — pas de montan
 
 - Une transaction appartient à **exactement une** catégorie et **un** compte
 - Le solde d'un compte = somme des entrées − somme des sorties sur ce compte, **transferts inclus**
-- Toute création, modification ou suppression d'une transaction **recalcule immédiatement** les soldes et le tableau de bord affichés — jamais de valeur en cache obsolète visible
-- Devise unique : **Franc CFA (XOF)** — pas de gestion multi-devise en V1
+- Toute création, modification ou suppression d'une transaction **recalcule immédiatement** les soldes et le tableau de bord affichés - jamais de valeur en cache obsolète visible
+- Devise unique : **Franc CFA (XOF)** - pas de gestion multi-devise en V1
 - Le sens (entrée/sortie) est un choix explicite de l'utilisateur, jamais déduit automatiquement d'un signe + ou −
 
 ## 5. Cas limites à gérer explicitement
 
 - **Montant à zéro** : refusé à la saisie (aucun sens métier)
 - **Montant avec décimales** (centimes) : doit être supporté correctement, sans erreur d'arrondi visible sur les totaux
-- **Suppression d'une catégorie déjà utilisée** : les transactions existantes ne doivent jamais être supprimées ou orphelines — la catégorie doit être archivée (conservée en lecture seule) plutôt que supprimée définitivement si elle est utilisée
-- **Suppression d'un compte avec des transactions existantes** : même logique — archivage plutôt que suppression destructrice
+- **Suppression d'une catégorie déjà utilisée** : les transactions existantes ne doivent jamais être supprimées ou orphelines - la catégorie doit être archivée (conservée en lecture seule) plutôt que supprimée définitivement si elle est utilisée
+- **Suppression d'un compte avec des transactions existantes** : même logique - archivage plutôt que suppression destructrice
 - **Aucune transaction sur la période sélectionnée** : le tableau de bord doit afficher un état vide explicite ("Aucune transaction sur cette période"), jamais une erreur ou un écran cassé
 - **Transfert entre comptes** : ne doit jamais être compté comme un revenu ou une dépense dans les totaux globaux d'entrées/sorties, uniquement comme un mouvement interne
 
 ## 6. Hors périmètre pour cette V1 (explicite)
 
-Ces points sont **volontairement exclus** de cette première version. Toute envie de les ajouter "en cours de route" doit être documentée comme un écart de scope, pas glissée silencieusement dans le code (cf. standards ASIN — "tout écart est une décision, pas un oubli") :
+Ces points sont **volontairement exclus** de cette première version. Toute envie de les ajouter "en cours de route" doit être documentée comme un écart de scope, pas glissée silencieusement dans le code (cf. standards ASIN - "tout écart est une décision, pas un oubli") :
 
-- Partage d'un **même** compte entre plusieurs personnes — *la v1 publique devient multi-utilisateurs (voir §7), mais sans partage de compte : chaque utilisateur ne voit que ses propres données, jamais celles d'un autre*
+- Partage d'un **même** compte entre plusieurs personnes - *la v1 publique devient multi-utilisateurs (voir §7), mais sans partage de compte : chaque utilisateur ne voit que ses propres données, jamais celles d'un autre*
 - Application mobile native (le web doit être responsive/mobile-first, mais pas d'app iOS/Android séparée)
 - Connexion bancaire automatique ou import automatique de relevés
 - Budgets prévisionnels et alertes de dépassement de budget
@@ -92,7 +92,7 @@ Ces points sont **volontairement exclus** de cette première version. Toute envi
 
 ## 7. Administration, observabilité & conformité APDP (évolution v1 publique)
 
-> **Évolution majeure.** La v1 passe d'un usage mono-utilisateur d'entraînement à un **déploiement public réel**. Cette section documente ce que la v1 publique ajoute au périmètre initial — les §2 et §6 sont amendés en conséquence (décision documentée, cf. standards ASIN « tout écart est une décision, pas un oubli »).
+> **Évolution majeure.** La v1 passe d'un usage mono-utilisateur d'entraînement à un **déploiement public réel**. Cette section documente ce que la v1 publique ajoute au périmètre initial - les §2 et §6 sont amendés en conséquence (décision documentée, cf. standards ASIN « tout écart est une décision, pas un oubli »).
 
 ### 7.1 Rôle administrateur
 
@@ -109,9 +109,9 @@ Vue globale de l'usage et de la santé du service, sur une **période choisie** 
 - **Trafic** : nombre de visites par période.
 - **Performances** : temps de réponse (moyenne, p95) et **taux d'erreur**.
 
-### 7.3 Statistiques d'usage — minimisation APDP
+### 7.3 Statistiques d'usage - minimisation APDP
 
-- Données d'usage **pseudonymes et minimisées** : route / fonctionnalité, statut, durée, référence utilisateur — **jamais** d'IP nominative, d'agent navigateur, ni de contenu d'opération.
+- Données d'usage **pseudonymes et minimisées** : route / fonctionnalité, statut, durée, référence utilisateur - **jamais** d'IP nominative, d'agent navigateur, ni de contenu d'opération.
 - **Conservation limitée** : purge automatique au-delà de 90 jours.
 - **Anonymisation** à la suppression d'un compte.
 - Mention explicite dans la politique de confidentialité.
@@ -129,4 +129,4 @@ Vue globale de l'usage et de la santé du service, sur une **période choisie** 
 
 ## 8. Prochaine étape
 
-Ce document doit être **relu et validé** (ou corrigé) avant de passer à la suite. Une fois validé, l'étape suivante est de demander à Claude Code de générer le **PLAN** (fichier de tâches numérotées avec fichiers concernés et définition de "Done"), en **Plan Mode** (`Shift+Tab`), à partir de ce SPEC — pas de code avant cette étape.
+Ce document doit être **relu et validé** (ou corrigé) avant de passer à la suite. Une fois validé, l'étape suivante est de demander à Claude Code de générer le **PLAN** (fichier de tâches numérotées avec fichiers concernés et définition de "Done"), en **Plan Mode** (`Shift+Tab`), à partir de ce SPEC - pas de code avant cette étape.

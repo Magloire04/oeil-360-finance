@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hors ligne · Oeil 360° Finance</title>
+    <link rel="icon" type="image/png" href="/images/oeil360-icon.png">
+    <style>
+        :root { --navy: #1a2e4a; --teal: #28c98a; --bg: #f0f4f8; --muted: #64748b; }
+        * { box-sizing: border-box; }
+        html, body { height: 100%; margin: 0; }
+        body {
+            background: var(--bg);
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            color: var(--navy);
+            display: flex; align-items: center; justify-content: center;
+            padding: 2rem 1rem;
+        }
+        .card {
+            background: #fff; border-radius: 16px; box-shadow: 0 8px 40px rgba(26, 46, 74, .12);
+            padding: 2.5rem 2rem; max-width: 420px; width: 100%; text-align: center;
+        }
+        img { max-height: 44px; margin-bottom: 1rem; }
+        .icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(40, 201, 138, .12);
+            display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+        .icon svg { width: 32px; height: 32px; stroke: var(--teal); }
+        h1 { font-size: 1.15rem; margin: 0 0 .5rem; }
+        p { color: var(--muted); font-size: .9rem; line-height: 1.5; margin: 0 0 1.5rem; }
+        button {
+            background: var(--teal); color: #fff; border: 0; border-radius: 8px;
+            font-weight: 600; font-size: .9rem; padding: .6rem 1.4rem; cursor: pointer;
+        }
+        button:hover { background: #1dac74; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="/images/oeil360-logo-horizontal.png" alt="Oeil 360° Finance">
+        <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l22 22"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+        </div>
+        <h1>Vous êtes hors ligne</h1>
+        <p>Impossible d'atteindre Oeil360 Finance. Vérifiez votre connexion : vos données financières ne sont accessibles qu'en ligne.</p>
+        <button onclick="location.reload()">Réessayer</button>
+    </div>
+</body>
+</html>

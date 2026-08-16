@@ -5,7 +5,7 @@
 @section('content')
 
 {{-- ============================================================
-     SECTION 1 — HERO
+     SECTION 1 : HERO
      ============================================================ --}}
 <div class="help-hero animate-fadein">
     <div class="help-hero-icon">
@@ -29,7 +29,7 @@
 </div>
 
 {{-- ============================================================
-     SECTIONS 2 à 5 — contenu partagé avec la landing publique (/)
+     SECTIONS 2 à 5 : contenu partagé avec la landing publique (/)
      Source unique : resources/views/partials/
      ============================================================ --}}
 @include('partials.what-is')
@@ -38,7 +38,7 @@
 @include('partials.faq')
 
 {{-- ============================================================
-     SECTION 6 — CTA FINAL
+     SECTION 6 : CTA FINAL
      ============================================================ --}}
 <div class="fade-up mb-4">
     <div class="cta-section">

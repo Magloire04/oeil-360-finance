@@ -1,4 +1,4 @@
-{{-- Comment ça marche — partagé entre la page Aide (/help) et la landing publique (/) --}}
+{{-- Comment ça marche : partagé entre la page Aide (/help) et la landing publique (/) --}}
 <div class="help-section fade-up">
     <h2 class="help-section-title text-center mb-4">Comment ça marche&nbsp;?</h2>
     <div class="help-steps">
@@ -22,7 +22,7 @@
             <span class="help-step-number">3</span>
             <div class="help-step-title">Gérez vos comptes</div>
             <div class="help-step-desc">
-                Caisse, Mobile Money, Banque — suivez chaque compte séparément.
+                Caisse, Mobile Money, Banque : suivez chaque compte séparément.
                 Les transferts entre comptes ne faussent pas vos totaux.
             </div>
         </div>

@@ -20,10 +20,25 @@ class RejectDeletedIdentity
 {
     public function handle(Request $request, Closure $next): Response
     {
+        // Ne pas intercepter le flux d'authentification lui-même : /auth/login doit pouvoir
+        // relancer une connexion (choix d'un AUTRE compte) même si une session d'une identité
+        // supprimée subsiste. /compte-supprime est exclu pour éviter toute boucle.
+        if ($request->is('auth/*') || $request->is('compte-supprime')) {
+            return $next($request);
+        }
+
         $sub = $this->auth0Sub();
 
         if ($sub !== null && DeletedIdentity::isBlocked($sub)) {
-            Auth::guard('web')->logout();
+            $guard = Auth::guard('web');
+            $guard->logout();
+
+            // Purge complète de la session Auth0 : sans ça, getCredentials() renverrait
+            // encore l'identité supprimée et bloquerait toutes les pages en boucle.
+            try {
+                $guard->sdk()->clear();
+            } catch (\Throwable) {
+            }
 
             return redirect()->route('account.deleted');
         }

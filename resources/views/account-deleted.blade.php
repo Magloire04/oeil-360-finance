@@ -35,9 +35,14 @@
             <a href="mailto:oeil360finance@bytechnum.com" style="color:var(--clr-teal)">oeil360finance@bytechnum.com</a>.
         </p>
 
-        <a href="{{ url('/') }}" class="btn btn-outline-secondary btn-sm mt-2">
-            <i class="bi bi-arrow-left me-1"></i> Retour à l'accueil
-        </a>
+        <div class="d-flex flex-column gap-2 mt-2">
+            <a href="{{ route('login') }}" class="btn btn-primary btn-sm">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Se connecter avec un autre compte
+            </a>
+            <a href="{{ url('/') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Retour à l'accueil
+            </a>
+        </div>
     </div>
 </div>
 

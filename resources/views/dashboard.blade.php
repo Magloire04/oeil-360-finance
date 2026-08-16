@@ -35,7 +35,7 @@
             <div class="card-body">
                 <span class="kpi-icon"><i class="bi bi-wallet2"></i></span>
                 <div class="text-muted small mb-1">Solde total</div>
-                <div class="h5 mb-0 amount-income" id="total-balance">—</div>
+                <div class="h5 mb-0 amount-income" id="total-balance">…</div>
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
             <div class="card-body">
                 <span class="kpi-icon"><i class="bi bi-arrow-left-right"></i></span>
                 <div class="text-muted small mb-1">Transactions</div>
-                <div class="h5 mb-0" id="kpi-tx-count">—</div>
+                <div class="h5 mb-0" id="kpi-tx-count">…</div>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
             <div class="card-body">
                 <span class="kpi-icon"><i class="bi bi-calendar-day"></i></span>
                 <div class="text-muted small mb-1">Dépense/jour moy.</div>
-                <div class="h5 mb-0 amount-expense" id="kpi-daily-expense">—</div>
+                <div class="h5 mb-0 amount-expense" id="kpi-daily-expense">…</div>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
             <div class="card-body">
                 <span class="kpi-icon"><i class="bi bi-trophy"></i></span>
                 <div class="text-muted small mb-1">Top dépense</div>
-                <div class="h5 mb-0 text-truncate" id="kpi-top-category" title="">—</div>
+                <div class="h5 mb-0 text-truncate" id="kpi-top-category" title="">…</div>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@
         <div class="card">
             <div class="card-body text-center">
                 <div class="text-muted small">Total entrées</div>
-                <div class="h5 amount-income" id="period-income">—</div>
+                <div class="h5 amount-income" id="period-income">…</div>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@
         <div class="card">
             <div class="card-body text-center">
                 <div class="text-muted small">Total sorties</div>
-                <div class="h5 amount-expense" id="period-expense">—</div>
+                <div class="h5 amount-expense" id="period-expense">…</div>
             </div>
         </div>
     </div>
@@ -97,7 +97,7 @@
         <div class="card">
             <div class="card-body text-center">
                 <div class="text-muted small">Solde net</div>
-                <div class="h5" id="period-net">—</div>
+                <div class="h5" id="period-net">…</div>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@
     </div>
     <div class="col-12 col-md-7 mb-3">
         <div class="card h-100">
-            <div class="card-header">Revenus vs Dépenses — 12 mois</div>
+            <div class="card-header">Revenus vs Dépenses (12 mois)</div>
             <div class="card-body">
                 <canvas id="chart-monthly-bar"></canvas>
             </div>

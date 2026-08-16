@@ -84,8 +84,8 @@
                    </button>`;
 
             return `<tr>
-                <td>${esc(r.category?.name ?? '—')}</td>
-                <td>${esc(r.account?.name ?? '—')}</td>
+                <td>${esc(r.category?.name ?? '-')}</td>
+                <td>${esc(r.account?.name ?? '-')}</td>
                 <td>${senseBadge}</td>
                 <td>${freqLabel}</td>
                 <td class="text-end fw-semibold">${formatXOF(r.amount)}</td>

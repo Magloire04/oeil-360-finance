@@ -1,4 +1,4 @@
-{{-- Questions fréquentes (FAQ) — partagé entre la page Aide (/help) et la landing publique (/) --}}
+{{-- Questions fréquentes (FAQ) : partagé entre la page Aide (/help) et la landing publique (/) --}}
 <div class="help-section fade-up">
     <h2 class="help-section-title text-center mb-4">Questions fréquentes</h2>
     <div class="accordion" id="help-faq" style="max-width:720px;margin:0 auto">
@@ -68,7 +68,7 @@
                     Vous définissez une règle (montant + catégorie + fréquence&nbsp;: quotidienne,
                     hebdomadaire, mensuelle ou annuelle). Le système génère automatiquement chaque
                     occurrence à la date prévue. Chaque occurrence reste <strong>modifiable
-                    indépendamment</strong> des autres — modifier une occurrence n'impacte pas les suivantes.
+                    indépendamment</strong> des autres : modifier une occurrence n'impacte pas les suivantes.
                 </div>
             </div>
         </div>

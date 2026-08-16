@@ -78,9 +78,9 @@
 
         tbody.innerHTML = items.map(t => `<tr>
             <td>${esc(formatDate(t.transfer_date))}</td>
-            <td>${esc(t.from_account?.name ?? '—')}</td>
+            <td>${esc(t.from_account?.name ?? '-')}</td>
             <td><i class="bi bi-arrow-right text-muted"></i></td>
-            <td>${esc(t.to_account?.name ?? '—')}</td>
+            <td>${esc(t.to_account?.name ?? '-')}</td>
             <td class="text-end fw-semibold">${formatXOF(t.amount)}</td>
             <td class="text-muted">${esc(t.note ?? '')}</td>
             <td class="text-end">
@@ -101,7 +101,7 @@
         const btnPrev = document.getElementById('btn-prev');
         const btnNext = document.getElementById('btn-next');
 
-        info.textContent = `Page ${meta.current_page} sur ${meta.last_page} — ${meta.total} transfert(s)`;
+        info.textContent = `Page ${meta.current_page} sur ${meta.last_page} · ${meta.total} transfert(s)`;
         btnPrev.disabled = meta.current_page <= 1;
         btnNext.disabled = meta.current_page >= meta.last_page;
     }

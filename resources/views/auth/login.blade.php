@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion — Oeil 360° Finance</title>
+    <title>Connexion · Oeil 360° Finance</title>
     <link rel="icon" type="image/png" href="/images/oeil360-icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
@@ -16,7 +16,7 @@
             min-height: 100vh;
         }
 
-        /* Panel gauche — navy */
+        /* Panel gauche : navy */
         .login-panel-left {
             background-color: #1a2e4a;
             display: flex;
@@ -106,7 +106,7 @@
             white-space: nowrap;
         }
 
-        /* Panel droit — formulaire */
+        /* Panel droit : formulaire */
         .login-panel-right {
             background-color: #f0f4f8;
             display: flex;
@@ -170,7 +170,7 @@
             margin-top: 1.5rem;
         }
 
-        /* Responsive — mobile en colonne unique */
+        /* Responsive : mobile en colonne unique */
         @media (max-width: 767px) {
             .login-wrapper { flex-direction: column; }
 

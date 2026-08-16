@@ -38,7 +38,7 @@
 
     function populateSelect(id, items, mapper, defaultLabel) {
         const el = document.getElementById(id);
-        // Rebuild using DOM nodes — avoids innerHTML/insertAdjacentHTML XSS sinks
+        // Rebuild using DOM nodes: avoids innerHTML/insertAdjacentHTML XSS sinks
         el.replaceChildren();
         const defaultOpt = document.createElement('option');
         defaultOpt.value = '';
@@ -107,12 +107,12 @@
             // Numeric/enum values (id, sense, amount, transaction_date) are safe without escaping.
             const noteHtml = tx.note
                 ? esc(tx.note)
-                : '<span class="text-muted">—</span>';
+                : '<span class="text-muted">-</span>';
             return `<tr>
                 <td>${esc(formatDate(tx.transaction_date))}</td>
                 <td>${noteHtml}</td>
-                <td>${esc(tx.category?.name ?? '—')}</td>
-                <td>${esc(tx.account?.name ?? '—')}</td>
+                <td>${esc(tx.category?.name ?? '-')}</td>
+                <td>${esc(tx.account?.name ?? '-')}</td>
                 <td><span class="badge ${badgeClass}">${isIncome ? 'Entrée' : 'Sortie'}</span></td>
                 <td class="text-end ${amtClass}">${prefix} ${formatXOF(tx.amount)}</td>
                 <td class="text-end">
@@ -134,7 +134,7 @@
         const btnPrev = document.getElementById('btn-prev');
         const btnNext = document.getElementById('btn-next');
 
-        info.textContent = `Page ${meta.current_page} / ${meta.last_page} — ${meta.total} résultat(s)`;
+        info.textContent = `Page ${meta.current_page} / ${meta.last_page} · ${meta.total} résultat(s)`;
         btnPrev.disabled = meta.current_page <= 1;
         btnNext.disabled = meta.current_page >= meta.last_page;
     }

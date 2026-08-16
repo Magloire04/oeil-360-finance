@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4 animate-fadein" style="animation-delay: 0.02s">
-    <h1 class="h3 mb-0"><i class="bi bi-speedometer2"></i> Administration — Vue globale</h1>
+    <h1 class="h3 mb-0"><i class="bi bi-speedometer2"></i> Administration · Vue globale</h1>
 </div>
 
 {{-- Sélecteur de période --}}
@@ -34,7 +34,7 @@
             <div class="card-body">
                 <span class="kpi-icon"><i class="bi bi-people"></i></span>
                 <div class="text-muted small mb-1">Inscrits (total)</div>
-                <div class="h5 mb-0" id="kpi-total-users">—</div>
+                <div class="h5 mb-0" id="kpi-total-users">…</div>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
             <div class="card-body">
                 <span class="kpi-icon"><i class="bi bi-person-plus"></i></span>
                 <div class="text-muted small mb-1">Nouveaux (période)</div>
-                <div class="h5 mb-0" id="kpi-new-users">—</div>
+                <div class="h5 mb-0" id="kpi-new-users">…</div>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
             <div class="card-body">
                 <span class="kpi-icon"><i class="bi bi-activity"></i></span>
                 <div class="text-muted small mb-1">Actifs (30 j)</div>
-                <div class="h5 mb-0" id="kpi-active-users">—</div>
+                <div class="h5 mb-0" id="kpi-active-users">…</div>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
             <div class="card-body">
                 <span class="kpi-icon"><i class="bi bi-arrow-left-right"></i></span>
                 <div class="text-muted small mb-1">Opérations (période)</div>
-                <div class="h5 mb-0" id="kpi-operations">—</div>
+                <div class="h5 mb-0" id="kpi-operations">…</div>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
             <div class="card-body">
                 <span class="kpi-icon"><i class="bi bi-shield-check"></i></span>
                 <div class="text-muted small mb-1">Taux de consentement</div>
-                <div class="h5 mb-0" id="kpi-consent-rate">—</div>
+                <div class="h5 mb-0" id="kpi-consent-rate">…</div>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
 <div class="row mb-4 animate-fadein" style="animation-delay: 0.15s">
     <div class="col-12 col-lg-6 mb-3">
         <div class="card h-100">
-            <div class="card-header">Inscriptions — 12 mois</div>
+            <div class="card-header">Inscriptions (12 mois)</div>
             <div class="card-body"><canvas id="chart-user-growth"></canvas></div>
         </div>
     </div>
@@ -127,9 +127,9 @@
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span>Performances &amp; erreurs</span>
         <span class="small text-muted">
-            p95 : <strong id="perf-p95">—</strong> ms &nbsp;·&nbsp;
-            Taux d'erreur : <strong id="perf-error-rate">—</strong> &nbsp;·&nbsp;
-            Requêtes : <strong id="perf-total">—</strong>
+            p95 : <strong id="perf-p95">…</strong> ms &nbsp;·&nbsp;
+            Taux d'erreur : <strong id="perf-error-rate">…</strong> &nbsp;·&nbsp;
+            Requêtes : <strong id="perf-total">…</strong>
         </span>
     </div>
     <div class="card-body p-0">

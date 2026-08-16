@@ -1,10 +1,10 @@
-{{-- Démo : vidéo de présentation + simulation interactive — partagé entre la page Aide (/help) et la landing publique (/) --}}
+{{-- Démo : vidéo de présentation + simulation interactive : partagé entre la page Aide (/help) et la landing publique (/) --}}
 <div class="help-section fade-up" id="demo">
 
     {{-- Vidéo de présentation --}}
     <h2 class="help-section-title text-center mb-1">Découvrez Oeil360 en 1 minute</h2>
     <p class="text-center text-muted mb-4" style="font-size:.9rem">
-        Visite guidée de l'application — centraliser, visualiser, maîtriser.
+        Visite guidée de l'application : centraliser, visualiser, maîtriser.
     </p>
 
     <div class="demo-video mb-5">
@@ -19,7 +19,7 @@
     {{-- Simulation interactive --}}
     <h2 class="help-section-title text-center mb-1">Essayez maintenant</h2>
     <p class="text-center text-muted mb-4" style="font-size:.9rem">
-        Simulation locale — aucune donnée réelle n'est modifiée.
+        Simulation locale : aucune donnée réelle n'est modifiée.
     </p>
 
     <div class="demo-panel">
@@ -95,7 +95,7 @@
                 <div class="card-body p-0">
                     <div id="demo-tx-list" style="padding:0 1rem">
                         <div class="demo-empty" id="demo-empty-msg">
-                            Aucune entrée pour l'instant — ajoutez-en une !
+                            Aucune entrée pour l'instant, ajoutez-en une !
                         </div>
                     </div>
                 </div>

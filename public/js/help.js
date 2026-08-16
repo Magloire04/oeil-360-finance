@@ -1,6 +1,6 @@
 (() => {
     /* -------------------------------------------------------
-       Données fictives — jamais envoyées au backend
+       Données fictives : jamais envoyées au backend
        ------------------------------------------------------- */
     const FAKE_CATEGORIES = [
         { id: 1, name: 'Alimentation', type: 'expense' },
@@ -19,7 +19,7 @@
     let demoChart = null;
 
     /* -------------------------------------------------------
-       Intersection Observer — animations .fade-up
+       Intersection Observer : animations .fade-up
        ------------------------------------------------------- */
     function initScrollAnimations() {
         const observer = new IntersectionObserver(
@@ -45,7 +45,7 @@
     }
 
     function getCategoryName(id) {
-        return FAKE_CATEGORIES.find(c => c.id === Number(id))?.name ?? '—';
+        return FAKE_CATEGORIES.find(c => c.id === Number(id))?.name ?? '-';
     }
 
     /* -------------------------------------------------------

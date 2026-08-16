@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Politique de confidentialité — Oeil 360° Finance</title>
+    <title>Politique de confidentialité · Oeil 360° Finance</title>
     <link rel="icon" type="image/png" href="/images/oeil360-icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ assetVersion('css/app.css') }}">
@@ -28,7 +28,7 @@
     <div class="mb-5">
         <h1 class="h3 fw-bold" style="color:var(--clr-navy)">Politique de confidentialité</h1>
         <p class="text-muted small">
-            Version {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }} — Dernière mise à jour : {{ date('d/m/Y') }}<br>
+            Version {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }}, dernière mise à jour : {{ date('d/m/Y') }}<br>
             Conformément à la Loi n°2017-20 du 20 avril 2017 portant code du numérique
             en République du Bénin (APDP).
         </p>
@@ -206,7 +206,7 @@
 
     <hr>
     <p class="text-muted small text-center">
-        © {{ date('Y') }} Oeil360 Finance — Version de la politique : {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }}
+        © {{ date('Y') }} Oeil360 Finance · Version de la politique : {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }}
         @auth
             <br><a href="{{ url('/') }}" style="color:var(--clr-teal)">Retour à l'application</a>
         @endauth

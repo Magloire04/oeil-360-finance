@@ -15,6 +15,7 @@
     <div class="card-header">Actives</div>
     <div class="card-body p-0">
         <div id="no-active" class="text-center text-muted py-4 d-none">Aucune transaction récurrente active</div>
+        <div class="table-responsive">
         <table class="table table-hover align-middle mb-0" id="active-table">
             <thead class="table-light">
                 <tr>
@@ -29,6 +30,7 @@
             </thead>
             <tbody id="active-body"></tbody>
         </table>
+        </div>
     </div>
 </div>
 
@@ -43,6 +45,7 @@
     <div class="collapse" id="inactive-section">
         <div class="card-body p-0">
             <div id="no-inactive" class="text-center text-muted py-4 d-none">Aucune transaction récurrente inactive</div>
+            <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" id="inactive-table">
                 <thead class="table-light">
                     <tr>
@@ -57,6 +60,7 @@
                 </thead>
                 <tbody id="inactive-body"></tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>

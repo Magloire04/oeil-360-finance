@@ -15,6 +15,7 @@
     <div class="card-header">Catégories actives</div>
     <div class="card-body p-0">
         <div id="no-categories" class="text-center text-muted py-4 d-none">Aucune catégorie</div>
+        <div class="table-responsive">
         <table class="table table-hover align-middle mb-0" id="categories-table">
             <thead class="table-light">
                 <tr>
@@ -25,6 +26,7 @@
             </thead>
             <tbody id="categories-body"></tbody>
         </table>
+        </div>
     </div>
 </div>
 
@@ -39,6 +41,7 @@
     <div class="collapse" id="archived-categories">
         <div class="card-body p-0">
             <div id="no-archived" class="text-center text-muted py-4 d-none">Aucune catégorie archivée</div>
+            <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" id="archived-table">
                 <thead class="table-light">
                     <tr>
@@ -49,6 +52,7 @@
                 </thead>
                 <tbody id="archived-body"></tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>

@@ -38,6 +38,7 @@
 <div class="card">
     <div class="card-body p-0">
         <div id="no-transfers" class="text-center text-muted py-4 d-none">Aucun transfert trouvé</div>
+        <div class="table-responsive">
         <table class="table table-hover align-middle mb-0" id="transfers-table">
             <thead class="table-light">
                 <tr>
@@ -52,6 +53,7 @@
             </thead>
             <tbody id="transfers-body"></tbody>
         </table>
+        </div>
     </div>
 </div>
 

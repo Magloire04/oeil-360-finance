@@ -27,6 +27,7 @@
     <div class="collapse" id="archived-accounts">
         <div class="card-body p-0">
             <div id="no-archived" class="text-center text-muted py-4 d-none">Aucun compte archivé</div>
+            <div class="table-responsive">
             <table class="table table-hover mb-0" id="archived-table">
                 <thead class="table-light">
                     <tr>
@@ -38,6 +39,7 @@
                 </thead>
                 <tbody id="archived-body"></tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>

@@ -215,6 +215,18 @@
             }
         });
 
+        // Export du relevé (PDF / Excel) sur la période affichée.
+        document.querySelectorAll('[data-export]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const params = new URLSearchParams({ format: btn.dataset.export });
+                const s = document.getElementById('start-date').value;
+                const e = document.getElementById('end-date').value;
+                if (s) params.set('start', s);
+                if (e) params.set('end', e);
+                window.location.href = '/mon-compte/releve?' + params.toString();
+            });
+        });
+
         loadDashboard(startDate, endDate);
     });
 })();

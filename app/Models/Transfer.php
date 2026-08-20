@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property-read Account|null $fromAccount
+ * @property-read Account|null $toAccount
+ */
 class Transfer extends Model
 {
     use HasFactory;

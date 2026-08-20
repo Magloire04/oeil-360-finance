@@ -57,6 +57,13 @@ Oeil 360° Finance est un gestionnaire de budget personnel multi-utilisateurs. C
 - Activation et désactivation ; chaque occurrence générée reste modifiable individuellement
 - Génération via `php artisan transactions:generate-recurring` (planifiable en cron)
 
+### Relevé financier (PDF / Excel)
+
+- Export d'un relevé mis en forme (en-tête de marque, résumé, soldes, transactions, transferts, récurrentes)
+- Deux formats au choix : **PDF** (via dompdf) et **Excel** multi-feuilles (via maatwebsite/excel)
+- Sur une **période au choix** (ou toutes les données), depuis « Mon compte » et depuis le Dashboard
+- Distinct de l'export **JSON brut** de portabilité APDP (droit d'accès)
+
 ---
 
 ## Application installable (PWA)
@@ -111,7 +118,9 @@ Deux rôles : utilisateur final et administrateur (opérateur d'observabilité).
 | Frontend | Bootstrap 5.3.8 + JavaScript Vanilla ES6 |
 | Graphiques | Chart.js 4.4.7 |
 | Icônes | Bootstrap Icons 1.11.3 |
-| Tests | PHPUnit (119 tests, 343 assertions) |
+| Export PDF | barryvdh/laravel-dompdf |
+| Export Excel | maatwebsite/excel (PhpSpreadsheet) |
+| Tests | PHPUnit (133 tests, 375 assertions) |
 | Qualité | Laravel Pint (style) + PHPStan / Larastan (analyse statique) |
 
 ---
@@ -140,6 +149,11 @@ Les routes API sont protégées par le guard de session Auth0 (`auth:web`). Le p
 | Récurrentes | `GET/POST /api/recurring-transactions` ; `GET/PUT/DELETE /api/recurring-transactions/{id}` |
 | Profil | `DELETE /api/profile` (suppression définitive du compte) |
 | Observabilité admin | `GET /api/admin/metrics/{overview, user-growth, active-users, operations, top-features, traffic, performance}` (middleware `admin`) |
+
+Exports (routes web de téléchargement, hors `/api`, middleware `auth` + `consent` + `activity`) :
+
+- `GET /mon-compte/export` : données brutes JSON (portabilité APDP)
+- `GET /mon-compte/releve?format={pdf|excel}&start=&end=` : relevé financier mis en forme (dates absentes = tout)
 
 ---
 

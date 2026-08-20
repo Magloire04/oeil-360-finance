@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property-read Category|null $category
+ * @property-read Account|null $account
+ */
 class RecurringTransaction extends Model
 {
     use HasFactory;

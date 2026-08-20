@@ -18,3 +18,17 @@ if (! function_exists('assetVersion')) {
         return $version ? $path.'?v='.$version : $path;
     }
 }
+
+if (! function_exists('formatXof')) {
+    /**
+     * Formate un montant en Franc CFA (XOF) pour l'affichage serveur (PDF, Excel).
+     * Sans décimale, séparateur de milliers par espace insécable fine, suffixe « XOF ».
+     * Miroir de la fonction JS formatXOF() de public/js/utils.js.
+     *
+     * Exemple : formatXof(1250000) => "1 250 000 XOF"
+     */
+    function formatXof(int|float $amount): string
+    {
+        return number_format((float) $amount, 0, ',', ' ').' XOF';
+    }
+}

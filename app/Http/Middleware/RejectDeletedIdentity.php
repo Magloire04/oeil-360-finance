@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\DeletedIdentity;
+use Auth0\Laravel\Guards\GuardContract;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,9 +36,11 @@ class RejectDeletedIdentity
 
             // Purge complète de la session Auth0 : sans ça, getCredentials() renverrait
             // encore l'identité supprimée et bloquerait toutes les pages en boucle.
-            try {
-                $guard->sdk()->clear();
-            } catch (\Throwable) {
+            if ($guard instanceof GuardContract) {
+                try {
+                    $guard->sdk()->clear();
+                } catch (\Throwable) {
+                }
             }
 
             return redirect()->route('account.deleted');
@@ -49,8 +52,14 @@ class RejectDeletedIdentity
     /** Identifiant Auth0 (sub) de la session en cours, sans déclencher de recréation. */
     private function auth0Sub(): ?string
     {
+        $guard = Auth::guard('web');
+
+        if (! $guard instanceof GuardContract) {
+            return null;
+        }
+
         try {
-            $credentials = Auth::guard('web')->sdk()->getCredentials();
+            $credentials = $guard->sdk()->getCredentials();
         } catch (\Throwable) {
             return null;
         }

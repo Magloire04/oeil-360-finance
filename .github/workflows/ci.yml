@@ -19,7 +19,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          extensions: pdo, pdo_sqlite, mbstring, json, openssl, tokenizer, xml, ctype, bcmath, fileinfo
+          extensions: pdo, pdo_sqlite, mbstring, json, openssl, tokenizer, xml, ctype, bcmath, fileinfo, gd, zip
           coverage: none
 
       - name: Cache Composer

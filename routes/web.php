@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConsentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatementController;
 use Auth0\Laravel\Controllers\CallbackController;
 use Auth0\Laravel\Controllers\LoginController;
 use Auth0\Laravel\Controllers\LogoutController;
@@ -59,6 +60,9 @@ Route::middleware(['auth', 'consent', 'activity'])->group(function () {
 
     Route::get('/mon-compte', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/mon-compte/export', [ProfileController::class, 'export'])->name('profile.export');
+
+    // Relevé financier stylisé (PDF ou Excel) sur une période au choix (dates absentes = tout).
+    Route::get('/mon-compte/releve', [StatementController::class, 'download'])->name('profile.statement');
 
     // Interface admin d'observabilité — réservée aux comptes is_admin.
     Route::view('/admin', 'admin')->middleware('admin')->name('admin');

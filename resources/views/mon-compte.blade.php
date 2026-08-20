@@ -65,11 +65,40 @@
         <i class="bi bi-download me-1"></i> Mes données (droit d'accès, APDP art. 496)
     </div>
     <div class="card-body">
-        <p class="text-muted mb-3">
+        {{-- Relevé financier stylisé (PDF / Excel) --}}
+        <h6 class="fw-semibold mb-1"><i class="bi bi-file-earmark-bar-graph me-1"></i> Relevé financier</h6>
+        <p class="text-muted small mb-3">
+            Un document mis en forme (en-tête, soldes, transactions, transferts) sur la période de
+            votre choix. Laissez les dates vides pour tout exporter.
+        </p>
+        <form method="get" action="{{ url('/mon-compte/releve') }}" class="row g-2 align-items-end mb-2">
+            <div class="col-6 col-sm-4">
+                <label for="releve-start" class="form-label small text-muted mb-1">Du</label>
+                <input type="date" id="releve-start" name="start" class="form-control form-control-sm">
+            </div>
+            <div class="col-6 col-sm-4">
+                <label for="releve-end" class="form-label small text-muted mb-1">Au</label>
+                <input type="date" id="releve-end" name="end" class="form-control form-control-sm">
+            </div>
+            <div class="col-12 col-sm-4 d-flex gap-2">
+                <button type="submit" name="format" value="pdf" class="btn btn-primary btn-sm flex-fill">
+                    <i class="bi bi-file-earmark-pdf me-1"></i> PDF
+                </button>
+                <button type="submit" name="format" value="excel" class="btn btn-success btn-sm flex-fill">
+                    <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                </button>
+            </div>
+        </form>
+
+        <hr class="my-3">
+
+        {{-- Export brut (portabilité APDP) --}}
+        <h6 class="fw-semibold mb-1"><i class="bi bi-braces me-1"></i> Données brutes (JSON)</h6>
+        <p class="text-muted small mb-3">
             Téléchargez l'intégralité de vos données personnelles et financières au format JSON.
         </p>
-        <a href="{{ url('/mon-compte/export') }}" class="btn btn-outline-primary">
-            <i class="bi bi-file-earmark-arrow-down me-1"></i> Exporter mes données (JSON)
+        <a href="{{ url('/mon-compte/export') }}" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-file-earmark-arrow-down me-1"></i> Exporter en JSON
         </a>
     </div>
 </div>

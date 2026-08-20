@@ -23,6 +23,14 @@
                     <input type="date" id="end-date" class="form-control form-control-sm" style="width:160px">
                     <button class="btn btn-primary btn-sm" id="apply-period">Appliquer</button>
                 </div>
+                <div class="d-flex gap-2 ms-auto">
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-export="pdf" title="Relevé PDF de la période affichée">
+                        <i class="bi bi-file-earmark-pdf me-1"></i> PDF
+                    </button>
+                    <button type="button" class="btn btn-outline-success btn-sm" data-export="excel" title="Relevé Excel de la période affichée">
+                        <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                    </button>
+                </div>
             </div>
         </div>
     </div>

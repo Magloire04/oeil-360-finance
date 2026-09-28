@@ -57,5 +57,7 @@ jobs:
       - name: Check code style (Pint)
         run: ./vendor/bin/pint --test
 
+      # 256M ne suffit plus depuis l'ajout de dompdf et PhpSpreadsheet (relevé PDF/Excel) :
+      # les workers parallèles saturent en analysant ces dépendances.
       - name: Static analysis (PHPStan / Larastan)
-        run: ./vendor/bin/phpstan analyse --no-progress --memory-limit=256M
+        run: ./vendor/bin/phpstan analyse --no-progress --memory-limit=1G

@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Oeil 360° Finance') · Oeil 360° Finance</title>
-    <meta name="description" content="@yield('meta_description', 'Oeil360 Finance : votre tableau de bord financier personnel en Franc CFA (XOF). Suivez revenus, dépenses, comptes et transactions récurrentes en un seul endroit.')">
+    @php
+        // Contenu déjà échappé par @section : réutilisé tel quel dans le title et les balises de partage.
+        $pageTitle = trim($__env->yieldContent('title', 'Oeil 360° Finance')).' · Oeil 360° Finance';
+        $pageDescription = trim($__env->yieldContent('meta_description', 'Oeil360 Finance : votre tableau de bord financier personnel en Franc CFA (XOF). Suivez revenus, dépenses et comptes en un seul endroit.'));
+    @endphp
+    <title>{!! $pageTitle !!}</title>
+    <meta name="description" content="{!! $pageDescription !!}">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    {{-- Aperçus de lien (WhatsApp, Facebook, LinkedIn, X) : URL absolues obligatoires --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Oeil 360° Finance">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="{!! $pageTitle !!}">
+    <meta property="og:description" content="{!! $pageDescription !!}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ url('/images/oeil360-promo-poster.jpg') }}">
+    <meta property="og:image:width" content="1920">
+    <meta property="og:image:height" content="1080">
+    <meta property="og:image:alt" content="Tableau de bord Oeil 360° Finance : solde total en Franc CFA et dernières opérations">
+    <meta name="twitter:card" content="summary_large_image">
+    @stack('head')
+
     <link rel="icon" type="image/png" href="/images/oeil360-icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">

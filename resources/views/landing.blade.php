@@ -2,7 +2,34 @@
 
 @section('title', 'Découvrir')
 
-@section('meta_description', 'Oeil360 Finance : reprenez le contrôle de vos finances personnelles en Franc CFA (XOF) : revenus, dépenses, comptes, transferts et charges récurrentes dans un seul tableau de bord.')
+@section('meta_description', 'Suivez revenus, dépenses, comptes, transferts et charges récurrentes en Franc CFA (XOF) dans un seul tableau de bord, sur ordinateur comme sur mobile.')
+
+{{-- Données structurées : nom du site affiché par Google et identité de l'éditeur.
+     Le tableau est construit dans un bloc PHP brut : écrite dans un echo, la clé
+     « arobase context » serait compilée comme une directive Blade. --}}
+@push('head')
+@php
+    $structuredData = [
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'WebSite',
+                'name' => 'Oeil 360° Finance',
+                'url' => url('/'),
+                'inLanguage' => 'fr',
+            ],
+            [
+                '@type' => 'Organization',
+                'name' => 'Oeil 360° Finance',
+                'url' => url('/'),
+                'logo' => url('/icons/icon-512.png'),
+                'email' => 'oeil360finance@bytechnum.com',
+            ],
+        ],
+    ];
+@endphp
+<script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) !!}</script>
+@endpush
 
 @section('content')
 

@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://oeil360finance.bytechnum.com/sitemap.xml

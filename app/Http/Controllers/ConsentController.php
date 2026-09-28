@@ -10,6 +10,9 @@ class ConsentController extends Controller
 {
     public const POLICY_VERSION = '1.1';
 
+    // Date de la dernière modification du texte de la politique (affichée sur la page).
+    public const POLICY_UPDATED_AT = '2026-09-28';
+
     public function show(Request $request): View
     {
         $user = $request->user();

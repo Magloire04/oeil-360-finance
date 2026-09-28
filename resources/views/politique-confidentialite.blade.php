@@ -31,7 +31,7 @@
     <div class="mb-5">
         <h1 class="h3 fw-bold" style="color:var(--clr-navy)">Politique de confidentialité</h1>
         <p class="text-muted small">
-            Version {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }}, dernière mise à jour : {{ date('d/m/Y') }}<br>
+            Version {{ \App\Http\Controllers\ConsentController::POLICY_VERSION }}, dernière mise à jour : {{ \Illuminate\Support\Carbon::parse(\App\Http\Controllers\ConsentController::POLICY_UPDATED_AT)->format('d/m/Y') }}<br>
             Conformément à la Loi n°2017-20 du 20 avril 2017 portant code du numérique
             en République du Bénin (APDP).
         </p>
@@ -183,9 +183,29 @@
         </p>
     </section>
 
-    {{-- 7. Sécurité --}}
+    {{-- 7. Hébergement et transferts --}}
     <section class="mb-4">
-        <h2 class="h5 fw-semibold mb-2" style="color:var(--clr-navy)">7. Sécurité des données</h2>
+        <h2 class="h5 fw-semibold mb-2" style="color:var(--clr-navy)">7. Hébergement et transfert des données hors du Bénin</h2>
+        <p class="text-muted">
+            Vos données ne sont pas hébergées au Bénin. Elles sont confiées aux prestataires suivants,
+            qui les traitent uniquement pour faire fonctionner le service :
+        </p>
+        <ul class="text-muted">
+            <li><strong>Spaceship</strong> (groupe Namecheap) : hébergement de l'application et de la base de données,
+                sur un serveur situé à Amsterdam (Pays-Bas, Union européenne).</li>
+            <li><strong>Auth0 (Okta)</strong> : authentification. Auth0 reçoit vos nom, prénom, adresse e-mail
+                et identifiant de connexion, et les héberge aux États-Unis.</li>
+        </ul>
+        <p class="text-muted">
+            Aucune donnée financière (transactions, comptes, soldes) n'est transmise à Auth0.
+            Pour toute question sur ces transferts, écrivez à
+            <a href="mailto:oeil360finance@bytechnum.com" style="color:var(--clr-teal)">oeil360finance@bytechnum.com</a>.
+        </p>
+    </section>
+
+    {{-- 8. Sécurité --}}
+    <section class="mb-4">
+        <h2 class="h5 fw-semibold mb-2" style="color:var(--clr-navy)">8. Sécurité des données</h2>
         <ul class="text-muted">
             <li>Authentification sécurisée via Auth0 (OAuth 2.0 / PKCE)</li>
             <li>Sessions chiffrées côté serveur</li>
@@ -194,9 +214,9 @@
         </ul>
     </section>
 
-    {{-- 8. Contact APDP --}}
+    {{-- 9. Contact APDP --}}
     <section class="mb-4">
-        <h2 class="h5 fw-semibold mb-2" style="color:var(--clr-navy)">8. Contact et autorité de contrôle</h2>
+        <h2 class="h5 fw-semibold mb-2" style="color:var(--clr-navy)">9. Contact et autorité de contrôle</h2>
         <p class="text-muted">
             Pour toute question relative à vos données personnelles, contactez-nous à :
             <a href="mailto:oeil360finance@bytechnum.com" style="color:var(--clr-teal)">oeil360finance@bytechnum.com</a>

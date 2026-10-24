@@ -32,6 +32,10 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
+      # Échoue dès qu'une dépendance verrouillée fait l'objet d'un avis de sécurité.
+      - name: Security audit (composer audit)
+        run: composer audit --locked --no-interaction
+
       - name: Prepare environment
         run: |
           cp .env.example .env

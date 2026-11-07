@@ -39,6 +39,18 @@ return Application::configure(basePath: dirname(__DIR__))
         // En-têtes de sécurité (HSTS, nosniff, anti-iframe, Referrer-Policy) sur toutes les réponses
         $middleware->append(SecurityHeaders::class);
 
+        // Hôtes de confiance : seul l'hôte d'APP_URL est accepté, sans sous-domaines.
+        // Les hôtes sont des expressions régulières non ancrées côté Symfony : le motif est
+        // donc échappé et ancré, sinon « hote.officiel.attaquant.example » serait accepté.
+        $middleware->trustHosts(
+            at: function (): array {
+                $host = parse_url((string) config('app.url'), PHP_URL_HOST);
+
+                return is_string($host) && $host !== '' ? ['^'.preg_quote($host).'$'] : [];
+            },
+            subdomains: false,
+        );
+
         // Journalisation d'usage pseudonyme sur toutes les requêtes web et api
         // (l'écriture réelle a lieu dans terminate() et applique une skip-list).
         $middleware->web(append: [RecordActivityEvent::class]);

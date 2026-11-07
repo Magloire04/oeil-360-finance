@@ -1,0 +1,31 @@
+name: Audit de sécurité hebdomadaire
+
+# Relance « composer audit » chaque semaine sur la branche par défaut (main = production),
+# pour être alerté d'un avis de sécurité publié après la dernière Pull Request.
+# Un échec de ce workflow planifié déclenche une notification GitHub au propriétaire du dépôt.
+on:
+  schedule:
+    - cron: '0 6 * * 1' # chaque lundi à 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  composer-audit:
+    name: Audit des dépendances (composer audit)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+          coverage: none
+
+      - name: Security audit (composer audit)
+        run: composer audit --locked --no-interaction
